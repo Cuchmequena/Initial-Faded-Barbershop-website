@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://fadedbarbershop.es/sitemap.xml
