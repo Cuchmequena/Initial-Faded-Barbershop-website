@@ -22,10 +22,18 @@ async function loadContent() {
     fetch('/_data/services.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/team.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/gallery.json').then(r => r.ok ? r.json() : null),
+    fetch('/_data/home.json').then(r => r.ok ? r.json() : null),
+    fetch('/_data/config.json').then(r => r.ok ? r.json() : null),
   ]);
 
-  const [servicesRes, teamRes, galleryRes] = results;
+  const [servicesRes, teamRes, galleryRes, homeRes, configRes] = results;
 
+  if (configRes.status === 'fulfilled' && configRes.value) {
+    applyConfig(configRes.value);
+  }
+  if (homeRes.status === 'fulfilled' && homeRes.value) {
+    applyHome(homeRes.value);
+  }
   if (servicesRes.status === 'fulfilled' && servicesRes.value) {
     renderServices(servicesRes.value);
   }
@@ -39,6 +47,99 @@ async function loadContent() {
   /* Re-inicializar animaciones y lightbox después de renderizar */
   initReveal();
   initLightbox();
+}
+
+/* ── Aplicar config.json (teléfono, WhatsApp, Booksy, etc.) ── */
+function applyConfig(cfg) {
+  /* Actualizar BOOKSY_URL global para los botones de reserva */
+  if (cfg.booksy_url) {
+    document.querySelectorAll('a[href*="booksy.com"]').forEach(a => {
+      a.href = cfg.booksy_url;
+    });
+  }
+  /* WhatsApp flotante y enlaces */
+  if (cfg.whatsapp_href) {
+    document.querySelectorAll('a[href*="wa.me"]').forEach(a => {
+      a.href = cfg.whatsapp_href;
+    });
+  }
+  /* Teléfono */
+  if (cfg.phone_href) {
+    document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+      a.href = cfg.phone_href;
+      if (a.classList.contains('info-link-phone') && cfg.phone) {
+        a.textContent = cfg.phone;
+      }
+    });
+  }
+  /* Email */
+  if (cfg.email) {
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+      a.href = `mailto:${cfg.email}`;
+      if (a.textContent.includes('@')) a.textContent = `${cfg.email} →`;
+    });
+  }
+  /* Instagram */
+  if (cfg.instagram_url) {
+    document.querySelectorAll('a[href*="instagram.com"]').forEach(a => {
+      a.href = cfg.instagram_url;
+    });
+  }
+  /* Google Maps */
+  if (cfg.maps_url) {
+    document.querySelectorAll('a[href*="maps.google.com"]').forEach(a => {
+      a.href = cfg.maps_url;
+    });
+  }
+  /* Horario */
+  const scheduleRows = document.querySelectorAll('.schedule-table tr');
+  if (scheduleRows.length >= 1 && cfg.hours_weekdays_label) {
+    scheduleRows[0].cells[0].textContent = cfg.hours_weekdays_label;
+    scheduleRows[0].cells[1].innerHTML = `<strong>${esc(cfg.hours_weekdays_time)}</strong>`;
+  }
+  if (scheduleRows.length >= 2 && cfg.hours_weekend_label) {
+    scheduleRows[1].cells[0].textContent = cfg.hours_weekend_label;
+    scheduleRows[1].cells[1].innerHTML = `<strong class="closed">${esc(cfg.hours_weekend_time)}</strong>`;
+  }
+  /* Dirección */
+  const addr = document.querySelector('address.info-text');
+  if (addr && cfg.address_street && cfg.address_city) {
+    addr.innerHTML = `${esc(cfg.address_street)}<br>${esc(cfg.address_city)}`;
+  }
+  /* Contador reseñas */
+  if (cfg.reviews_count) {
+    document.querySelectorAll('.counter').forEach(c => {
+      c.dataset.target = cfg.reviews_count;
+    });
+  }
+}
+
+/* ── Aplicar home.json (textos de la página) ── */
+function applyHome(h) {
+  const setText = (id, val) => {
+    if (!val) return;
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  setText('hero-eyebrow', h.hero_eyebrow);
+  setText('hero-subtitle', h.hero_subtitle);
+
+  /* loyalty */
+  if (h.loyalty_text) {
+    const lt = document.getElementById('loyalty-text');
+    if (lt) lt.innerHTML = esc(h.loyalty_text).replace(/\n/g, '<br>');
+  }
+  if (h.loyalty_highlight) {
+    const lh = document.getElementById('loyalty-highlight');
+    if (lh) {
+      const freeWord = h.loyalty_highlight.includes('GRATIS') ? 'GRATIS' : '';
+      const text = freeWord
+        ? h.loyalty_highlight.replace(freeWord, `<span class="loyalty-free">${freeWord}</span>`)
+        : esc(h.loyalty_highlight);
+      lh.innerHTML = text;
+    }
+  }
+  setText('loyalty-sub', h.loyalty_sub);
 }
 
 /* ── Render: Servicios ── */

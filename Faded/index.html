@@ -180,9 +180,16 @@
     <section id="inicio" class="hero" aria-label="Sección de bienvenida">
       <div class="hero-overlay" aria-hidden="true"></div>
       <div class="hero-content">
-        <p class="hero-eyebrow animate-hero">Barbería Premium · Ciudad Lineal · Madrid</p>
-        <h1 class="hero-title animate-hero">FADED<br>BARBERSHOP</h1>
-        <p class="hero-subtitle animate-hero">Somos especialistas en dejarte impecable</p>
+        <p class="hero-eyebrow animate-hero" id="hero-eyebrow">Barbería Premium · Ciudad Lineal · Madrid</p>
+        <h1 class="hero-logo-h1 animate-hero">
+          <img src="assets/images/logo-hero.png"
+               alt="Faded Barbershop — Barbería Premium en Madrid"
+               class="hero-logo-img"
+               width="480"
+               height="160"
+               loading="eager">
+        </h1>
+        <p class="hero-subtitle animate-hero" id="hero-subtitle">Somos especialistas en dejarte impecable</p>
         <p class="hero-text animate-hero">
           Cortes fade, degradados y diseños de precisión.
           <span class="hero-rating" aria-label="5 estrellas, 119 reseñas">
@@ -370,14 +377,9 @@
           </div>
           <p class="section-eyebrow">Clientes especiales</p>
           <h2 class="loyalty-title">PROGRAMA DE FIDELIDAD</h2>
-          <p class="loyalty-text">
-            Te entregamos una <strong>tarjeta de descuento</strong> en tu primera visita.<br>
-            Acumula visitas y cuando llegues al quinto corte...
-          </p>
-          <p class="loyalty-highlight" aria-label="Cada 5 cortes, el sexto es gratis">
-            Cada 5 cortes → El 6º <span class="loyalty-free">GRATIS</span>
-          </p>
-          <p class="loyalty-sub">Porque los mejores clientes merecen los mejores premios</p>
+          <p class="loyalty-text" id="loyalty-text">Te entregamos una <strong>tarjeta de descuento</strong> en tu primera visita.<br>Acumula visitas y cuando llegues al quinto corte...</p>
+          <p class="loyalty-highlight" id="loyalty-highlight" aria-label="Cada 5 cortes, el sexto es gratis">Cada 5 cortes → El 6º <span class="loyalty-free">GRATIS</span></p>
+          <p class="loyalty-sub" id="loyalty-sub">Porque los mejores clientes merecen los mejores premios</p>
           <a href="https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid"
              class="btn btn-gold btn-large"
              target="_blank"

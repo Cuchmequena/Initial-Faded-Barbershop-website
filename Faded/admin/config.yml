@@ -1,30 +1,253 @@
 # ============================================================
 # Decap CMS (Netlify CMS) — Faded Barbershop
-# Panel en español para gestión de contenido
+# Panel de administración en español
+# Acceso: https://www.fadedbarbershopmadrid.com/admin/
 # ============================================================
 
 backend:
   name: git-gateway
-  branch: main        # ← Cambia a "master" si tu repo usa esa rama
+  branch: main          # ← Cambia a "master" si tu repositorio usa esa rama
 
 # Carpeta donde se guardan las imágenes subidas desde el CMS
 media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
-# Idioma del panel
+# Idioma del panel de administración
 locale: 'es'
 
-# Flujo editorial: simple (sin borradores)
-publish_mode: simple
-
 # ============================================================
-# COLECCIONES DE CONTENIDO
+# COLECCIONES
 # ============================================================
 collections:
 
-  # ----------------------------------------------------------
-  # 1. SERVICIOS
-  # ----------------------------------------------------------
+  # ──────────────────────────────────────────────────────────
+  # 1. INICIO (Home) — Textos de la página principal
+  # ──────────────────────────────────────────────────────────
+  - name: "home"
+    label: "🏠 Inicio"
+    files:
+      - name: "textos_home"
+        label: "Textos de la página de inicio"
+        file: "_data/home.json"
+        format: json
+        description: "Edita los textos principales que aparecen en la web: hero, secciones, programa de fidelidad..."
+        fields:
+          - label: "— SECCIÓN HERO —"
+            name: "hero_section_label"
+            widget: "hidden"
+            default: ""
+          - label: "Texto pequeño bajo el logo"
+            name: "hero_eyebrow"
+            widget: "string"
+            hint: "Ej: Barbería Premium · Ciudad Lineal · Madrid"
+          - label: "Eslogan principal (debajo del logo)"
+            name: "hero_subtitle"
+            widget: "string"
+            hint: "Ej: Somos especialistas en dejarte impecable"
+          - label: "Texto descriptivo del hero"
+            name: "hero_text"
+            widget: "string"
+            hint: "Ej: Cortes fade, degradados y diseños de precisión."
+
+          - label: "— SECCIÓN SERVICIOS —"
+            name: "services_section_label"
+            widget: "hidden"
+            default: ""
+          - label: "Etiqueta pequeña (eyebrow)"
+            name: "services_eyebrow"
+            widget: "string"
+            default: "Lo que hacemos"
+          - label: "Título de la sección"
+            name: "services_title"
+            widget: "string"
+            default: "NUESTROS SERVICIOS"
+          - label: "Descripción de la sección"
+            name: "services_desc"
+            widget: "string"
+            default: "No es solo un corte, es una experiencia premium"
+
+          - label: "— SECCIÓN GALERÍA —"
+            name: "gallery_section_label"
+            widget: "hidden"
+            default: ""
+          - label: "Etiqueta pequeña (eyebrow)"
+            name: "gallery_eyebrow"
+            widget: "string"
+            default: "Nuestro trabajo"
+          - label: "Título de la sección"
+            name: "gallery_title"
+            widget: "string"
+            default: "RESULTADOS REALES"
+          - label: "Descripción de la sección"
+            name: "gallery_desc"
+            widget: "string"
+            default: "Cada corte es una obra de arte. Mira lo que hacemos."
+
+          - label: "— SECCIÓN EQUIPO —"
+            name: "team_section_label"
+            widget: "hidden"
+            default: ""
+          - label: "Etiqueta pequeña (eyebrow)"
+            name: "team_eyebrow"
+            widget: "string"
+            default: "Las personas detrás del arte"
+          - label: "Título de la sección"
+            name: "team_title"
+            widget: "string"
+            default: "NUESTRO EQUIPO"
+          - label: "Descripción de la sección"
+            name: "team_desc"
+            widget: "string"
+            default: "Nuestros barberos son auténticos artistas"
+
+          - label: "— PROGRAMA DE FIDELIDAD —"
+            name: "loyalty_section_label"
+            widget: "hidden"
+            default: ""
+          - label: "Texto explicativo"
+            name: "loyalty_text"
+            widget: "text"
+            hint: "Descripción del programa de fidelidad"
+          - label: "Texto destacado (la oferta principal)"
+            name: "loyalty_highlight"
+            widget: "string"
+            hint: "Ej: Cada 5 cortes → El 6º GRATIS"
+          - label: "Texto pequeño debajo"
+            name: "loyalty_sub"
+            widget: "string"
+            hint: "Ej: Porque los mejores clientes merecen los mejores premios"
+
+          - label: "— POR QUÉ ELEGIRNOS —"
+            name: "whyus_section_label"
+            widget: "hidden"
+            default: ""
+          - label: "Descripción de las reseñas"
+            name: "whyus_reviews_desc"
+            widget: "string"
+            default: "Puntuación perfecta 5.0/5.0 verificada por nuestros clientes"
+          - label: "Título tarjeta barberos"
+            name: "whyus_barbers_title"
+            widget: "string"
+            default: "Barberos Expertos"
+          - label: "Descripción tarjeta barberos"
+            name: "whyus_barbers_desc"
+            widget: "string"
+            default: "Auténticos artistas del corte y el diseño"
+          - label: "Descripción tarjeta fidelidad"
+            name: "whyus_loyalty_desc"
+            widget: "string"
+            default: "Primera visita: tarjeta de descuento. Cada 5 cortes, el 6º completamente gratis"
+
+  # ──────────────────────────────────────────────────────────
+  # 2. CONFIGURACIÓN del negocio
+  # ──────────────────────────────────────────────────────────
+  - name: "configuracion"
+    label: "⚙️ Configuración del negocio"
+    files:
+      - name: "datos_negocio"
+        label: "Datos de contacto y negocio"
+        file: "_data/config.json"
+        format: json
+        description: "Teléfono, WhatsApp, Instagram, horario, dirección... Todo lo que aparece en la web."
+        fields:
+          - label: "Nombre del negocio"
+            name: "business_name"
+            widget: "string"
+          - label: "Eslogan / tagline"
+            name: "tagline"
+            widget: "string"
+
+          - label: "— CONTACTO —"
+            name: "contact_label"
+            widget: "hidden"
+            default: ""
+          - label: "Teléfono (para mostrar)"
+            name: "phone"
+            widget: "string"
+            hint: "Ej: +34 691 068 660"
+          - label: "Teléfono (para enlace)"
+            name: "phone_href"
+            widget: "string"
+            hint: "Ej: tel:+34691068660 (sin espacios)"
+          - label: "WhatsApp (para mostrar)"
+            name: "whatsapp"
+            widget: "string"
+            hint: "Ej: +34 603 147 958"
+          - label: "WhatsApp (enlace wa.me)"
+            name: "whatsapp_href"
+            widget: "string"
+            hint: "Ej: https://wa.me/34603147958 (sin espacios ni +)"
+          - label: "Email de contacto"
+            name: "email"
+            widget: "string"
+
+          - label: "— REDES SOCIALES Y RESERVAS —"
+            name: "social_label"
+            widget: "hidden"
+            default: ""
+          - label: "Instagram (con @)"
+            name: "instagram_handle"
+            widget: "string"
+            hint: "Ej: @faded_madrid"
+          - label: "URL de Instagram"
+            name: "instagram_url"
+            widget: "string"
+          - label: "URL de Booksy (para reservas)"
+            name: "booksy_url"
+            widget: "string"
+            hint: "La URL completa de tu perfil en Booksy"
+
+          - label: "— DIRECCIÓN —"
+            name: "address_label"
+            widget: "hidden"
+            default: ""
+          - label: "Calle y número"
+            name: "address_street"
+            widget: "string"
+          - label: "Código postal y ciudad"
+            name: "address_city"
+            widget: "string"
+          - label: "Enlace a Google Maps"
+            name: "maps_url"
+            widget: "string"
+
+          - label: "— HORARIO —"
+            name: "hours_label"
+            widget: "hidden"
+            default: ""
+          - label: "Días laborables (etiqueta)"
+            name: "hours_weekdays_label"
+            widget: "string"
+            hint: "Ej: Lunes — Sábado"
+          - label: "Horario laborables"
+            name: "hours_weekdays_time"
+            widget: "string"
+            hint: "Ej: 11:00 — 21:30"
+          - label: "Día de cierre (etiqueta)"
+            name: "hours_weekend_label"
+            widget: "string"
+            hint: "Ej: Domingo"
+          - label: "Horario de cierre"
+            name: "hours_weekend_time"
+            widget: "string"
+            hint: "Ej: Cerrado"
+
+          - label: "— VALORACIONES —"
+            name: "reviews_label"
+            widget: "hidden"
+            default: ""
+          - label: "Número de reseñas"
+            name: "reviews_count"
+            widget: "string"
+            hint: "Ej: 119"
+          - label: "Puntuación media"
+            name: "reviews_score"
+            widget: "string"
+            hint: "Ej: 5.0"
+
+  # ──────────────────────────────────────────────────────────
+  # 3. SERVICIOS
+  # ──────────────────────────────────────────────────────────
   - name: "servicios"
     label: "✂️ Servicios"
     files:
@@ -32,7 +255,7 @@ collections:
         label: "Todos los servicios"
         file: "_data/services.json"
         format: json
-        description: "Gestiona todos los servicios: añade, edita o elimina servicios y cambia precios"
+        description: "Añade, edita o elimina servicios. Cambia precios y duraciones fácilmente."
         fields:
           - label: "Categorías de servicios"
             name: "categories"
@@ -47,7 +270,7 @@ collections:
                 name: "title"
                 widget: "string"
                 hint: "Ej: Cortes, Barba & Cejas, Tratamientos"
-              - label: "Servicios de esta categoría"
+              - label: "Servicios"
                 name: "items"
                 widget: "list"
                 label_singular: "Servicio"
@@ -55,36 +278,35 @@ collections:
                   - label: "Nombre del servicio"
                     name: "name"
                     widget: "string"
-                    hint: "Ej: Corte de Caballero"
                   - label: "Precio"
                     name: "price"
                     widget: "string"
-                    hint: "Ej: 15€ ó 15,99€"
+                    hint: "Ej: 15€  ó  15,99€  ó  49,99€"
                   - label: "Duración"
                     name: "duration"
                     widget: "string"
-                    hint: "Ej: 40 min, 1 hora, +2h 30 min"
-                  - label: "Descripción corta (opcional)"
+                    hint: "Ej: 40 min, 1 hora, +2h 50 min"
+                  - label: "Descripción breve (opcional)"
                     name: "desc"
                     widget: "string"
                     required: false
-                    hint: "Solo para el Pack Premium. Ej: Corte + Barba + Cejas + Limpieza"
+                    hint: "Solo para Pack Premium. Ej: Corte + Barba + Cejas + Limpieza"
                   - label: "Tipo de tarjeta"
                     name: "type"
                     widget: "select"
-                    hint: "normal = sin badge | featured = badge POPULAR | premium = badge PREMIUM dorado"
+                    hint: "Elige cómo destacar el servicio"
                     options:
-                      - label: "Normal"
+                      - label: "Normal (sin badge)"
                         value: "normal"
-                      - label: "Destacado — muestra badge POPULAR"
+                      - label: "Popular — badge POPULAR dorado"
                         value: "featured"
-                      - label: "Premium — muestra badge PREMIUM dorado"
+                      - label: "Premium — tarjeta con borde dorado"
                         value: "premium"
                     default: "normal"
 
-  # ----------------------------------------------------------
-  # 2. EQUIPO
-  # ----------------------------------------------------------
+  # ──────────────────────────────────────────────────────────
+  # 4. EQUIPO
+  # ──────────────────────────────────────────────────────────
   - name: "equipo"
     label: "👥 Equipo"
     files:
@@ -92,38 +314,36 @@ collections:
         label: "Miembros del equipo"
         file: "_data/team.json"
         format: json
-        description: "Añade, edita o elimina barberos. Puedes subir fotos directamente."
+        description: "Añade o quita barberos. Sube sus fotos directamente."
         fields:
           - label: "Barberos"
             name: "members"
             widget: "list"
             label_singular: "Barbero"
             fields:
-              - label: "Nombre"
+              - label: "Nombre completo"
                 name: "name"
                 widget: "string"
-                hint: "Nombre del barbero. Ej: Edu"
-              - label: "Rol / Especialidad"
+              - label: "Especialidad / Rol"
                 name: "role"
                 widget: "string"
                 hint: "Ej: Barbero Especialista, Barbero Senior"
               - label: "Descripción"
                 name: "desc"
                 widget: "text"
-                hint: "Breve descripción del barbero y su especialidad"
               - label: "Foto"
                 name: "photo"
                 widget: "image"
                 hint: "Sube una foto del barbero o de la barbería"
-              - label: "Mostrar en la web"
+              - label: "Visible en la web"
                 name: "active"
                 widget: "boolean"
                 default: true
-                hint: "Desactiva para ocultar sin eliminar"
+                hint: "Desactiva para ocultarlo sin borrarlo"
 
-  # ----------------------------------------------------------
-  # 3. GALERÍA
-  # ----------------------------------------------------------
+  # ──────────────────────────────────────────────────────────
+  # 5. GALERÍA
+  # ──────────────────────────────────────────────────────────
   - name: "galeria"
     label: "🖼️ Galería"
     files:
@@ -131,18 +351,18 @@ collections:
         label: "Fotos de la galería"
         file: "_data/gallery.json"
         format: json
-        description: "Sube nuevas fotos o elimina las existentes. Reordena arrastrando."
+        description: "Sube nuevas fotos, elimina las antiguas o cambia el orden arrastrando."
         fields:
           - label: "Imágenes"
             name: "images"
             widget: "list"
             label_singular: "Foto"
             fields:
-              - label: "Foto"
+              - label: "Imagen"
                 name: "src"
                 widget: "image"
-                hint: "Sube una imagen en formato JPG o PNG"
-              - label: "Descripción de la foto (para SEO)"
+                hint: "JPG o PNG. Tamaño recomendado: cuadrada, mínimo 600x600px"
+              - label: "Descripción (para SEO y accesibilidad)"
                 name: "alt"
                 widget: "string"
-                hint: "Describe brevemente la foto. Ej: Corte fade en Faded Barbershop Madrid"
+                hint: "Describe la foto. Ej: Corte fade degradado en Faded Barbershop Madrid"

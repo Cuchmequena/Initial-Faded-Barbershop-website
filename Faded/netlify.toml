@@ -1,7 +1,7 @@
 [build]
   publish = "."
 
-# Cabeceras de seguridad
+# Cabeceras de seguridad para toda la web
 [[headers]]
   for = "/*"
   [headers.values]
@@ -9,24 +9,18 @@
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# Los archivos JSON de datos son accesibles públicamente (necesario para el JS)
+# CRÍTICO: charset UTF-8 para JSON (corrige el símbolo € y caracteres especiales)
 [[headers]]
-  for = "/_data/*"
+  for = "/_data/*.json"
   [headers.values]
+    Content-Type = "application/json; charset=utf-8"
     Cache-Control = "public, max-age=0, must-revalidate"
     Access-Control-Allow-Origin = "*"
 
-# Admin CMS: permite frames (necesario para el editor)
+# Admin CMS
 [[headers]]
   for = "/admin/*"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
-
-# Redirigir www → sin www (opcional, comenta si prefieres al revés)
-# [[redirects]]
-#   from = "https://fadedbarbershopmadrid.com/*"
-#   to = "https://www.fadedbarbershopmadrid.com/:splat"
-#   status = 301
-#   force = true
+    Cache-Control = "no-cache"
