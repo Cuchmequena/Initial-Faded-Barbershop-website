@@ -1,0 +1,148 @@
+# ============================================================
+# Decap CMS (Netlify CMS) — Faded Barbershop
+# Panel en español para gestión de contenido
+# ============================================================
+
+backend:
+  name: git-gateway
+  branch: main        # ← Cambia a "master" si tu repo usa esa rama
+
+# Carpeta donde se guardan las imágenes subidas desde el CMS
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+# Idioma del panel
+locale: 'es'
+
+# Flujo editorial: simple (sin borradores)
+publish_mode: simple
+
+# ============================================================
+# COLECCIONES DE CONTENIDO
+# ============================================================
+collections:
+
+  # ----------------------------------------------------------
+  # 1. SERVICIOS
+  # ----------------------------------------------------------
+  - name: "servicios"
+    label: "✂️ Servicios"
+    files:
+      - name: "todos"
+        label: "Todos los servicios"
+        file: "_data/services.json"
+        format: json
+        description: "Gestiona todos los servicios: añade, edita o elimina servicios y cambia precios"
+        fields:
+          - label: "Categorías de servicios"
+            name: "categories"
+            widget: "list"
+            label_singular: "Categoría"
+            fields:
+              - label: "ID (sin espacios, minúsculas)"
+                name: "id"
+                widget: "string"
+                hint: "Identificador interno. Ej: cortes, barba, tratamientos"
+              - label: "Título de la categoría"
+                name: "title"
+                widget: "string"
+                hint: "Ej: Cortes, Barba & Cejas, Tratamientos"
+              - label: "Servicios de esta categoría"
+                name: "items"
+                widget: "list"
+                label_singular: "Servicio"
+                fields:
+                  - label: "Nombre del servicio"
+                    name: "name"
+                    widget: "string"
+                    hint: "Ej: Corte de Caballero"
+                  - label: "Precio"
+                    name: "price"
+                    widget: "string"
+                    hint: "Ej: 15€ ó 15,99€"
+                  - label: "Duración"
+                    name: "duration"
+                    widget: "string"
+                    hint: "Ej: 40 min, 1 hora, +2h 30 min"
+                  - label: "Descripción corta (opcional)"
+                    name: "desc"
+                    widget: "string"
+                    required: false
+                    hint: "Solo para el Pack Premium. Ej: Corte + Barba + Cejas + Limpieza"
+                  - label: "Tipo de tarjeta"
+                    name: "type"
+                    widget: "select"
+                    hint: "normal = sin badge | featured = badge POPULAR | premium = badge PREMIUM dorado"
+                    options:
+                      - label: "Normal"
+                        value: "normal"
+                      - label: "Destacado — muestra badge POPULAR"
+                        value: "featured"
+                      - label: "Premium — muestra badge PREMIUM dorado"
+                        value: "premium"
+                    default: "normal"
+
+  # ----------------------------------------------------------
+  # 2. EQUIPO
+  # ----------------------------------------------------------
+  - name: "equipo"
+    label: "👥 Equipo"
+    files:
+      - name: "barberos"
+        label: "Miembros del equipo"
+        file: "_data/team.json"
+        format: json
+        description: "Añade, edita o elimina barberos. Puedes subir fotos directamente."
+        fields:
+          - label: "Barberos"
+            name: "members"
+            widget: "list"
+            label_singular: "Barbero"
+            fields:
+              - label: "Nombre"
+                name: "name"
+                widget: "string"
+                hint: "Nombre del barbero. Ej: Edu"
+              - label: "Rol / Especialidad"
+                name: "role"
+                widget: "string"
+                hint: "Ej: Barbero Especialista, Barbero Senior"
+              - label: "Descripción"
+                name: "desc"
+                widget: "text"
+                hint: "Breve descripción del barbero y su especialidad"
+              - label: "Foto"
+                name: "photo"
+                widget: "image"
+                hint: "Sube una foto del barbero o de la barbería"
+              - label: "Mostrar en la web"
+                name: "active"
+                widget: "boolean"
+                default: true
+                hint: "Desactiva para ocultar sin eliminar"
+
+  # ----------------------------------------------------------
+  # 3. GALERÍA
+  # ----------------------------------------------------------
+  - name: "galeria"
+    label: "🖼️ Galería"
+    files:
+      - name: "fotos"
+        label: "Fotos de la galería"
+        file: "_data/gallery.json"
+        format: json
+        description: "Sube nuevas fotos o elimina las existentes. Reordena arrastrando."
+        fields:
+          - label: "Imágenes"
+            name: "images"
+            widget: "list"
+            label_singular: "Foto"
+            fields:
+              - label: "Foto"
+                name: "src"
+                widget: "image"
+                hint: "Sube una imagen en formato JPG o PNG"
+              - label: "Descripción de la foto (para SEO)"
+                name: "alt"
+                widget: "string"
+                hint: "Describe brevemente la foto. Ej: Corte fade en Faded Barbershop Madrid"

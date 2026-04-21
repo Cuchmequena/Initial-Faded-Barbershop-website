@@ -1,0 +1,40 @@
+{
+  "images": [
+    {
+      "src": "/assets/images/galeria/g1.jpg",
+      "alt": "Corte fade degradado profesional en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g2.jpg",
+      "alt": "Diseño de barba perfilado en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g3.jpg",
+      "alt": "Corte con diseño personalizado en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g4.jpg",
+      "alt": "Fade skin a zero perfectamente ejecutado en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g5.jpg",
+      "alt": "Corte moderno con degradado suave en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g6.jpg",
+      "alt": "Resultado antes y después de corte fade en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g7.jpg",
+      "alt": "Diseño artístico de barba y corte en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g8.jpg",
+      "alt": "Mid fade con textura en la parte superior en Faded Barbershop Madrid"
+    },
+    {
+      "src": "/assets/images/galeria/g9.jpg",
+      "alt": "Corte clásico con degradado natural en Faded Barbershop Madrid"
+    }
+  ]
+}
