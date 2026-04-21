@@ -281,7 +281,7 @@ collections:
                   - label: "Precio"
                     name: "price"
                     widget: "string"
-                    hint: "Ej: 15€  ó  15,99€  ó  49,99€"
+                    hint: "Ej: 15C  ó  15,99C  ó  49,99C"
                   - label: "Duración"
                     name: "duration"
                     widget: "string"

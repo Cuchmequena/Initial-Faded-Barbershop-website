@@ -421,6 +421,18 @@ address { font-style: normal; }
   line-height: 1;
 }
 
+.hero-h1-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero-logo-img {
   width: clamp(200px, 48vw, 500px);
   height: auto;

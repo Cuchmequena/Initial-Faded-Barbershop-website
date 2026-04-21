@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
   <url>
-    <loc>https://fadedbarbershop.es/</loc>
+    <loc>https://www.fadedbarbershopmadrid.com/</loc>
     <lastmod>2026-04-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.fadedbarbershopmadrid.com/assets/images/hero-bg.jpg</image:loc>
+      <image:title>Faded Barbershop — Barbería Madrid Ciudad Lineal</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.fadedbarbershopmadrid.com/assets/images/logo.png</image:loc>
+      <image:title>Logo Faded Barbershop Madrid</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/#servicios</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/#galeria</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/#equipo</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/#ubicacion</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

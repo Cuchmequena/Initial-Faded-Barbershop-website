@@ -6,42 +6,42 @@
       "items": [
         {
           "name": "Corte de Caballero",
-          "price": "15€",
+          "price": "15C",
           "duration": "40 min",
           "desc": "",
           "type": "normal"
         },
         {
           "name": "Corte + Diseño",
-          "price": "17€",
+          "price": "17C",
           "duration": "1 hora",
           "desc": "",
           "type": "normal"
         },
         {
           "name": "Corte + Cejas",
-          "price": "17€",
+          "price": "17C",
           "duration": "45 min",
           "desc": "",
           "type": "normal"
         },
         {
           "name": "Corte + Barba + Cejas",
-          "price": "20€",
+          "price": "20C",
           "duration": "1 hora",
           "desc": "",
           "type": "featured"
         },
         {
           "name": "Corte de Niño",
-          "price": "13€",
+          "price": "13C",
           "duration": "30 min",
           "desc": "",
           "type": "normal"
         },
         {
           "name": "Pack Premium",
-          "price": "30€",
+          "price": "30C",
           "duration": "1h 15 min",
           "desc": "Corte + Barba + Cejas + Limpieza",
           "type": "premium"
@@ -54,14 +54,14 @@
       "items": [
         {
           "name": "Cejas con Cuchilla",
-          "price": "6€",
+          "price": "6C",
           "duration": "5 min",
           "desc": "",
           "type": "normal"
         },
         {
           "name": "Afeitado y Perfilado de Barba",
-          "price": "10€",
+          "price": "10C",
           "duration": "30 min",
           "desc": "",
           "type": "normal"
@@ -74,21 +74,21 @@
       "items": [
         {
           "name": "Mechas + Corte",
-          "price": "49,99€",
+          "price": "49,99C",
           "duration": "+2h 50 min",
           "desc": "",
           "type": "normal"
         },
         {
           "name": "Coloración + Corte",
-          "price": "69,99€",
+          "price": "69,99C",
           "duration": "+3h 30 min",
           "desc": "",
           "type": "normal"
         },
         {
           "name": "Limpieza Facial",
-          "price": "13€",
+          "price": "13C",
           "duration": "20 min",
           "desc": "",
           "type": "normal"
