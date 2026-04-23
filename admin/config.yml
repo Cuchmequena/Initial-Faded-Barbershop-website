@@ -125,6 +125,14 @@ collections:
             name: "whyus_reviews_desc"
             widget: "string"
             default: "Puntuación perfecta 5.0/5.0 verificada por nuestros clientes"
+          - label: "Título tarjeta reseñas"
+            name: "whyus_reviews_title"
+            widget: "string"
+            default: "Reseñas 5 Estrellas"
+          - label: "Nombres destacados de barberos"
+            name: "whyus_barbers_names"
+            widget: "string"
+            default: "Cristian & Jennson"
           - label: "Título tarjeta barberos"
             name: "whyus_barbers_title"
             widget: "string"
@@ -133,6 +141,14 @@ collections:
             name: "whyus_barbers_desc"
             widget: "string"
             default: "Auténticos artistas del corte y el diseño"
+          - label: "Texto grande tarjeta fidelidad"
+            name: "whyus_loyalty_value"
+            widget: "string"
+            default: "5 → 1 Gratis"
+          - label: "Título tarjeta fidelidad"
+            name: "whyus_loyalty_title"
+            widget: "string"
+            default: "Programa Fidelidad"
           - label: "Descripción tarjeta fidelidad"
             name: "whyus_loyalty_desc"
             widget: "string"
@@ -246,7 +262,76 @@ collections:
             hint: "Ej: 5.0"
 
   # ──────────────────────────────────────────────────────────
-  # 3. SERVICIOS
+  # 3. SEO AVANZADO
+  # ──────────────────────────────────────────────────────────
+  - name: "seo"
+    label: "🚀 SEO Avanzado"
+    files:
+      - name: "seo_principal"
+        label: "SEO principal y contenido oculto"
+        file: "_data/seo.json"
+        format: json
+        description: "Controla title, meta tags, H1/H2 ocultos SEO y preguntas frecuentes JSON-LD."
+        fields:
+          - label: "Title (etiqueta título)"
+            name: "site_title"
+            widget: "string"
+            hint: "Ej: Barbería Madrid | Faded Barbershop Ciudad Lineal | Cortes Fade Premium"
+          - label: "Meta description"
+            name: "meta_description"
+            widget: "text"
+            hint: "Recomendado: entre 140 y 160 caracteres"
+          - label: "Meta keywords"
+            name: "meta_keywords"
+            widget: "text"
+            hint: "Palabras clave separadas por comas"
+          - label: "Canonical URL"
+            name: "canonical_url"
+            widget: "string"
+            hint: "Ej: https://www.fadedbarbershopmadrid.com/"
+          - label: "Open Graph title"
+            name: "og_title"
+            widget: "string"
+          - label: "Open Graph description"
+            name: "og_description"
+            widget: "text"
+          - label: "Twitter title"
+            name: "twitter_title"
+            widget: "string"
+          - label: "Twitter description"
+            name: "twitter_description"
+            widget: "text"
+          - label: "H1 oculto SEO"
+            name: "hidden_h1"
+            widget: "string"
+            hint: "No aparece visualmente; se usa para reforzar SEO local"
+          - label: "H2 oculto SEO (principal)"
+            name: "hidden_h2_primary"
+            widget: "string"
+          - label: "H2 oculto SEO (secundario)"
+            name: "hidden_h2_secondary"
+            widget: "string"
+          - label: "H3 oculto SEO (zonas)"
+            name: "hidden_h3_areas"
+            widget: "string"
+          - label: "Texto oculto de apoyo SEO"
+            name: "hidden_support_text"
+            widget: "text"
+          - label: "Preguntas frecuentes SEO (JSON-LD)"
+            name: "faqs"
+            widget: "list"
+            label_singular: "FAQ"
+            summary: "{{fields.question}}"
+            fields:
+              - label: "Pregunta"
+                name: "question"
+                widget: "string"
+              - label: "Respuesta"
+                name: "answer"
+                widget: "text"
+
+  # ──────────────────────────────────────────────────────────
+  # 4. SERVICIOS
   # ──────────────────────────────────────────────────────────
   - name: "servicios"
     label: "✂️ Servicios"
@@ -305,7 +390,7 @@ collections:
                     default: "normal"
 
   # ──────────────────────────────────────────────────────────
-  # 4. EQUIPO
+  # 5. EQUIPO
   # ──────────────────────────────────────────────────────────
   - name: "equipo"
     label: "👥 Equipo"
@@ -342,7 +427,7 @@ collections:
                 hint: "Desactiva para ocultarlo sin borrarlo"
 
   # ──────────────────────────────────────────────────────────
-  # 5. GALERÍA
+  # 6. GALERÍA
   # ──────────────────────────────────────────────────────────
   - name: "galeria"
     label: "🖼️ Galería"

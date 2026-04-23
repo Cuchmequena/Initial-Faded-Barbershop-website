@@ -421,6 +421,30 @@ address { font-style: normal; }
   line-height: 1;
 }
 
+.hero-h1-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.seo-hidden-block {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero-logo-img {
   width: clamp(200px, 48vw, 500px);
   height: auto;
@@ -1376,6 +1400,25 @@ address { font-style: normal; }
    ============================================================ */
 @media (max-width: 992px) {
 
+  .navbar {
+    position: relative;
+    justify-content: flex-end;
+    padding: 0 var(--container-pad);
+  }
+
+  .nav-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-logo img {
+    height: 34px;
+  }
+
   .nav-links {
     position: fixed;
     top: var(--header-h);
@@ -1411,7 +1454,11 @@ address { font-style: normal; }
   }
 
   .nav-cta { display: none; }
-  .hamburger { display: flex; }
+  .hamburger {
+    display: flex;
+    margin-left: auto;
+    z-index: 1100;
+  }
 
   .features-grid {
     grid-template-columns: 1fr;

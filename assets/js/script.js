@@ -24,12 +24,16 @@ async function loadContent() {
     fetch('/_data/gallery.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/home.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/config.json').then(r => r.ok ? r.json() : null),
+    fetch('/_data/seo.json').then(r => r.ok ? r.json() : null),
   ]);
 
-  const [servicesRes, teamRes, galleryRes, homeRes, configRes] = results;
+  const [servicesRes, teamRes, galleryRes, homeRes, configRes, seoRes] = results;
 
   if (configRes.status === 'fulfilled' && configRes.value) {
     applyConfig(configRes.value);
+  }
+  if (seoRes.status === 'fulfilled' && seoRes.value) {
+    applySEO(seoRes.value);
   }
   if (homeRes.status === 'fulfilled' && homeRes.value) {
     applyHome(homeRes.value);
@@ -123,6 +127,23 @@ function applyHome(h) {
   };
   setText('hero-eyebrow', h.hero_eyebrow);
   setText('hero-subtitle', h.hero_subtitle);
+  setText('services-eyebrow', h.services_eyebrow);
+  setText('services-title', h.services_title);
+  setText('services-desc', h.services_desc);
+  setText('gallery-eyebrow', h.gallery_eyebrow);
+  setText('gallery-title', h.gallery_title);
+  setText('gallery-desc', h.gallery_desc);
+  setText('team-eyebrow', h.team_eyebrow);
+  setText('team-title', h.team_title);
+  setText('team-desc', h.team_desc);
+  setText('whyus-reviews-title', h.whyus_reviews_title);
+  setText('whyus-reviews-desc', h.whyus_reviews_desc);
+  setText('whyus-barbers-names', h.whyus_barbers_names);
+  setText('whyus-barbers-title', h.whyus_barbers_title);
+  setText('whyus-barbers-desc', h.whyus_barbers_desc);
+  setText('whyus-loyalty-value', h.whyus_loyalty_value);
+  setText('whyus-loyalty-title', h.whyus_loyalty_title);
+  setText('whyus-loyalty-desc', h.whyus_loyalty_desc);
 
   /* loyalty */
   if (h.loyalty_text) {
@@ -140,6 +161,82 @@ function applyHome(h) {
     }
   }
   setText('loyalty-sub', h.loyalty_sub);
+}
+
+function setMetaContent(id, value) {
+  if (!value) return;
+  const el = document.getElementById(id);
+  if (el) el.setAttribute('content', value);
+}
+
+function setTextById(id, value) {
+  if (!value) return;
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function applyFAQSchema(faqs) {
+  if (!Array.isArray(faqs) || !faqs.length) return;
+  const script = document.getElementById('seo-faq-jsonld');
+  if (!script) return;
+
+  const payload = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs
+      .filter(f => f && f.question && f.answer)
+      .map(f => ({
+        '@type': 'Question',
+        name: String(f.question),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: String(f.answer),
+        },
+      })),
+  };
+
+  if (payload.mainEntity.length) {
+    script.textContent = JSON.stringify(payload, null, 2);
+  }
+}
+
+function applySEO(seo) {
+  if (seo.site_title) {
+    document.title = seo.site_title;
+    const titleTag = document.getElementById('seo-page-title');
+    if (titleTag) titleTag.textContent = seo.site_title;
+  }
+
+  setMetaContent('meta-description', seo.meta_description);
+  setMetaContent('meta-keywords', seo.meta_keywords);
+  setMetaContent('og-title', seo.og_title || seo.site_title);
+  setMetaContent('og-description', seo.og_description || seo.meta_description);
+  setMetaContent('twitter-title', seo.twitter_title || seo.og_title || seo.site_title);
+  setMetaContent('twitter-description', seo.twitter_description || seo.og_description || seo.meta_description);
+
+  if (seo.canonical_url) {
+    const canonical = document.getElementById('canonical-url');
+    if (canonical) canonical.setAttribute('href', seo.canonical_url);
+  }
+
+  setTextById('seo-hidden-h1', seo.hidden_h1);
+  setTextById('seo-hidden-h2-primary', seo.hidden_h2_primary);
+  setTextById('seo-hidden-h2-secondary', seo.hidden_h2_secondary);
+  setTextById('seo-hidden-h3-areas', seo.hidden_h3_areas);
+  setTextById('seo-hidden-support-text', seo.hidden_support_text);
+
+  applyFAQSchema(seo.faqs);
+}
+
+function normalizePrice(rawPrice) {
+  if (!rawPrice) return '';
+  let price = String(rawPrice).trim();
+
+  price = price.replace(/([0-9])\s*[cC]$/u, '$1€');
+  if (!/[€$£]$/.test(price)) {
+    price = `${price}€`;
+  }
+  return price;
 }
 
 /* ── Render: Servicios ── */
@@ -167,6 +264,7 @@ function renderServices(data) {
 function renderServiceCard(item) {
   const feat = item.type === 'featured';
   const prem = item.type === 'premium';
+  const normalizedPrice = normalizePrice(item.price);
   return `
     <article class="service-card${feat ? ' service-card--featured' : ''}${prem ? ' service-card--premium' : ''} reveal">
       ${feat ? '<div class="service-badge" aria-label="Servicio popular">POPULAR</div>' : ''}
@@ -182,7 +280,7 @@ function renderServiceCard(item) {
         </p>
       </div>
       <div class="service-price-wrap">
-        <span class="service-price${prem ? ' service-price--large' : ''}" aria-label="${esc(item.price)}">${esc(item.price)}</span>
+        <span class="service-price${prem ? ' service-price--large' : ''}" aria-label="${esc(normalizedPrice)}">${esc(normalizedPrice)}</span>
         <a href="${esc(BOOKSY_URL)}"
            class="btn ${prem ? 'btn-gold' : 'btn-service'}"
            target="_blank"
