@@ -1,0 +1,37 @@
+{
+  "site_title": "Barbería Madrid | Faded Barbershop Ciudad Lineal | Cortes Fade Premium",
+  "meta_description": "Barbería en Madrid, Ciudad Lineal y La Elipa. Especialistas en fades, degradados, barba y cejas. Reserva online en Faded Barbershop.",
+  "meta_keywords": "barbería madrid, peluquería ciudad lineal, cortarse el pelo la elipa, barbería ventas madrid, fade madrid, degradado madrid, corte de pelo cerca de mi, barbería cerca de mi madrid",
+  "canonical_url": "https://www.fadedbarbershopmadrid.com/",
+  "og_title": "Barbería Madrid | Faded Barbershop Ciudad Lineal",
+  "og_description": "Peluquería y barbería en Ciudad Lineal, La Elipa y Ventas. Fades, degradados y barba con reserva online.",
+  "twitter_title": "Barbería Madrid | Faded Barbershop Ciudad Lineal",
+  "twitter_description": "Corte de pelo y barbería en zonas cercanas: La Elipa, Ventas y Ciudad Lineal.",
+  "hidden_h1": "Cortarse el pelo en zonas cercanas a tu ubicación: La Elipa, Ventas, Ciudad Lineal y Madrid",
+  "hidden_h2_primary": "Peluquería en zonas cercanas de Madrid: La Elipa, Ventas y Ciudad Lineal",
+  "hidden_h2_secondary": "Barbería en Madrid cerca de tu localización con cortes fade, degradados y barba",
+  "hidden_h3_areas": "Zonas cercanas cubiertas por Faded Barbershop",
+  "hidden_support_text": "Peluquería y barbería en Ciudad Lineal para clientes de La Elipa, Ventas, Pueblo Nuevo, Ascao, Moratalaz y barrios próximos de Madrid.",
+  "faqs": [
+    {
+      "question": "¿Dónde está Faded Barbershop en Madrid?",
+      "answer": "Estamos en Avenida del Marqués de Corbera, 37, 28017 Madrid, muy cerca de La Elipa y Ventas en Ciudad Lineal."
+    },
+    {
+      "question": "¿Qué zonas cercanas atendéis?",
+      "answer": "Recibimos clientes de La Elipa, Ventas, Ciudad Lineal, Pueblo Nuevo, Ascao y zonas próximas de Madrid."
+    },
+    {
+      "question": "¿Cuánto cuesta un corte de pelo?",
+      "answer": "El corte de caballero empieza en 15€ y puedes combinar servicios de barba, cejas y tratamientos premium."
+    },
+    {
+      "question": "¿Cómo reservo cita?",
+      "answer": "Puedes reservar online en Booksy, por teléfono o por WhatsApp."
+    },
+    {
+      "question": "¿Tenéis programa de fidelidad?",
+      "answer": "Sí, en tu primera visita te entregamos una tarjeta y cada 5 cortes acumulados el 6º es gratis."
+    }
+  ]
+}
