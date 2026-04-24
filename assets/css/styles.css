@@ -1757,6 +1757,23 @@ address { font-style: normal; }
    ============================================================ */
 @media (max-width: 992px) {
 
+  .navbar {
+    justify-content: center;
+    position: relative;
+  }
+
+  .nav-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .hamburger {
+    position: absolute;
+    right: var(--container-pad);
+    display: flex;
+  }
+
   .nav-links {
     position: fixed;
     top: var(--header-h);
@@ -1792,7 +1809,6 @@ address { font-style: normal; }
   }
 
   .nav-cta { display: none; }
-  .hamburger { display: flex; }
 
   .features-grid {
     grid-template-columns: 1fr;
