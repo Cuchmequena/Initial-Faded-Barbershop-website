@@ -5,12 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Productos Faded Barbershop | Bebidas y Ceras en Madrid</title>
   <meta name="description" content="Consulta las bebidas y ceras disponibles en Faded Barbershop Madrid. Recogida en tienda y confirmación rápida por WhatsApp.">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.fadedbarbershopmadrid.com/productos/">
-  <link rel="icon" type="image/png" href="../assets/images/logo.png">
-  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="icon" type="image/png" href="/assets/images/logo.png">
+  <link rel="apple-touch-icon" href="/assets/images/logo.png">
+  <link rel="shortcut icon" href="/assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
-  <main class="product-page">
+  <a class="skip-nav" href="#contenido-principal">Saltar al contenido principal</a>
+
+  <header id="header" role="banner">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a href="/#inicio" class="nav-logo" aria-label="Faded Barbershop — Volver al inicio">
+        <img src="/assets/images/logo.png" alt="Faded Barbershop Logo" width="140" height="46" loading="eager">
+      </a>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="/#inicio" class="nav-link">Inicio</a></li>
+        <li><a href="/#servicios" class="nav-link">Servicios</a></li>
+        <li><a href="/productos/" class="nav-link" aria-current="page">Productos</a></li>
+        <li><a href="/#galeria" class="nav-link">Galería</a></li>
+        <li><a href="/#equipo" class="nav-link">Equipo</a></li>
+        <li><a href="/politicas" class="nav-link">Políticas</a></li>
+      </ul>
+
+      <a href="https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid"
+         class="btn btn-gold nav-cta"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Reservar cita en Booksy — abre en nueva pestaña">
+        RESERVAR CITA
+      </a>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="Abrir menú de navegación"
+              aria-expanded="false"
+              aria-controls="nav-links">
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="contenido-principal" class="product-page">
     <div class="container product-shell">
       <nav class="product-breadcrumb" aria-label="Ruta de navegación">
         <a href="/">Inicio</a>
@@ -22,8 +64,8 @@
         <div class="product-header">
           <a href="/" class="product-back-link" aria-label="Volver a la página principal">← Volver a la home</a>
           <span class="product-pill">Recogida en tienda</span>
-          <h1 class="product-page-title">Bebidas y ceras disponibles en Faded.</h1>
-          <p class="product-summary">Hemos reunido en una sola página los productos que ahora mismo mostramos en la web para que Google y tus clientes encuentren mejor cada referencia.</p>
+          <h1 class="product-page-title" id="products-page-title">Bebidas y ceras disponibles en Faded.</h1>
+          <p class="product-summary" id="products-page-desc">Consulta los productos disponibles en tienda y escríbenos para confirmar stock, imagen, formato o compatibilidad antes de venir.</p>
           <div class="product-page-actions">
             <a href="https://wa.me/34603147958" class="btn btn-gold" target="_blank" rel="noopener noreferrer">Confirmar por WhatsApp</a>
             <a href="https://maps.google.com/?q=Avenida+del+Marqués+de+Corbera+37+28017+Madrid" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Cómo llegar</a>
@@ -42,61 +84,56 @@
               <li>Domingo: cerrado</li>
             </ul>
           </div>
+          <div class="product-side-panel">
+            <h2>Consulta rápida</h2>
+            <p class="product-summary" id="products-page-note">Disponibilidad sujeta a stock en tienda. Si quieres confirmar antes de venir, escríbenos por WhatsApp.</p>
+          </div>
         </aside>
       </section>
 
-      <section class="products-overview" aria-label="Listado de productos">
-        <article class="product-card">
-          <span class="product-tag">Bebidas</span>
-          <h2 class="product-title">Agua fría 50 cl</h2>
-          <p class="product-copy">Botella individual servida fría para clientes que quieren refrescarse en tienda.</p>
-          <div class="product-card-footer">
-            <p class="product-price" aria-label="1,50 euros"><span class="price-amount">1,50</span><span class="price-currency" aria-hidden="true">&#8364;</span></p>
-            <a href="/productos/agua-fria-50cl.html" class="btn btn-service">Ver producto</a>
-          </div>
-        </article>
-
-        <article class="product-card">
-          <span class="product-tag">Bebidas</span>
-          <h2 class="product-title">Bebida energética 25 cl</h2>
-          <p class="product-copy">Lata fría lista para llevar o tomar antes de salir con el corte recién hecho.</p>
-          <div class="product-card-footer">
-            <p class="product-price" aria-label="2,50 euros"><span class="price-amount">2,50</span><span class="price-currency" aria-hidden="true">&#8364;</span></p>
-            <a href="/productos/bebida-energetica-25cl.html" class="btn btn-service">Ver producto</a>
-          </div>
-        </article>
-
-        <article class="product-card">
-          <span class="product-tag">Ceras</span>
-          <h2 class="product-title">Cera mate profesional</h2>
-          <p class="product-copy">Acabado natural, textura flexible y control cómodo para el día a día.</p>
-          <div class="product-card-footer">
-            <p class="product-price" aria-label="9,99 euros"><span class="price-amount">9,99</span><span class="price-currency" aria-hidden="true">&#8364;</span></p>
-            <a href="/productos/cera-mate-profesional.html" class="btn btn-service">Ver producto</a>
-          </div>
-        </article>
-
-        <article class="product-card">
-          <span class="product-tag">Ceras</span>
-          <h2 class="product-title">Cera brillo profesional</h2>
-          <p class="product-copy">Definición más limpia y acabado pulido para peinados más marcados.</p>
-          <div class="product-card-footer">
-            <p class="product-price" aria-label="9,99 euros"><span class="price-amount">9,99</span><span class="price-currency" aria-hidden="true">&#8364;</span></p>
-            <a href="/productos/cera-brillo-profesional.html" class="btn btn-service">Ver producto</a>
-          </div>
-        </article>
-
-        <article class="product-card">
-          <span class="product-tag">Ceras</span>
-          <h2 class="product-title">Cera fijación fuerte</h2>
-          <p class="product-copy">Más control y resistencia para estilos definidos durante más horas.</p>
-          <div class="product-card-footer">
-            <p class="product-price" aria-label="10,99 euros"><span class="price-amount">10,99</span><span class="price-currency" aria-hidden="true">&#8364;</span></p>
-            <a href="/productos/cera-fijacion-fuerte.html" class="btn btn-service">Ver producto</a>
-          </div>
+      <section class="products-overview" id="products-page-container" aria-label="Listado de productos">
+        <article class="product-card" aria-busy="true">
+          <span class="product-tag">Productos</span>
+          <h2 class="product-title">Cargando catálogo...</h2>
+          <p class="product-copy">En unos instantes aparecerán aquí todos los productos disponibles.</p>
         </article>
       </section>
     </div>
   </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <a href="/#inicio" class="footer-logo" aria-label="Faded Barbershop — subir al inicio">
+          <img src="/assets/images/logo.png" alt="Faded Barbershop Logo" width="120" height="40" loading="lazy">
+        </a>
+        <p class="footer-tagline">Barbería Premium · Ciudad Lineal · Madrid</p>
+        <nav class="footer-nav" aria-label="Navegación del pie de página">
+          <a href="https://www.instagram.com/faded_madrid" target="_blank" rel="noopener noreferrer" aria-label="Instagram @faded_madrid">Instagram</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid" target="_blank" rel="noopener noreferrer" aria-label="Reservar en Booksy">Booksy</a>
+          <span aria-hidden="true">·</span>
+          <a href="/productos/" aria-label="Ver productos">Productos</a>
+          <span aria-hidden="true">·</span>
+          <a href="/politicas" aria-label="Ver políticas legales">Políticas legales</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://maps.google.com/?q=Avenida+del+Marqués+de+Corbera+37+28017+Madrid" target="_blank" rel="noopener noreferrer" aria-label="Ver en Google Maps">Google Maps</a>
+          <span aria-hidden="true">·</span>
+          <a href="tel:+34691068660" aria-label="Llamar a Faded Barbershop">+34 691 068 660</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Faded Barbershop. Todos los derechos reservados.</p>
+        <p class="footer-seo">
+          <a href="/sitemap.xml" aria-label="Mapa del sitio">Sitemap</a>
+          <span aria-hidden="true"> · </span>
+          Web optimizada para SEO
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/consent.js"></script>
+  <script src="/assets/js/script.js"></script>
 </body>
 </html>

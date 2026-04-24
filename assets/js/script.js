@@ -47,13 +47,14 @@ function formatPrice(price) {
 async function loadContent() {
   const results = await Promise.allSettled([
     fetch('/_data/services.json').then(r => r.ok ? r.json() : null),
+    fetch('/_data/products.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/team.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/gallery.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/home.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/config.json').then(r => r.ok ? r.json() : null),
   ]);
 
-  const [servicesRes, teamRes, galleryRes, homeRes, configRes] = results;
+  const [servicesRes, productsRes, teamRes, galleryRes, homeRes, configRes] = results;
 
   if (configRes.status === 'fulfilled' && configRes.value) {
     applyConfig(configRes.value);
@@ -63,6 +64,9 @@ async function loadContent() {
   }
   if (servicesRes.status === 'fulfilled' && servicesRes.value) {
     renderServices(servicesRes.value);
+  }
+  if (productsRes.status === 'fulfilled' && productsRes.value) {
+    renderProducts(productsRes.value);
   }
   if (teamRes.status === 'fulfilled' && teamRes.value) {
     renderTeam(teamRes.value);
@@ -74,6 +78,96 @@ async function loadContent() {
   /* Re-inicializar animaciones y lightbox después de renderizar */
   initReveal();
   initLightbox();
+}
+
+function productLink(item) {
+  if (item.product_url) {
+    return {
+      href: item.product_url,
+      label: 'Ver producto',
+      external: false,
+    };
+  }
+
+  const text = encodeURIComponent(`Hola, quiero información sobre ${item.name}.`);
+  return {
+    href: `https://wa.me/34603147958?text=${text}`,
+    label: 'Consultar',
+    external: true,
+  };
+}
+
+function renderProductCard(item) {
+  const price = formatPrice(item.price);
+  const link = productLink(item);
+  const attrs = link.external ? 'target="_blank" rel="noopener noreferrer"' : '';
+  const details = Array.isArray(item.details) ? item.details.filter(Boolean) : [];
+
+  return `
+    <article class="product-card reveal">
+      ${item.image ? `
+        <div class="product-media">
+          <img src="${esc(item.image)}" alt="${esc(item.image_alt || item.name)}" class="product-image" loading="lazy">
+        </div>
+      ` : ''}
+      <span class="product-tag">${esc(item.category || 'Producto')}</span>
+      <h3 class="product-title">${esc(item.name)}</h3>
+      <p class="product-copy">${esc(item.description || '')}</p>
+      ${details.length ? `
+        <ul class="product-details" role="list">
+          ${details.map(detail => `<li>${esc(detail)}</li>`).join('')}
+        </ul>
+      ` : ''}
+      <div class="product-card-footer">
+        <p class="product-price" aria-label="${esc(price.aria)}">${price.html}</p>
+        <a href="${esc(link.href)}" class="btn btn-service" ${attrs} aria-label="${esc(`${link.label} ${item.name}`)}">${esc(link.label)}</a>
+      </div>
+    </article>
+  `;
+}
+
+function renderProducts(data) {
+  const items = Array.isArray(data.items) ? data.items.filter(item => item && item.active !== false) : [];
+  const homeContainer = document.getElementById('products-home-container');
+  const homeEyebrow = document.getElementById('products-home-eyebrow');
+  const homeTitle = document.getElementById('products-home-title');
+  const homeDesc = document.getElementById('products-home-desc');
+  const pageContainer = document.getElementById('products-page-container');
+  const pageTitle = document.getElementById('products-page-title');
+  const pageDesc = document.getElementById('products-page-desc');
+  const pageNote = document.getElementById('products-page-note');
+
+  if (homeEyebrow && data.home_eyebrow) homeEyebrow.textContent = data.home_eyebrow;
+  if (homeTitle && data.home_title) homeTitle.textContent = data.home_title;
+  if (homeDesc && data.home_desc) homeDesc.textContent = data.home_desc;
+  if (pageTitle && data.page_title) pageTitle.textContent = data.page_title;
+  if (pageDesc && data.page_desc) pageDesc.textContent = data.page_desc;
+  if (pageNote && data.page_note) pageNote.textContent = data.page_note;
+
+  if (homeContainer) {
+    const homeItems = items.filter(item => item.show_on_home !== false).slice(0, 6);
+    homeContainer.innerHTML = homeItems.length
+      ? homeItems.map(renderProductCard).join('')
+      : `
+        <article class="product-card reveal">
+          <span class="product-tag">Productos</span>
+          <h3 class="product-title">Próximamente</h3>
+          <p class="product-copy">Muy pronto verás aquí el catálogo actualizado de FADED.</p>
+        </article>
+      `;
+  }
+
+  if (pageContainer) {
+    pageContainer.innerHTML = items.length
+      ? items.map(renderProductCard).join('')
+      : `
+        <article class="product-card reveal">
+          <span class="product-tag">Productos</span>
+          <h2 class="product-title">Sin productos visibles</h2>
+          <p class="product-copy">Activa o añade productos desde /admin para que aparezcan aquí.</p>
+        </article>
+      `;
+  }
 }
 
 /* ── Aplicar config.json (teléfono, WhatsApp, Booksy, etc.) ── */

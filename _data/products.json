@@ -1,0 +1,90 @@
+{
+  "home_eyebrow": "Llévate tu acabado a casa",
+  "home_title": "PRODUCTOS FADED",
+  "home_desc": "Una selección rápida de bebidas y ceras que puedes recoger directamente en la barbería.",
+  "page_title": "Bebidas y ceras disponibles en Faded.",
+  "page_desc": "Consulta los productos disponibles en tienda y escríbenos para confirmar stock, imagen, formato o compatibilidad antes de venir.",
+  "page_note": "Disponibilidad sujeta a stock en tienda. Si quieres confirmar antes de venir, escríbenos por WhatsApp.",
+  "items": [
+    {
+      "slug": "agua-fria-50cl",
+      "name": "Agua fría 50 cl",
+      "category": "Bebidas",
+      "price": "1,50€",
+      "description": "Perfecta para refrescarte antes o después del corte. Disponible para recogida en tienda.",
+      "details": [
+        "Botella individual",
+        "Servida fría"
+      ],
+      "image": "",
+      "image_alt": "",
+      "product_url": "/productos/agua-fria-50cl.html",
+      "show_on_home": true,
+      "active": true
+    },
+    {
+      "slug": "bebida-energetica-25cl",
+      "name": "Bebida energética 25 cl",
+      "category": "Bebidas",
+      "price": "2,50€",
+      "description": "Una opción rápida para cargar energía mientras esperas o sales listo para seguir el día.",
+      "details": [
+        "Lata individual",
+        "Servida fría"
+      ],
+      "image": "",
+      "image_alt": "",
+      "product_url": "/productos/bebida-energetica-25cl.html",
+      "show_on_home": true,
+      "active": true
+    },
+    {
+      "slug": "cera-mate-profesional",
+      "name": "Cera mate profesional",
+      "category": "Ceras",
+      "price": "9,99€",
+      "description": "Fijación flexible con acabado natural para mantener el peinado controlado sin brillo excesivo.",
+      "details": [
+        "Acabado mate",
+        "Uso diario"
+      ],
+      "image": "",
+      "image_alt": "",
+      "product_url": "/productos/cera-mate-profesional.html",
+      "show_on_home": true,
+      "active": true
+    },
+    {
+      "slug": "cera-brillo-profesional",
+      "name": "Cera brillo profesional",
+      "category": "Ceras",
+      "price": "9,99€",
+      "description": "Ideal para peinados más definidos con acabado pulido y control firme durante todo el día.",
+      "details": [
+        "Acabado con brillo",
+        "Textura cremosa"
+      ],
+      "image": "",
+      "image_alt": "",
+      "product_url": "/productos/cera-brillo-profesional.html",
+      "show_on_home": true,
+      "active": true
+    },
+    {
+      "slug": "cera-fijacion-fuerte",
+      "name": "Cera fijación fuerte",
+      "category": "Ceras",
+      "price": "10,99€",
+      "description": "Pensada para estilos exigentes, volumen alto y una fijación más intensa durante horas.",
+      "details": [
+        "Fijación alta",
+        "Definición duradera"
+      ],
+      "image": "",
+      "image_alt": "",
+      "product_url": "/productos/cera-fijacion-fuerte.html",
+      "show_on_home": true,
+      "active": true
+    }
+  ]
+}

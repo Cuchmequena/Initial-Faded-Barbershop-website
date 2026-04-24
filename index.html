@@ -300,90 +300,16 @@
     <section id="productos" class="products" aria-label="Productos disponibles en barbería">
       <div class="container">
         <header class="section-header">
-          <p class="section-eyebrow reveal">Llévate tu acabado a casa</p>
-          <h2 class="section-title reveal">PRODUCTOS FADED</h2>
-          <p class="section-desc reveal">Una selección rápida de bebidas y ceras que puedes recoger directamente en la barbería.</p>
+          <p class="section-eyebrow reveal" id="products-home-eyebrow">Llévate tu acabado a casa</p>
+          <h2 class="section-title reveal" id="products-home-title">PRODUCTOS FADED</h2>
+          <p class="section-desc reveal" id="products-home-desc">Una selección rápida de bebidas y ceras que puedes recoger directamente en la barbería.</p>
         </header>
 
-        <div class="products-overview">
-          <article class="product-card reveal" id="producto-agua-fria">
-            <span class="product-tag">Bebidas</span>
-            <h3 class="product-title">Agua fría 50 cl</h3>
-            <p class="product-copy">Perfecta para refrescarte antes o después del corte. Disponible para recogida en tienda.</p>
-            <ul class="product-details" role="list">
-              <li>Botella individual</li>
-              <li>Servida fría</li>
-            </ul>
-            <div class="product-card-footer">
-              <p class="product-price" aria-label="1,50 euros">
-                <span class="price-amount">1,50</span><span class="price-currency" aria-hidden="true">&#8364;</span>
-              </p>
-              <a href="/productos/agua-fria-50cl.html" class="btn btn-service" aria-label="Ver detalles de Agua fría 50 cl">Ver producto</a>
-            </div>
-          </article>
-
-          <article class="product-card reveal" id="producto-bebida-energetica">
-            <span class="product-tag">Bebidas</span>
-            <h3 class="product-title">Bebida energética 25 cl</h3>
-            <p class="product-copy">Una opción rápida para cargar energía mientras esperas o sales listo para seguir el día.</p>
-            <ul class="product-details" role="list">
-              <li>Lata individual</li>
-              <li>Servida fría</li>
-            </ul>
-            <div class="product-card-footer">
-              <p class="product-price" aria-label="2,50 euros">
-                <span class="price-amount">2,50</span><span class="price-currency" aria-hidden="true">&#8364;</span>
-              </p>
-              <a href="/productos/bebida-energetica-25cl.html" class="btn btn-service" aria-label="Ver detalles de Bebida energética 25 cl">Ver producto</a>
-            </div>
-          </article>
-
-          <article class="product-card reveal" id="producto-cera-mate">
-            <span class="product-tag">Ceras</span>
-            <h3 class="product-title">Cera mate profesional</h3>
-            <p class="product-copy">Fijación flexible con acabado natural para mantener el peinado controlado sin brillo excesivo.</p>
-            <ul class="product-details" role="list">
-              <li>Acabado mate</li>
-              <li>Uso diario</li>
-            </ul>
-            <div class="product-card-footer">
-              <p class="product-price" aria-label="9,99 euros">
-                <span class="price-amount">9,99</span><span class="price-currency" aria-hidden="true">&#8364;</span>
-              </p>
-              <a href="/productos/cera-mate-profesional.html" class="btn btn-service" aria-label="Ver detalles de Cera mate profesional">Ver producto</a>
-            </div>
-          </article>
-
-          <article class="product-card reveal" id="producto-cera-brillo">
-            <span class="product-tag">Ceras</span>
-            <h3 class="product-title">Cera brillo profesional</h3>
-            <p class="product-copy">Ideal para peinados más definidos con acabado pulido y control firme durante todo el día.</p>
-            <ul class="product-details" role="list">
-              <li>Acabado con brillo</li>
-              <li>Textura cremosa</li>
-            </ul>
-            <div class="product-card-footer">
-              <p class="product-price" aria-label="9,99 euros">
-                <span class="price-amount">9,99</span><span class="price-currency" aria-hidden="true">&#8364;</span>
-              </p>
-              <a href="/productos/cera-brillo-profesional.html" class="btn btn-service" aria-label="Ver detalles de Cera brillo profesional">Ver producto</a>
-            </div>
-          </article>
-
-          <article class="product-card reveal" id="producto-cera-fijacion-fuerte">
-            <span class="product-tag">Ceras</span>
-            <h3 class="product-title">Cera fijación fuerte</h3>
-            <p class="product-copy">Pensada para estilos exigentes, volumen alto y una fijación más intensa durante horas.</p>
-            <ul class="product-details" role="list">
-              <li>Fijación alta</li>
-              <li>Definición duradera</li>
-            </ul>
-            <div class="product-card-footer">
-              <p class="product-price" aria-label="10,99 euros">
-                <span class="price-amount">10,99</span><span class="price-currency" aria-hidden="true">&#8364;</span>
-              </p>
-              <a href="/productos/cera-fijacion-fuerte.html" class="btn btn-service" aria-label="Ver detalles de Cera fijación fuerte">Ver producto</a>
-            </div>
+        <div class="products-overview" id="products-home-container">
+          <article class="product-card reveal" aria-busy="true">
+            <span class="product-tag">Productos</span>
+            <h3 class="product-title">Cargando productos...</h3>
+            <p class="product-copy">Estamos preparando el catálogo con bebidas, ceras y más referencias de barbería.</p>
           </article>
         </div>
 
@@ -653,6 +579,8 @@
           <span aria-hidden="true">·</span>
           <a href="/productos/" aria-label="Ver la sección de productos">Productos</a>
           <span aria-hidden="true">·</span>
+          <a href="/politicas" aria-label="Ver políticas legales">Políticas legales</a>
+          <span aria-hidden="true">·</span>
           <a href="https://maps.google.com/?q=Avenida+del+Marqués+de+Corbera+37+28017+Madrid" target="_blank" rel="noopener noreferrer" aria-label="Ver en Google Maps">Google Maps</a>
           <span aria-hidden="true">·</span>
           <a href="tel:+34691068660" aria-label="Llamar a Faded Barbershop">+34 691 068 660</a>
@@ -705,6 +633,7 @@
     </svg>
   </button>
 
+  <script src="assets/js/consent.js"></script>
   <script src="assets/js/script.js"></script>
 </body>
 </html>
