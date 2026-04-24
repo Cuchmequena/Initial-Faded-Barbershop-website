@@ -132,7 +132,7 @@ collections:
           - label: "Nombres destacados (tarjeta barberos)"
             name: "whyus_barbers_names"
             widget: "string"
-            default: "Cristian & Jennson"
+            default: "Cristian Viedma & Jennson"
           - label: "Título tarjeta barberos"
             name: "whyus_barbers_title"
             widget: "string"

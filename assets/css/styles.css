@@ -510,6 +510,16 @@ address { font-style: normal; }
   height: 100%;
   object-fit: cover;
   object-position: center center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero-video.is-ready {
+  opacity: 1;
+}
+
+.hero--image-only .hero-media {
+  display: none;
 }
 
 .hero-overlay {
@@ -526,6 +536,7 @@ address { font-style: normal; }
 .hero-content {
   position: relative;
   z-index: 1;
+  width: min(100%, 760px);
   max-width: 760px;
 }
 
@@ -559,6 +570,10 @@ address { font-style: normal; }
   color: var(--color-gray);
   letter-spacing: 0.06em;
   margin-bottom: 16px;
+  max-width: 28ch;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
 }
 
 .hero-text {
@@ -569,6 +584,14 @@ address { font-style: normal; }
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  max-width: 42ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.hero-text > span:first-child {
+  text-wrap: pretty;
 }
 
 .hero-rating {
@@ -576,6 +599,8 @@ address { font-style: normal; }
   align-items: center;
   gap: 8px;
   font-size: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .stars {
@@ -2228,13 +2253,53 @@ address { font-style: normal; }
     --header-h: 64px;
   }
 
+  .hero {
+    min-height: auto;
+    background-position: center center;
+    padding: calc(var(--header-h) + var(--notice-h) + 44px) var(--container-pad) 56px;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 18px;
+    letter-spacing: 0.18em;
+  }
+
+  .hero-logo-h1 {
+    margin-bottom: 18px;
+  }
+
+  .hero-logo-img {
+    width: min(78vw, 340px);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(18px, 5.4vw, 24px);
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .hero-text {
+    max-width: 34ch;
+    margin-bottom: 32px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .hero-rating {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
   .hero-actions {
     flex-direction: column;
     align-items: center;
-  }
-
-  .hero-media {
-    display: none;
+    width: 100%;
+    gap: 12px;
   }
 
   .notice-bar__item {
@@ -2254,6 +2319,10 @@ address { font-style: normal; }
     width: 100%;
     max-width: 320px;
     justify-content: center;
+  }
+
+  .scroll-indicator {
+    bottom: 18px;
   }
 
   .services-grid {

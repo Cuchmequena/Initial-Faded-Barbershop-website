@@ -73,7 +73,7 @@
       "https://www.fadedbarbershopmadrid.com/assets/images/logo.png",
       "https://www.fadedbarbershopmadrid.com/assets/images/hero-bg.jpg"
     ],
-    "description": "Barbería premium en Madrid especializada en fades, degradados y diseños de barba. Barberos expertos Cristian y Jennson en Ciudad Lineal.",
+  "description": "Barbería premium en Madrid especializada en fades, degradados y diseños de barba. Barberos expertos Cristian Viedma y Jennson en Ciudad Lineal.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Avenida del Marqués de Corbera, 37",
@@ -188,13 +188,16 @@
     <section id="inicio" class="hero" aria-label="Sección de bienvenida">
       <div class="hero-media" aria-hidden="true">
         <video class="hero-video"
+               id="heroVideo"
                autoplay
                muted
                loop
                playsinline
-               preload="metadata"
-               poster="assets/images/hero-bg.jpg">
-          <source src="assets/images/C0538_3.mp4" type="video/mp4">
+               preload="none"
+               poster="assets/images/hero-bg.jpg"
+               data-desktop-src="assets/images/hero-desktop.mp4"
+               data-mobile-src="assets/images/hero-mobile.mp4">
+          <source type="video/mp4">
         </video>
       </div>
       <div class="hero-overlay" aria-hidden="true"></div>
@@ -262,7 +265,7 @@
                 <line x1="8.12" y1="8.12" x2="12" y2="12"/>
               </svg>
             </div>
-            <div class="feature-number" id="whyusBarbersNames">Cristian & Jennson</div>
+            <div class="feature-number" id="whyusBarbersNames">Cristian Viedma & Jennson</div>
             <h3 class="feature-title" id="whyusBarbersTitle">Barberos Expertos</h3>
             <p class="feature-desc" id="whyusBarbersText">Barberos expertos en cortes modernos, fades, barbas y asesoramiento personalizado.</p>
           </article>
