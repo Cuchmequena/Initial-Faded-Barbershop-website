@@ -1752,6 +1752,52 @@ address { font-style: normal; }
   opacity: 1;
 }
 
+/* 16b. Google Reviews Float
+   ============================================================ */
+.google-review-float {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 900;
+  width: 56px;
+  height: 56px;
+  background: #4285F4;
+  color: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(66, 133, 244, 0.35);
+  transition: transform var(--transition), box-shadow var(--transition);
+  opacity: 1;
+}
+
+.google-review-float:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(66, 133, 244, 0.5);
+  opacity: 1;
+}
+
+.google-review-tooltip {
+  position: absolute;
+  left: 66px;
+  background: var(--color-dark);
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 6px 14px;
+  border: var(--border-subtle);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+  transform: translateX(-4px);
+}
+
+.google-review-float:hover .google-review-tooltip {
+  opacity: 1;
+}
+
 /* 17. Scroll to Top
    ============================================================ */
 .scroll-top {
@@ -1983,6 +2029,11 @@ address { font-style: normal; }
     right: 20px;
   }
 
+  .google-review-float {
+    bottom: 20px;
+    left: 20px;
+  }
+
   .scroll-top {
     bottom: 84px;
     right: 20px;
@@ -2037,6 +2088,7 @@ address { font-style: normal; }
    ============================================================ */
 @media print {
   #header,
+  .google-review-float,
   .whatsapp-float,
   .scroll-top,
   .hero-actions,
