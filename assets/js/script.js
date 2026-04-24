@@ -5,6 +5,8 @@ const DEFAULT_WHATSAPP_URL = 'https://wa.me/34603147958';
 let WHATSAPP_URL = DEFAULT_WHATSAPP_URL;
 const DEFAULT_INSTAGRAM_URL = 'https://www.instagram.com/faded_madrid';
 const DEFAULT_MAPS_URL = 'https://maps.google.com/?q=Avenida+del+Marqu%C3%A9s+de+Corbera+37+28017+Madrid';
+const DEFAULT_MAPS_EMBED_URL = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.2639827962234!2d-3.655646222679194!3d40.425153155124505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422f5782226aa5%3A0x3b4774988cc92781!2sFADED%20Barbershop!5e0!3m2!1ses!2ses!4v1776785159189!5m2!1ses!2ses';
+const DEFAULT_GOOGLE_REVIEW_URL = 'https://g.page/r/CYEnyYyYdEc7EBM/review';
 const DEFAULT_PHONE_HREF = 'tel:+34691068660';
 const DEFAULT_EMAIL = 'administracion@cuchmequena.com';
 const DEFAULT_CONFIG = {
@@ -21,6 +23,8 @@ const DEFAULT_CONFIG = {
   address_street: 'Avenida del Marqués de Corbera, 37',
   address_city: '28017 Madrid (Ciudad Lineal)',
   maps_url: DEFAULT_MAPS_URL,
+  maps_embed_url: DEFAULT_MAPS_EMBED_URL,
+  google_review_url: DEFAULT_GOOGLE_REVIEW_URL,
   hours_weekdays_label: 'Lunes — Sábado',
   hours_weekdays_time: '11:00 — 21:30',
   hours_weekend_label: 'Domingo',
@@ -118,6 +122,8 @@ function normalizeConfig(config) {
   merged.address_street = safeTrim(merged.address_street, DEFAULT_CONFIG.address_street);
   merged.address_city = safeTrim(merged.address_city, DEFAULT_CONFIG.address_city);
   merged.maps_url = safeTrim(merged.maps_url, DEFAULT_CONFIG.maps_url);
+  merged.maps_embed_url = safeTrim(merged.maps_embed_url, DEFAULT_CONFIG.maps_embed_url);
+  merged.google_review_url = safeTrim(merged.google_review_url, DEFAULT_CONFIG.google_review_url);
   merged.hours_weekdays_label = safeTrim(merged.hours_weekdays_label, DEFAULT_CONFIG.hours_weekdays_label);
   merged.hours_weekdays_time = safeTrim(merged.hours_weekdays_time, DEFAULT_CONFIG.hours_weekdays_time);
   merged.hours_weekend_label = safeTrim(merged.hours_weekend_label, DEFAULT_CONFIG.hours_weekend_label);
@@ -585,6 +591,8 @@ function applyConfig(configData) {
   setText('contactAddressStreet', config.address_street);
   setText('contactAddressCity', config.address_city);
   setAttr('contactMapsLink', 'href', config.maps_url);
+  setAttr('contactMapEmbed', 'src', config.maps_embed_url);
+  setAttr('googleReviewLink', 'href', config.google_review_url);
 
   setText('contactPhoneText', config.phone);
   setAttr('contactPhoneLink', 'href', config.phone_href);
@@ -817,6 +825,64 @@ function renderProductsPage(products) {
   revealNow(container.querySelectorAll('.reveal'));
 }
 
+function deriveClickContext(link) {
+  if (!link) return 'site';
+  if (link.dataset && link.dataset.trackContext) return link.dataset.trackContext;
+  if (link.id === 'contactWhatsappLink') return 'contact_whatsapp';
+  if (link.id === 'contactMapsLink') return 'contact_maps';
+  if (link.id === 'productsWhatsappButton') return 'products_page_whatsapp';
+  if (link.id === 'productsMapsButton') return 'products_page_maps';
+  if (link.classList.contains('nav-cta')) return 'header_cta';
+  if (link.classList.contains('google-review-float')) return 'review_float';
+  if (link.classList.contains('whatsapp-float')) return 'whatsapp_float';
+  if (link.closest('.hero-actions')) return 'hero_cta';
+  if (link.closest('.services-cta')) return 'services_cta';
+  if (link.closest('.contact-actions')) return 'contact_cta';
+  if (link.closest('.product-card')) return 'product_card';
+  if (link.closest('.product-page-actions')) return 'product_detail';
+  if (link.closest('.footer-social')) return 'footer_social';
+  if (link.closest('.footer-nav')) return 'footer_nav';
+  if (link.closest('.info-block')) return 'contact_info';
+  return 'site';
+}
+
+function deriveLinkedItem(link) {
+  const serviceCard = link.closest('.service-card');
+  if (serviceCard) {
+    const serviceName = serviceCard.querySelector('.service-name');
+    const servicePrice = serviceCard.querySelector('.service-price');
+    return {
+      item_name: serviceName ? serviceName.textContent.trim() : '',
+      value: servicePrice ? extractPriceValue(servicePrice.textContent) : 0,
+      item_type: 'service',
+    };
+  }
+
+  const productCard = link.closest('.product-card');
+  if (productCard) {
+    const productName = productCard.querySelector('.product-title');
+    const productPrice = productCard.querySelector('.product-price');
+    return {
+      item_name: productName ? productName.textContent.trim() : '',
+      value: productPrice ? extractPriceValue(productPrice.textContent) : 0,
+      item_type: 'product',
+    };
+  }
+
+  const productSurface = link.closest('.product-surface');
+  if (productSurface) {
+    const pageTitle = productSurface.querySelector('.product-page-title');
+    const pagePrice = productSurface.querySelector('.product-page-price');
+    return {
+      item_name: pageTitle ? pageTitle.textContent.trim() : '',
+      value: pagePrice ? extractPriceValue(pagePrice.textContent) : 0,
+      item_type: 'product',
+    };
+  }
+
+  return {};
+}
+
 function setupTrackingDelegation() {
   document.addEventListener('click', (event) => {
     const serviceBtn = event.target.closest('.js-track-service');
@@ -832,7 +898,85 @@ function setupTrackingDelegation() {
       const price = Number.parseFloat(productBtn.dataset.productPrice || '0') || 0;
       window.FadedTracking.trackSumUpClick(name, price);
     }
+
+    const booksyLink = event.target.closest('a[href*="booksy.com"]');
+    if (booksyLink && window.FadedTracking && typeof window.FadedTracking.trackBooksyClick === 'function') {
+      window.FadedTracking.trackBooksyClick({
+        context: deriveClickContext(booksyLink),
+        link_url: booksyLink.href,
+        link_text: safeTrim(booksyLink.textContent),
+        item_name: deriveLinkedItem(booksyLink).item_name || '',
+      });
+    }
+
+    const whatsappLink = event.target.closest('a[href*="wa.me"]');
+    if (whatsappLink && window.FadedTracking && typeof window.FadedTracking.trackWhatsAppClick === 'function') {
+      const item = deriveLinkedItem(whatsappLink);
+      window.FadedTracking.trackWhatsAppClick({
+        context: deriveClickContext(whatsappLink),
+        link_url: whatsappLink.href,
+        link_text: safeTrim(whatsappLink.textContent),
+        item_name: item.item_name || '',
+        item_type: item.item_type || '',
+        value: item.value || 0,
+      });
+    }
+
+    const reviewLink = event.target.closest('a[href*="/review"], a.google-review-float');
+    if (reviewLink && window.FadedTracking && typeof window.FadedTracking.trackReviewClick === 'function') {
+      window.FadedTracking.trackReviewClick({
+        context: deriveClickContext(reviewLink),
+        link_url: reviewLink.href,
+      });
+    }
+
+    const mapsLink = event.target.closest('a[href*="maps.google.com"]');
+    if (mapsLink && window.FadedTracking && typeof window.FadedTracking.trackMapsClick === 'function') {
+      window.FadedTracking.trackMapsClick({
+        context: deriveClickContext(mapsLink),
+        link_url: mapsLink.href,
+      });
+    }
+
+    const phoneLink = event.target.closest('a[href^="tel:"]');
+    if (phoneLink && window.FadedTracking && typeof window.FadedTracking.trackPhoneClick === 'function') {
+      window.FadedTracking.trackPhoneClick({
+        context: deriveClickContext(phoneLink),
+        link_url: phoneLink.href,
+        link_text: safeTrim(phoneLink.textContent),
+      });
+    }
+
+    const emailLink = event.target.closest('a[href^="mailto:"]');
+    if (emailLink && window.FadedTracking && typeof window.FadedTracking.trackEmailClick === 'function') {
+      window.FadedTracking.trackEmailClick({
+        context: deriveClickContext(emailLink),
+        link_url: emailLink.href,
+        link_text: safeTrim(emailLink.textContent),
+      });
+    }
   });
+}
+
+function setupMapInteractionTracking() {
+  const mapBlock = document.querySelector('.location-map');
+  if (!mapBlock) return;
+
+  let tracked = false;
+  const markInteraction = () => {
+    if (tracked) return;
+    tracked = true;
+    if (window.FadedTracking && typeof window.FadedTracking.trackMapInteraction === 'function') {
+      window.FadedTracking.trackMapInteraction({
+        context: 'embedded_map',
+        link_url: mapBlock.querySelector('iframe') ? mapBlock.querySelector('iframe').src : '',
+      });
+    }
+  };
+
+  mapBlock.addEventListener('pointerdown', markInteraction, { passive: true });
+  mapBlock.addEventListener('touchstart', markInteraction, { passive: true });
+  mapBlock.addEventListener('focusin', markInteraction);
 }
 
 function setupHeaderState() {
@@ -997,6 +1141,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHamburger();
   setupScrollTop();
   setupTrackingDelegation();
+  setupMapInteractionTracking();
   setupLightbox();
   syncNoticeOffset();
   window.addEventListener('resize', syncNoticeOffset, { passive: true });

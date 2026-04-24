@@ -226,6 +226,16 @@ collections:
           - label: "Enlace a Google Maps"
             name: "maps_url"
             widget: "string"
+          - label: "Mapa embebido de Google"
+            name: "maps_embed_url"
+            widget: "string"
+            required: false
+            hint: "Pega aquí la URL del iframe de Google Maps para el mapa incrustado de la home."
+          - label: "URL para dejar reseña en Google"
+            name: "google_review_url"
+            widget: "string"
+            required: false
+            hint: "Enlace directo a la ficha de Google para dejar reseña."
 
           - label: "— HORARIO —"
             name: "hours_label"

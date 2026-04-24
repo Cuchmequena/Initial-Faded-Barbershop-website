@@ -11,6 +11,42 @@
   var GA_ID    = 'G-J77W6XTWVN';
   var PIXEL_ID = '954925092429846';
 
+  function trimValue(value) {
+    return typeof value === 'string' ? value.trim() : '';
+  }
+
+  function getConsentState() {
+    return window.FadedConsent ? window.FadedConsent.getPreferences() : {};
+  }
+
+  function trackGA(eventName, params) {
+    if (!window.gtag || !eventName) return;
+    window.gtag('event', eventName, params || {});
+  }
+
+  function trackMetaStandard(eventName, params) {
+    if (!window.fbq || !eventName) return;
+    window.fbq('track', eventName, params || {});
+  }
+
+  function trackMetaCustom(eventName, params) {
+    if (!window.fbq || !eventName) return;
+    window.fbq('trackCustom', eventName, params || {});
+  }
+
+  function withCommonParams(params) {
+    var next = Object.assign({
+      page_path: window.location.pathname,
+      page_title: document.title || '',
+    }, params || {});
+
+    Object.keys(next).forEach(function (key) {
+      if (next[key] == null || next[key] === '') delete next[key];
+    });
+
+    return next;
+  }
+
   /* ── 1. Google Analytics 4 ── */
   function loadGA4() {
     if (window._fadedGA4 || !GA_ID) return;
@@ -150,11 +186,11 @@
      Ahora también aplica si el consentimiento ya estaba dado pero
      los scripts aún no se han cargado (ej: recarga de página). */
   function applyConfig(config) {
-    if (config.ga4_id)       GA_ID    = config.ga4_id;
-    if (config.meta_pixel_id) PIXEL_ID = config.meta_pixel_id;
+    if ('ga4_id' in config)       GA_ID    = trimValue(config.ga4_id);
+    if ('meta_pixel_id' in config) PIXEL_ID = trimValue(config.meta_pixel_id);
 
     /* Si el usuario ya dio consentimiento, cargar ahora con los IDs actualizados */
-    var prefs      = window.FadedConsent ? window.FadedConsent.getPreferences() : {};
+    var prefs      = getConsentState();
     var hasDecided = ('analytics' in prefs) || ('marketing' in prefs);
     if (hasDecided) {
       /* Resetear flags para forzar recarga con IDs correctos si aún no se cargaron */
@@ -165,6 +201,14 @@
 
   /* ── 7. Tracking de conversiones SumUp ── */
   function trackSumUpClick(productName, price) {
+    var params = withCommonParams({
+      currency: 'EUR',
+      value: price,
+      item_name: productName,
+      content_name: productName,
+      content_type: 'product',
+    });
+
     if (window.gtag) {
       window.gtag('event', 'begin_checkout', {
         currency: 'EUR', value: price,
@@ -172,14 +216,19 @@
       });
     }
     if (window.fbq) {
-      window.fbq('track', 'InitiateCheckout', {
-        currency: 'EUR', value: price,
-        content_name: productName, content_type: 'product',
-      });
+      trackMetaStandard('InitiateCheckout', params);
     }
   }
 
   function trackServiceClick(serviceName, price) {
+    var params = withCommonParams({
+      currency: 'EUR',
+      value: price,
+      item_name: serviceName,
+      content_name: serviceName,
+      content_type: 'service',
+    });
+
     if (window.gtag) {
       window.gtag('event', 'begin_checkout', {
         currency: 'EUR', value: price,
@@ -187,15 +236,110 @@
       });
     }
     if (window.fbq) {
-      window.fbq('track', 'InitiateCheckout', {
-        currency: 'EUR', value: price,
-        content_name: serviceName, content_type: 'service',
-      });
+      trackMetaStandard('InitiateCheckout', params);
     }
   }
 
+  function trackBooksyClick(details) {
+    var params = withCommonParams(Object.assign({
+      destination: 'booksy',
+      outbound: true,
+    }, details || {}));
+
+    trackGA('booksy_click', params);
+    trackMetaCustom('BooksyClick', params);
+  }
+
+  function trackWhatsAppClick(details) {
+    var params = withCommonParams(Object.assign({
+      method: 'whatsapp',
+      outbound: true,
+    }, details || {}));
+
+    trackGA('generate_lead', params);
+    trackGA('whatsapp_click', params);
+    trackMetaStandard('Contact', params);
+    trackMetaCustom('WhatsAppClick', params);
+  }
+
+  function trackPhoneClick(details) {
+    var params = withCommonParams(Object.assign({
+      method: 'phone',
+      outbound: false,
+    }, details || {}));
+
+    trackGA('generate_lead', params);
+    trackGA('phone_click', params);
+    trackMetaStandard('Contact', params);
+    trackMetaCustom('PhoneClick', params);
+  }
+
+  function trackEmailClick(details) {
+    var params = withCommonParams(Object.assign({
+      method: 'email',
+      outbound: false,
+    }, details || {}));
+
+    trackGA('generate_lead', params);
+    trackGA('email_click', params);
+    trackMetaStandard('Contact', params);
+    trackMetaCustom('EmailClick', params);
+  }
+
+  function trackReviewClick(details) {
+    var params = withCommonParams(Object.assign({
+      destination: 'google_review',
+      outbound: true,
+    }, details || {}));
+
+    trackGA('review_click', params);
+    trackMetaCustom('ReviewClick', params);
+  }
+
+  function trackMapsClick(details) {
+    var params = withCommonParams(Object.assign({
+      destination: 'google_maps',
+      outbound: true,
+    }, details || {}));
+
+    trackGA('map_click', params);
+    trackMetaCustom('MapClick', params);
+  }
+
+  function trackMapInteraction(details) {
+    var params = withCommonParams(Object.assign({
+      interaction_type: 'embedded_map',
+    }, details || {}));
+
+    trackGA('map_interaction', params);
+    trackMetaCustom('MapInteraction', params);
+  }
+
+  function getDebugInfo() {
+    return {
+      gaId: GA_ID || '',
+      pixelId: PIXEL_ID || '',
+      consent: getConsentState(),
+      gaLoaded: Boolean(window._fadedGA4),
+      pixelLoaded: Boolean(window._fadedPixel),
+      hasGtag: typeof window.gtag === 'function',
+      hasFbq: typeof window.fbq === 'function',
+    };
+  }
+
   /* API pública */
-  window.FadedTracking  = { trackSumUpClick, trackServiceClick };
+  window.FadedTracking  = {
+    trackSumUpClick: trackSumUpClick,
+    trackServiceClick: trackServiceClick,
+    trackBooksyClick: trackBooksyClick,
+    trackWhatsAppClick: trackWhatsAppClick,
+    trackPhoneClick: trackPhoneClick,
+    trackEmailClick: trackEmailClick,
+    trackReviewClick: trackReviewClick,
+    trackMapsClick: trackMapsClick,
+    trackMapInteraction: trackMapInteraction,
+    getDebugInfo: getDebugInfo,
+  };
   window.FadedAnalytics = { applyConfig };
 
   /* ── 8. Inicialización ── */
