@@ -979,6 +979,104 @@ function setupMapInteractionTracking() {
   mapBlock.addEventListener('focusin', markInteraction);
 }
 
+function setupHeroMedia() {
+  const hero = document.querySelector('.hero');
+  const video = document.getElementById('heroVideo');
+  if (!hero || !video) return;
+
+  const desktopSrc = safeTrim(video.dataset.desktopSrc);
+  const mobileSrc = safeTrim(video.dataset.mobileSrc, desktopSrc);
+  const source = video.querySelector('source') || document.createElement('source');
+  const mobileQuery = window.matchMedia('(max-width: 640px)');
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  let currentSrc = safeTrim(source.getAttribute('src'));
+
+  if (!source.parentNode) {
+    source.type = 'video/mp4';
+    video.appendChild(source);
+  }
+
+  const syncReadyState = () => {
+    const isReady = video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+    video.classList.toggle('is-ready', isReady && !hero.classList.contains('hero--image-only'));
+  };
+
+  const disableVideo = () => {
+    hero.classList.add('hero--image-only');
+    video.classList.remove('is-ready');
+    video.pause();
+    if (currentSrc || source.getAttribute('src')) {
+      source.removeAttribute('src');
+      currentSrc = '';
+      video.load();
+    }
+  };
+
+  const enableVideo = (nextSrc) => {
+    if (!nextSrc) {
+      disableVideo();
+      return;
+    }
+
+    hero.classList.remove('hero--image-only');
+    video.muted = true;
+    video.defaultMuted = true;
+
+    if (nextSrc !== currentSrc) {
+      currentSrc = nextSrc;
+      source.setAttribute('src', nextSrc);
+      video.classList.remove('is-ready');
+      video.load();
+    }
+
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {
+        hero.classList.add('hero--image-only');
+      });
+    }
+  };
+
+  const updateHeroMedia = () => {
+    const saveDataEnabled = Boolean(connection && connection.saveData);
+    const effectiveType = safeTrim(connection && connection.effectiveType);
+    const slowConnection = /(?:^|-)2g$|^3g$/i.test(effectiveType);
+    const shouldUseVideo = !reducedMotionQuery.matches && !saveDataEnabled && !slowConnection;
+    const nextSrc = mobileQuery.matches ? (mobileSrc || desktopSrc) : desktopSrc;
+
+    if (!shouldUseVideo) {
+      disableVideo();
+      return;
+    }
+
+    enableVideo(nextSrc);
+  };
+
+  video.addEventListener('loadeddata', syncReadyState);
+  video.addEventListener('canplay', syncReadyState);
+  video.addEventListener('playing', syncReadyState);
+  video.addEventListener('error', disableVideo);
+
+  const onMediaChange = () => {
+    updateHeroMedia();
+  };
+
+  updateHeroMedia();
+
+  if (typeof mobileQuery.addEventListener === 'function') {
+    mobileQuery.addEventListener('change', onMediaChange);
+    reducedMotionQuery.addEventListener('change', onMediaChange);
+  } else {
+    mobileQuery.addListener(onMediaChange);
+    reducedMotionQuery.addListener(onMediaChange);
+  }
+
+  if (connection && typeof connection.addEventListener === 'function') {
+    connection.addEventListener('change', onMediaChange);
+  }
+}
+
 function setupHeaderState() {
   const header = document.getElementById('header');
   if (!header) return;
@@ -1140,6 +1238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHeaderState();
   setupHamburger();
   setupScrollTop();
+  setupHeroMedia();
   setupTrackingDelegation();
   setupMapInteractionTracking();
   setupLightbox();
