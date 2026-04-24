@@ -10,12 +10,17 @@
   "gallery_desc": "Cada corte es una obra de arte. Mira lo que hacemos.",
   "team_eyebrow": "Las personas detrás del arte",
   "team_title": "NUESTRO EQUIPO",
-  "team_desc": "Nuestros barberos son auténticos artistas",
+  "team_desc": "Nuestros barberos Cristian y Jennson son auténticos artistas, especializados en degradados, diseños personalizados, barbas y acabados premium.",
   "loyalty_text": "Te entregamos una tarjeta de descuento en tu primera visita. Acumula visitas y cuando llegues al quinto corte...",
   "loyalty_highlight": "Cada 5 cortes → El 6º GRATIS",
   "loyalty_sub": "Porque los mejores clientes merecen los mejores premios",
   "whyus_reviews_desc": "Puntuación perfecta 5.0/5.0 verificada por nuestros clientes",
   "whyus_barbers_title": "Barberos Expertos",
   "whyus_barbers_desc": "Auténticos artistas del corte y el diseño",
-  "whyus_loyalty_desc": "Primera visita: tarjeta de descuento. Cada 5 cortes, el 6º completamente gratis"
+  "whyus_barbers_names": "Cristian & Jennson",
+  "whyus_barbers_text": "Barberos expertos en cortes modernos, fades, barbas y asesoramiento personalizado.",
+  "whyus_loyalty_desc": "Primera visita: tarjeta de descuento. Cada 5 cortes, el 6º completamente gratis",
+  "whyus_reviews_title": "Reseñas 5 Estrellas",
+  "whyus_loyalty_number": "5 → 1 Gratis",
+  "whyus_loyalty_title": "Programa Fidelidad"
 }

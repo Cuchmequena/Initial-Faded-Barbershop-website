@@ -280,16 +280,51 @@ collections:
             required: false
             hint: "Separadas por comas. Ej: barbería madrid, fade madrid, corte degradado"
           - label: "URL canónica del sitio"
-            name: "canonical_base"
+            name: "canonical_url"
             widget: "string"
-            hint: "Ej: https://www.fadedbarbershopmadrid.com"
+            hint: "Ej: https://www.fadedbarbershopmadrid.com/"
+
+          - label: "— OPEN GRAPH (redes sociales) —"
+            name: "og_label"
+            widget: "hidden"
+            default: ""
+          - label: "Título Open Graph"
+            name: "og_title"
+            widget: "string"
+            required: false
+            hint: "Título que aparece al compartir en Facebook/WhatsApp. Ej: Faded Barbershop | Barbería en Madrid"
+          - label: "Descripción Open Graph"
+            name: "og_description"
+            widget: "text"
+            required: false
+            hint: "Texto que aparece bajo el título al compartir. Máximo 200 caracteres."
           - label: "Imagen Open Graph (para redes sociales)"
             name: "og_image"
             widget: "image"
             required: false
             hint: "Imagen que aparece al compartir en WhatsApp, Facebook, etc. 1200×630px recomendado."
+
+          - label: "— TWITTER / X —"
+            name: "twitter_label"
+            widget: "hidden"
+            default: ""
+          - label: "Título Twitter"
+            name: "twitter_title"
+            widget: "string"
+            required: false
+            hint: "Título para Twitter/X. Ej: Faded Barbershop Madrid | Barbería Premium"
+          - label: "Descripción Twitter"
+            name: "twitter_description"
+            widget: "string"
+            required: false
+            hint: "Texto breve para Twitter/X. Máximo 200 caracteres."
+
+          - label: "— PREGUNTAS FRECUENTES —"
+            name: "faq_label"
+            widget: "hidden"
+            default: ""
           - label: "Preguntas frecuentes (FAQ para Google)"
-            name: "faq"
+            name: "faqs"
             widget: "list"
             label_singular: "Pregunta"
             required: false

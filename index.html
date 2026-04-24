@@ -73,7 +73,7 @@
       "https://www.fadedbarbershopmadrid.com/assets/images/logo.png",
       "https://www.fadedbarbershopmadrid.com/assets/images/hero-bg.jpg"
     ],
-    "description": "Barbería premium en Madrid especializada en fades, degradados y diseños de barba. Barberos expertos Edu y Christian en Ciudad Lineal.",
+    "description": "Barbería premium en Madrid especializada en fades, degradados y diseños de barba. Barberos expertos Cristian y Jennson en Ciudad Lineal.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Avenida del Marqués de Corbera, 37",
@@ -197,7 +197,7 @@
                loading="eager">
         </h1>
         <p class="hero-subtitle animate-hero" id="hero-subtitle">Somos especialistas en dejarte impecable</p>
-        <p class="hero-text animate-hero">
+        <p class="hero-text animate-hero" id="hero-text">
           Cortes fade, degradados y diseños de precisión.
           <span class="hero-rating" aria-label="5 estrellas, 119 reseñas">
             <span class="stars" aria-hidden="true">★★★★★</span> 5.0 · 119 reseñas
@@ -235,8 +235,8 @@
             <div class="feature-number" aria-label="119 reseñas con valoración 5 estrellas">
               <span class="counter" data-target="119">0</span><span>+</span>
             </div>
-            <h3 class="feature-title">Reseñas 5 Estrellas</h3>
-            <p class="feature-desc">Puntuación perfecta 5.0/5.0 verificada por nuestros clientes</p>
+            <h3 class="feature-title" id="whyusReviewsTitle">Reseñas 5 Estrellas</h3>
+            <p class="feature-desc" id="whyusReviewsDesc">Puntuación perfecta 5.0/5.0 verificada por nuestros clientes</p>
           </article>
 
           <article class="feature-card reveal">
@@ -249,9 +249,9 @@
                 <line x1="8.12" y1="8.12" x2="12" y2="12"/>
               </svg>
             </div>
-            <div class="feature-number">Edu & Christian</div>
-            <h3 class="feature-title">Barberos Expertos</h3>
-            <p class="feature-desc">Nuestros barberos son auténticos artistas del corte y el diseño</p>
+            <div class="feature-number" id="whyusBarbersNames">Cristian & Jennson</div>
+            <h3 class="feature-title" id="whyusBarbersTitle">Barberos Expertos</h3>
+            <p class="feature-desc" id="whyusBarbersText">Barberos expertos en cortes modernos, fades, barbas y asesoramiento personalizado.</p>
           </article>
 
           <article class="feature-card reveal">
@@ -264,9 +264,9 @@
                 <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
               </svg>
             </div>
-            <div class="feature-number">5 → 1 Gratis</div>
-            <h3 class="feature-title">Programa Fidelidad</h3>
-            <p class="feature-desc">Primera visita: tarjeta de descuento. Cada 5 cortes, el 6º completamente gratis</p>
+            <div class="feature-number" id="whyusLoyaltyNumber">5 → 1 Gratis</div>
+            <h3 class="feature-title" id="whyusLoyaltyTitle">Programa Fidelidad</h3>
+            <p class="feature-desc" id="whyusLoyaltyDesc">Primera visita: tarjeta de descuento. Cada 5 cortes, el 6º completamente gratis</p>
           </article>
 
         </div>
@@ -277,9 +277,9 @@
     <section id="servicios" class="services" aria-label="Nuestros servicios">
       <div class="container">
         <header class="section-header">
-          <p class="section-eyebrow reveal">Lo que hacemos</p>
-          <h2 class="section-title reveal">NUESTROS SERVICIOS</h2>
-          <p class="section-desc reveal">No es solo un corte, es una experiencia premium</p>
+          <p class="section-eyebrow reveal" id="services-eyebrow">Lo que hacemos</p>
+          <h2 class="section-title reveal" id="services-title">NUESTROS SERVICIOS</h2>
+          <p class="section-desc reveal" id="services-desc">No es solo un corte, es una experiencia premium</p>
         </header>
 
         <!-- Servicios renderizados desde _data/services.json -->
@@ -331,9 +331,9 @@
     <section id="galeria" class="gallery" aria-label="Galería de trabajos">
       <div class="container">
         <header class="section-header">
-          <p class="section-eyebrow reveal">Nuestro trabajo</p>
-          <h2 class="section-title reveal">RESULTADOS REALES</h2>
-          <p class="section-desc reveal">Cada corte es una obra de arte. Mira lo que hacemos.</p>
+          <p class="section-eyebrow reveal" id="gallery-eyebrow">Nuestro trabajo</p>
+          <h2 class="section-title reveal" id="gallery-title">RESULTADOS REALES</h2>
+          <p class="section-desc reveal" id="gallery-desc">Cada corte es una obra de arte. Mira lo que hacemos.</p>
         </header>
 
         <div class="gallery-grid" id="gallery-container" role="list" aria-label="Galería de cortes y estilos">
@@ -384,9 +384,9 @@
     <section id="equipo" class="team" aria-label="Nuestro equipo">
       <div class="container">
         <header class="section-header">
-          <p class="section-eyebrow reveal">Las personas detrás del arte</p>
-          <h2 class="section-title reveal">NUESTRO EQUIPO</h2>
-          <p class="section-desc reveal">Nuestros barberos Edu y Christian son auténticos artistas</p>
+          <p class="section-eyebrow reveal" id="team-eyebrow">Las personas detrás del arte</p>
+          <h2 class="section-title reveal" id="team-title">NUESTRO EQUIPO</h2>
+          <p class="section-desc reveal" id="teamDesc">Nuestros barberos Cristian y Jennson son auténticos artistas, especializados en degradados, diseños personalizados, barbas y acabados premium.</p>
         </header>
 
         <div class="team-grid" id="team-container">

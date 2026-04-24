@@ -6,8 +6,8 @@
 'use strict';
 
 (function FadedAnalytics() {
-  /* IDs por defecto — se sobreescriben con los valores de config.json
-     si el admin los cambia desde /admin (sección Configuración) */
+
+  /* IDs por defecto — sobreescribibles desde config.json vía /admin */
   var GA_ID    = 'G-J77W6XTWVN';
   var PIXEL_ID = '954925092429846';
 
@@ -18,7 +18,7 @@
 
     var s = document.createElement('script');
     s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    s.src   = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
     document.head.appendChild(s);
 
     window.dataLayer = window.dataLayer || [];
@@ -47,13 +47,13 @@
     window.fbq('track', 'PageView');
   }
 
-  /* ── 3. Aplicar preferencias ── */
+  /* ── 3. Aplicar preferencias de consentimiento ── */
   function applyConsent(prefs) {
     if (prefs.analytics) loadGA4();
     if (prefs.marketing) loadPixel();
   }
 
-  /* ── 4. Guardar y aplicar ── */
+  /* ── 4. Aceptar / rechazar cookies ── */
   function acceptAll() {
     var prefs = { analytics: true, marketing: true };
     if (window.FadedConsent) window.FadedConsent.setPreferences(prefs);
@@ -72,19 +72,25 @@
     var b = document.getElementById('faded-cookie-banner');
     if (b) {
       b.style.transition = 'opacity .3s, transform .3s';
-      b.style.opacity = '0';
-      b.style.transform = 'translateY(100%)';
+      b.style.opacity    = '0';
+      b.style.transform  = 'translateY(100%)';
       setTimeout(function () { if (b.parentNode) b.parentNode.removeChild(b); }, 350);
     }
   }
 
+  function getBannerBottomOffset() {
+    /* Si el ticker de avisos está activo, el banner sube para no solaparse */
+    var ticker = document.getElementById('faded-notice-bar');
+    return ticker ? (ticker.offsetHeight || 44) : 0;
+  }
+
   function injectBannerStyles() {
     if (document.getElementById('faded-cookie-banner-styles')) return;
-    var style = document.createElement('style');
-    style.id = 'faded-cookie-banner-styles';
+    var style    = document.createElement('style');
+    style.id     = 'faded-cookie-banner-styles';
     style.textContent = [
       '#faded-cookie-banner{',
-        'position:fixed;bottom:0;left:0;right:0;z-index:9999;',
+        'position:fixed;left:0;right:0;z-index:9999;',
         'background:#0a0a0a;border-top:1px solid #c9a84c;',
         'padding:1rem 1.5rem;',
         'animation:fcb-up .35s ease;',
@@ -114,10 +120,13 @@
     if (document.getElementById('faded-cookie-banner')) return;
     injectBannerStyles();
 
+    var offset = getBannerBottomOffset();
+
     var banner = document.createElement('div');
-    banner.id = 'faded-cookie-banner';
-    banner.setAttribute('role', 'dialog');
+    banner.id  = 'faded-cookie-banner';
+    banner.setAttribute('role',       'dialog');
     banner.setAttribute('aria-label', 'Gestión de cookies');
+    banner.style.bottom = offset + 'px';
     banner.innerHTML =
       '<div class="fcb-inner">' +
         '<p class="fcb-text">' +
@@ -136,29 +145,21 @@
     document.getElementById('fcb-accept-ess').addEventListener('click', acceptEssentials);
   }
 
-  /* ── 6. Recibir IDs actualizados desde config.json (vía script.js) ──
-     script.js llama a window.FadedAnalytics.applyConfig(config) después
-     de cargar _data/config.json, permitiendo cambiar los IDs desde /admin
-     sin tocar el código. */
+  /* ── 6. Recibir IDs desde config.json (vía script.js → /admin) ──
+     CORRECCIÓN: antes solo aplicaba si los IDs *cambiaban*.
+     Ahora también aplica si el consentimiento ya estaba dado pero
+     los scripts aún no se han cargado (ej: recarga de página). */
   function applyConfig(config) {
-    var changed = false;
+    if (config.ga4_id)       GA_ID    = config.ga4_id;
+    if (config.meta_pixel_id) PIXEL_ID = config.meta_pixel_id;
 
-    if (config.ga4_id && config.ga4_id !== GA_ID) {
-      GA_ID = config.ga4_id;
-      window._fadedGA4 = false; /* Resetear para permitir recargar con nuevo ID */
-      changed = true;
-    }
-    if (config.meta_pixel_id && config.meta_pixel_id !== PIXEL_ID) {
-      PIXEL_ID = config.meta_pixel_id;
-      window._fadedPixel = false;
-      changed = true;
-    }
-
-    /* Si el consentimiento ya estaba dado y los IDs cambiaron, cargar ahora */
-    if (changed) {
-      var prefs = window.FadedConsent ? window.FadedConsent.getPreferences() : {};
-      var hasDecided = ('analytics' in prefs) || ('marketing' in prefs);
-      if (hasDecided) applyConsent(prefs);
+    /* Si el usuario ya dio consentimiento, cargar ahora con los IDs actualizados */
+    var prefs      = window.FadedConsent ? window.FadedConsent.getPreferences() : {};
+    var hasDecided = ('analytics' in prefs) || ('marketing' in prefs);
+    if (hasDecided) {
+      /* Resetear flags para forzar recarga con IDs correctos si aún no se cargaron */
+      if (prefs.analytics && !window._fadedGA4)    loadGA4();
+      if (prefs.marketing && !window._fadedPixel)  loadPixel();
     }
   }
 
@@ -166,17 +167,14 @@
   function trackSumUpClick(productName, price) {
     if (window.gtag) {
       window.gtag('event', 'begin_checkout', {
-        currency: 'EUR',
-        value: price,
+        currency: 'EUR', value: price,
         items: [{ item_name: productName, price: price, quantity: 1 }],
       });
     }
     if (window.fbq) {
       window.fbq('track', 'InitiateCheckout', {
-        currency: 'EUR',
-        value: price,
-        content_name: productName,
-        content_type: 'product',
+        currency: 'EUR', value: price,
+        content_name: productName, content_type: 'product',
       });
     }
   }
@@ -184,40 +182,32 @@
   function trackServiceClick(serviceName, price) {
     if (window.gtag) {
       window.gtag('event', 'begin_checkout', {
-        currency: 'EUR',
-        value: price,
+        currency: 'EUR', value: price,
         items: [{ item_name: serviceName, price: price, item_category: 'Servicio', quantity: 1 }],
       });
     }
     if (window.fbq) {
       window.fbq('track', 'InitiateCheckout', {
-        currency: 'EUR',
-        value: price,
-        content_name: serviceName,
-        content_type: 'service',
+        currency: 'EUR', value: price,
+        content_name: serviceName, content_type: 'service',
       });
     }
   }
 
   /* API pública */
-  window.FadedTracking = {
-    trackSumUpClick: trackSumUpClick,
-    trackServiceClick: trackServiceClick,
-  };
-
-  /* API interna (usada por script.js) */
-  window.FadedAnalytics = {
-    applyConfig: applyConfig,
-  };
+  window.FadedTracking  = { trackSumUpClick, trackServiceClick };
+  window.FadedAnalytics = { applyConfig };
 
   /* ── 8. Inicialización ── */
   function init() {
-    var prefs = window.FadedConsent ? window.FadedConsent.getPreferences() : {};
+    var prefs      = window.FadedConsent ? window.FadedConsent.getPreferences() : {};
     var hasDecided = ('analytics' in prefs) || ('marketing' in prefs);
 
     if (hasDecided) {
+      /* Consentimiento ya dado — cargar scripts directamente */
       applyConsent(prefs);
     } else {
+      /* Primera visita — mostrar banner cuando el DOM esté listo */
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', showBanner);
       } else {

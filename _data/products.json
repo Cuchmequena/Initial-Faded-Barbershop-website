@@ -19,7 +19,7 @@
       "image": "/assets/images/water_bottle_.png",
       "image_alt": "Botella de agua fría 50 cl",
       "product_url": "/productos/agua-fria-50cl.html",
-      "sumup_link": "",
+      "sumup_link": "https://pay.sumup.com/b2c/QVBKUT0K",
       "show_on_home": true,
       "active": true
     },
@@ -36,7 +36,7 @@
       "image": "/assets/images/Coca cola 33.jpg",
       "image_alt": "Lata de Coca-cola 33 cl",
       "product_url": "/productos/coca-cola-33cl.html",
-      "sumup_link": "",
+      "sumup_link": "https://pay.sumup.com/b2c/QLDHOFR9",
       "show_on_home": true,
       "active": true
     },
@@ -50,7 +50,7 @@
       "image": "/assets/images/mahou 33.jpg",
       "image_alt": "Botella de Mahou 5 Estrellas",
       "product_url": "/productos/mahou-5-estrellas.html",
-      "sumup_link": "",
+      "sumup_link": "https://pay.sumup.com/b2c/QBCE4CR4",
       "show_on_home": true,
       "active": true
     },
