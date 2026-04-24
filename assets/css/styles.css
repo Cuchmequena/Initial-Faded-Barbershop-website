@@ -417,7 +417,11 @@ address { font-style: normal; }
 }
 
 .hero-logo-h1 {
-  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 24px;
   line-height: 1;
 }
 
