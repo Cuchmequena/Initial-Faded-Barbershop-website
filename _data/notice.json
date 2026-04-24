@@ -1,7 +1,7 @@
 {
-  "active": false,
-  "type": "info",
-  "message": "",
-  "link_text": "",
-  "link_url": ""
+  "active": true,
+  "type": "promo",
+  "message": "¡OFERTA! Ahora, tu corte SIN CITA MÁS BARATO",
+  "link_text": "Paga por adelantado y no pierdas la oportunidad",
+  "link_url": "https://pay.sumup.com/b2c/QQAIOFRF"
 }
