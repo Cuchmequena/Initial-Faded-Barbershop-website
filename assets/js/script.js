@@ -1,10 +1,48 @@
 'use strict';
 
-const BOOKSY_URL = 'https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid';
+let BOOKSY_URL = 'https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid';
+const DEFAULT_WHATSAPP_URL = 'https://wa.me/34603147958';
+let WHATSAPP_URL = DEFAULT_WHATSAPP_URL;
+const DEFAULT_INSTAGRAM_URL = 'https://www.instagram.com/faded_madrid';
+const DEFAULT_MAPS_URL = 'https://maps.google.com/?q=Avenida+del+Marqu%C3%A9s+de+Corbera+37+28017+Madrid';
+const DEFAULT_PHONE_HREF = 'tel:+34691068660';
+const DEFAULT_EMAIL = 'administracion@cuchmequena.com';
+const DEFAULT_CONFIG = {
+  business_name: 'Faded Barbershop',
+  tagline: 'Barbería Premium · Ciudad Lineal · Madrid',
+  phone: '+34 691 068 660',
+  phone_href: DEFAULT_PHONE_HREF,
+  whatsapp: '+34 603 147 958',
+  whatsapp_href: DEFAULT_WHATSAPP_URL,
+  email: DEFAULT_EMAIL,
+  instagram_handle: '@faded_madrid',
+  instagram_url: DEFAULT_INSTAGRAM_URL,
+  booksy_url: BOOKSY_URL,
+  address_street: 'Avenida del Marqués de Corbera, 37',
+  address_city: '28017 Madrid (Ciudad Lineal)',
+  maps_url: DEFAULT_MAPS_URL,
+  hours_weekdays_label: 'Lunes — Sábado',
+  hours_weekdays_time: '11:00 — 21:30',
+  hours_weekend_label: 'Domingo',
+  hours_weekend_time: 'Cerrado',
+  reviews_count: '119',
+  reviews_score: '5.0',
+};
+const DEFAULT_NOTICE = {
+  active: false,
+  type: 'info',
+  message: '',
+  link_text: '',
+  link_url: '',
+};
+const NOTICE_TYPES = new Set(['info', 'warning', 'alert', 'promo']);
 
-/* ── Escape HTML ── */
+let galleryLightboxItems = [];
+let galleryLightboxIndex = 0;
+let reviewCounterObserver;
+
 function esc(str) {
-  if (!str) return '';
+  if (str == null) return '';
   return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -12,119 +50,955 @@ function esc(str) {
     .replace(/"/g, '&quot;');
 }
 
-/* ── Cargar contenido ── */
-async function loadContent() {
-  const results = await Promise.allSettled([
-    fetch('/_data/home.json').then(r => r.ok ? r.json() : null),
-    fetch('/_data/services.json').then(r => r.ok ? r.json() : null),
-    fetch('/_data/team.json').then(r => r.ok ? r.json() : null),
-    fetch('/_data/gallery.json').then(r => r.ok ? r.json() : null),
-    fetch('/_data/config.json').then(r => r.ok ? r.json() : null),
-    fetch('/_data/seo.json').then(r => r.ok ? r.json() : null),
-  ]);
-
-  const [homeRes, servicesRes, teamRes, galleryRes, configRes, seoRes] = results;
-
-  if (homeRes.value) applyHome(homeRes.value);
-  if (configRes.value) applyConfig(configRes.value);
-  if (seoRes.value) applySEO(seoRes.value);
-  if (servicesRes.value) renderServices(servicesRes.value);
-  if (teamRes.value) renderTeam(teamRes.value);
-  if (galleryRes.value) renderGallery(galleryRes.value);
+function extractPriceValue(price) {
+  if (!price) return 0;
+  const cleaned = String(price).replace(/[^0-9,.-]/g, '').replace(',', '.');
+  const value = Number.parseFloat(cleaned);
+  return Number.isFinite(value) ? value : 0;
 }
 
-/* ── APLICAR HOME (AQUÍ ESTÁ EL FIX IMPORTANTE) ── */
-function applyHome(h) {
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el && value != null) el.textContent = String(value);
+}
 
-  const setText = (id, value) => {
-    const el = document.getElementById(id);
-    if (el && value) el.textContent = value;
+function setHTML(id, value) {
+  const el = document.getElementById(id);
+  if (el && value != null) el.innerHTML = value;
+}
+
+function setAttr(id, attr, value) {
+  const el = document.getElementById(id);
+  if (el && value != null) el.setAttribute(attr, String(value));
+}
+
+function setMeta(name, content) {
+  if (content == null) return;
+  const el = document.querySelector(`meta[name="${name}"]`);
+  if (el) el.setAttribute('content', content);
+}
+
+function setMetaProp(property, content) {
+  if (content == null) return;
+  const el = document.querySelector(`meta[property="${property}"]`);
+  if (el) el.setAttribute('content', content);
+}
+
+async function readJson(url) {
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  return res.json();
+}
+
+function safeTrim(value, fallback = '') {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed || fallback;
+  }
+  return fallback;
+}
+
+function normalizeDigits(value, fallback) {
+  const digits = String(value ?? '').replace(/[^\d]/g, '');
+  return digits || fallback;
+}
+
+function normalizeConfig(config) {
+  const merged = { ...DEFAULT_CONFIG, ...(config || {}) };
+  merged.business_name = safeTrim(merged.business_name, DEFAULT_CONFIG.business_name);
+  merged.tagline = safeTrim(merged.tagline, DEFAULT_CONFIG.tagline);
+  merged.phone = safeTrim(merged.phone, DEFAULT_CONFIG.phone);
+  merged.phone_href = safeTrim(merged.phone_href, DEFAULT_CONFIG.phone_href);
+  merged.whatsapp = safeTrim(merged.whatsapp, DEFAULT_CONFIG.whatsapp);
+  merged.whatsapp_href = safeTrim(merged.whatsapp_href, DEFAULT_CONFIG.whatsapp_href);
+  merged.email = safeTrim(merged.email, DEFAULT_CONFIG.email);
+  merged.instagram_handle = safeTrim(merged.instagram_handle, DEFAULT_CONFIG.instagram_handle);
+  merged.instagram_url = safeTrim(merged.instagram_url, DEFAULT_CONFIG.instagram_url);
+  merged.booksy_url = safeTrim(merged.booksy_url, DEFAULT_CONFIG.booksy_url);
+  merged.address_street = safeTrim(merged.address_street, DEFAULT_CONFIG.address_street);
+  merged.address_city = safeTrim(merged.address_city, DEFAULT_CONFIG.address_city);
+  merged.maps_url = safeTrim(merged.maps_url, DEFAULT_CONFIG.maps_url);
+  merged.hours_weekdays_label = safeTrim(merged.hours_weekdays_label, DEFAULT_CONFIG.hours_weekdays_label);
+  merged.hours_weekdays_time = safeTrim(merged.hours_weekdays_time, DEFAULT_CONFIG.hours_weekdays_time);
+  merged.hours_weekend_label = safeTrim(merged.hours_weekend_label, DEFAULT_CONFIG.hours_weekend_label);
+  merged.hours_weekend_time = safeTrim(merged.hours_weekend_time, DEFAULT_CONFIG.hours_weekend_time);
+  merged.reviews_count = normalizeDigits(merged.reviews_count, DEFAULT_CONFIG.reviews_count);
+  merged.reviews_score = safeTrim(merged.reviews_score, DEFAULT_CONFIG.reviews_score);
+  return merged;
+}
+
+function normalizeNotice(notice) {
+  const merged = { ...DEFAULT_NOTICE, ...(notice || {}) };
+  const type = safeTrim(merged.type, DEFAULT_NOTICE.type);
+  const message = safeTrim(merged.message);
+  const linkText = safeTrim(merged.link_text);
+  const linkUrl = safeTrim(merged.link_url);
+
+  return {
+    active: Boolean(merged.active) && Boolean(message),
+    type: NOTICE_TYPES.has(type) ? type : DEFAULT_NOTICE.type,
+    message,
+    link_text: linkText,
+    link_url: linkUrl,
   };
-
-  /* HERO */
-  setText('hero-eyebrow', h.hero_eyebrow);
-  setText('hero-subtitle', h.hero_subtitle);
-
-  /* WHY US (CLAVE DEL FIX) */
-  setText('whyusBarbersNames', h.whyus_barbers_names);
-  setText('whyusBarbersText', h.whyus_barbers_text);
-
-  /* TEAM */
-  setText('teamDesc', h.team_desc);
-
-  /* SERVICIOS */
-  setText('services-eyebrow', h.services_eyebrow);
-  setText('services-title', h.services_title);
-  setText('services-desc', h.services_desc);
-
-  /* GALERÍA */
-  setText('gallery-eyebrow', h.gallery_eyebrow);
-  setText('gallery-title', h.gallery_title);
-  setText('gallery-desc', h.gallery_desc);
-
-  /* LOYALTY */
-  if (h.loyalty_text) {
-    const el = document.getElementById('loyalty-text');
-    if (el) el.innerHTML = esc(h.loyalty_text).replace(/\n/g, '<br>');
-  }
-
-  if (h.loyalty_highlight) {
-    const el = document.getElementById('loyalty-highlight');
-    if (el) el.innerHTML = esc(h.loyalty_highlight);
-  }
-
-  setText('loyalty-sub', h.loyalty_sub);
 }
 
-/* ── CONFIG ── */
-function applyConfig(cfg) {
-  if (cfg.whatsapp_href) {
-    document.querySelectorAll('a[href*="wa.me"]').forEach(a => {
-      a.href = cfg.whatsapp_href;
+function slugify(value, fallback = 'item') {
+  const normalized = String(value ?? '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return normalized || fallback;
+}
+
+function normalizeAreaName(area) {
+  return safeTrim(area)
+    .replace(/^barber[ií]a\s+(en|cerca de)\s+/i, '')
+    .replace(/^cerca de\s+/i, '')
+    .trim();
+}
+
+function isHomePage() {
+  return document.body && document.body.dataset.page === 'home';
+}
+
+function syncNoticeOffset() {
+  const noticeBar = document.getElementById('faded-notice-bar');
+  const height = noticeBar ? noticeBar.offsetHeight : 0;
+  document.documentElement.style.setProperty('--notice-h', `${height}px`);
+  document.body.classList.toggle('has-notice-bar', Boolean(noticeBar && height));
+}
+
+function createNoticeItem(notice) {
+  const item = document.createElement('div');
+  item.className = 'notice-bar__item';
+
+  const pill = document.createElement('span');
+  pill.className = 'notice-bar__pill';
+  pill.textContent = notice.type === 'promo' ? 'PROMO' : 'AVISO';
+  item.appendChild(pill);
+
+  const message = document.createElement('span');
+  message.className = 'notice-bar__message';
+  message.textContent = notice.message;
+  item.appendChild(message);
+
+  if (notice.link_text && notice.link_url) {
+    const link = document.createElement('a');
+    link.className = 'notice-bar__link';
+    link.href = notice.link_url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = notice.link_text;
+    item.appendChild(link);
+  }
+
+  return item;
+}
+
+function renderNoticeBar(noticeData) {
+  const notice = normalizeNotice(noticeData);
+  const current = document.getElementById('faded-notice-bar');
+  if (current) current.remove();
+
+  if (!notice.active) {
+    syncNoticeOffset();
+    return;
+  }
+
+  const bar = document.createElement('aside');
+  bar.id = 'faded-notice-bar';
+  bar.className = `notice-bar notice-bar--${notice.type}`;
+  bar.setAttribute('role', 'status');
+  bar.setAttribute('aria-live', 'polite');
+
+  const viewport = document.createElement('div');
+  viewport.className = 'notice-bar__viewport';
+
+  const track = document.createElement('div');
+  track.className = 'notice-bar__track';
+  track.appendChild(createNoticeItem(notice));
+  track.appendChild(createNoticeItem(notice));
+  viewport.appendChild(track);
+  bar.appendChild(viewport);
+
+  document.body.prepend(bar);
+  syncNoticeOffset();
+}
+
+function updateLocalBusinessSchema(config, services, seo) {
+  const schema = document.getElementById('local-business-schema');
+  if (!schema) return;
+
+  try {
+    const data = JSON.parse(schema.textContent);
+    data.name = config.business_name;
+    data.url = 'https://www.fadedbarbershopmadrid.com';
+    data.telephone = config.phone_href.replace(/^tel:/, '');
+    data.description = safeTrim(seo && seo.meta_description, `Barbería premium en Madrid. ${config.reviews_score} estrellas con ${config.reviews_count} reseñas.`);
+    if (data.address) {
+      data.address.streetAddress = config.address_street;
+      data.address.addressLocality = config.address_city.replace(/^(\d{5}\s*)?/, '').replace(/\s*\(.+\)$/, '').trim() || 'Madrid';
+    }
+    data.areaServed = safeTrim(seo && seo.hidden_h3_areas)
+      .split(/\s*\|\s*|\s*,\s*/)
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .map((area) => normalizeAreaName(area))
+      .filter(Boolean)
+      .map((area) => ({ '@type': 'City', name: area }));
+    if (data.aggregateRating) {
+      data.aggregateRating.ratingValue = config.reviews_score;
+      data.aggregateRating.reviewCount = config.reviews_count;
+    }
+    if (Array.isArray(data.sameAs)) {
+      data.sameAs = [config.instagram_url, config.booksy_url];
+    }
+    if (services && Array.isArray(services.categories)) {
+      data.hasOfferCatalog = {
+        '@type': 'OfferCatalog',
+        name: 'Servicios de barbería en Faded Barbershop',
+        itemListElement: services.categories.map((category) => ({
+          '@type': 'OfferCatalog',
+          name: safeTrim(category.title, 'Servicios'),
+          itemListElement: (Array.isArray(category.items) ? category.items : []).map((item) => ({
+            '@type': 'Offer',
+            priceCurrency: 'EUR',
+            price: String(extractPriceValue(item.price) || ''),
+            availability: 'https://schema.org/InStock',
+            itemOffered: {
+              '@type': 'Service',
+              name: safeTrim(item.name, 'Servicio de barbería'),
+              description: safeTrim(item.desc || item.duration || `${safeTrim(category.title)} en Faded Barbershop`),
+              serviceType: safeTrim(category.title, 'Barbería'),
+              areaServed: 'Madrid',
+            },
+          })),
+        })),
+      };
+    }
+    schema.textContent = JSON.stringify(data, null, 2);
+  } catch (error) {
+    console.warn('No se pudo actualizar el schema LocalBusiness', error);
+  }
+}
+
+function updateFaqSchema(seo) {
+  const schema = document.getElementById('faq-schema');
+  if (!schema) return;
+
+  const faqs = Array.isArray(seo && seo.faqs)
+    ? seo.faqs.filter((item) => item && safeTrim(item.question) && safeTrim(item.answer))
+    : [];
+
+  if (!faqs.length) {
+    schema.textContent = '';
+    return;
+  }
+
+  schema.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((item) => ({
+      '@type': 'Question',
+      name: safeTrim(item.question),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: safeTrim(item.answer),
+      },
+    })),
+  }, null, 2);
+}
+
+function renderSeoSupport(seo) {
+  const section = document.getElementById('seo-support-section');
+  if (!section || !seo) return;
+
+  setText('seo-hidden-h1', seo.hidden_h1);
+  setText('seo-primary-title', seo.hidden_h2_primary);
+  setText('seo-secondary-title', seo.hidden_h2_secondary);
+
+  const copy = document.getElementById('seo-support-copy');
+  if (copy) {
+    const paragraphs = safeTrim(seo.hidden_support_text)
+      .split(/\n\s*\n/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    copy.innerHTML = paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join('');
+  }
+
+  const areasList = document.getElementById('seo-areas-list');
+  if (areasList) {
+    const areas = safeTrim(seo.hidden_h3_areas)
+      .split(/\s*\|\s*|\s*,\s*/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    areasList.innerHTML = areas.map((area) => `<li>${esc(area)}</li>`).join('');
+  }
+
+  const faqList = document.getElementById('seo-faq-list');
+  if (faqList) {
+    const faqs = Array.isArray(seo.faqs)
+      ? seo.faqs.filter((item) => item && safeTrim(item.question) && safeTrim(item.answer))
+      : [];
+
+    faqList.innerHTML = faqs.map((item, index) => `
+      <details class="seo-faq-item"${index === 0 ? ' open' : ''}>
+        <summary>${esc(item.question)}</summary>
+        <p>${esc(item.answer)}</p>
+      </details>
+    `).join('');
+  }
+
+  const hasPrimary = safeTrim(seo.hidden_h2_primary);
+  const hasSecondary = safeTrim(seo.hidden_h2_secondary);
+  const hasSupport = safeTrim(seo.hidden_support_text);
+  const hasFaqs = Array.isArray(seo.faqs) && seo.faqs.some((item) => item && safeTrim(item.question) && safeTrim(item.answer));
+  section.hidden = !(hasPrimary || hasSecondary || hasSupport || hasFaqs);
+}
+
+function renderSeoInternalLinks(services, seo) {
+  const container = document.getElementById('seo-intent-links');
+  if (!container) return;
+
+  const categoryLinks = services && Array.isArray(services.categories)
+    ? services.categories.slice(0, 3).map((category) => ({
+        href: `#services-${slugify(category.id || category.title, 'categoria')}`,
+        title: safeTrim(category.title, 'Servicios'),
+        text: `Ver ${safeTrim(category.title, 'servicios').toLowerCase()} disponibles, precios y tiempos.`,
+      }))
+    : [];
+
+  const areaLabels = safeTrim(seo && seo.hidden_h3_areas)
+    .split(/\s*\|\s*|\s*,\s*/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 3);
+
+  const areaLinks = areaLabels.map((label) => ({
+    href: '#ubicacion',
+    title: label,
+    text: `Cómo llegar desde ${label.replace(/^Barber[ií]a\s+(en|cerca de)\s+/i, '')}.`,
+  }));
+
+  const baseLinks = [
+    {
+      href: '#servicios',
+      title: 'Cortes y barba en Madrid',
+      text: 'Explora todos los servicios de barbería y tratamientos.',
+    },
+    {
+      href: '#seo-faq-title',
+      title: 'Preguntas antes de venir',
+      text: 'Resuelve dudas sobre cita, precios y servicios.',
+    },
+    {
+      href: '/productos/',
+      title: 'Productos Faded',
+      text: 'Consulta ceras, bebidas y productos disponibles en tienda.',
+    },
+    {
+      href: '#ubicacion',
+      title: 'Barbería en Ciudad Lineal',
+      text: 'Dirección, horario y cómo llegar a Faded Barbershop.',
+    },
+  ];
+
+  const links = [...categoryLinks, ...areaLinks, ...baseLinks].slice(0, 8);
+  container.innerHTML = links.map((item) => `
+    <a class="seo-link-card reveal" href="${esc(item.href)}">
+      <span class="seo-link-card__title">${esc(item.title)}</span>
+      <span class="seo-link-card__text">${esc(item.text)}</span>
+    </a>
+  `).join('');
+
+  revealNow(container.querySelectorAll('.reveal'));
+}
+
+function animateCounter(counter) {
+  if (!counter || counter.dataset.animated === 'true') return;
+
+  const target = Number.parseInt(counter.dataset.target || '0', 10);
+  if (!Number.isFinite(target) || target <= 0) {
+    counter.textContent = '0';
+    counter.dataset.animated = 'true';
+    return;
+  }
+
+  counter.dataset.animated = 'true';
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    counter.textContent = String(target);
+    return;
+  }
+
+  const duration = 1400;
+  const startTime = performance.now();
+
+  function frame(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    counter.textContent = String(Math.round(target * eased));
+    if (progress < 1) {
+      window.requestAnimationFrame(frame);
+    } else {
+      counter.textContent = String(target);
+    }
+  }
+
+  window.requestAnimationFrame(frame);
+}
+
+function setupReviewCounters() {
+  const counters = Array.from(document.querySelectorAll('.counter[data-target]'));
+  if (!counters.length) return;
+
+  if (reviewCounterObserver) {
+    reviewCounterObserver.disconnect();
+    reviewCounterObserver = null;
+  }
+
+  counters.forEach((counter) => {
+    counter.textContent = '0';
+    delete counter.dataset.animated;
+  });
+
+  if (!('IntersectionObserver' in window)) {
+    counters.forEach(animateCounter);
+    return;
+  }
+
+  reviewCounterObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        reviewCounterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.55 });
+
+  counters.forEach((counter) => reviewCounterObserver.observe(counter));
+}
+
+function applyHome(home) {
+  if (!home) return;
+
+  setText('hero-eyebrow', home.hero_eyebrow);
+  setText('hero-subtitle', home.hero_subtitle);
+  setText('hero-text', home.hero_text);
+
+  setText('services-eyebrow', home.services_eyebrow);
+  setText('services-title', home.services_title);
+  setText('services-desc', home.services_desc);
+
+  setText('gallery-eyebrow', home.gallery_eyebrow);
+  setText('gallery-title', home.gallery_title);
+  setText('gallery-desc', home.gallery_desc);
+
+  setText('team-eyebrow', home.team_eyebrow);
+  setText('team-title', home.team_title);
+  setText('teamDesc', home.team_desc);
+
+  setText('whyusReviewsTitle', home.whyus_reviews_title);
+  setText('whyusReviewsDesc', home.whyus_reviews_desc);
+  setText('whyusBarbersNames', home.whyus_barbers_names);
+  setText('whyusBarbersTitle', home.whyus_barbers_title);
+  setText('whyusBarbersText', home.whyus_barbers_text || home.whyus_barbers_desc);
+  setText('whyusLoyaltyNumber', home.whyus_loyalty_number);
+  setText('whyusLoyaltyTitle', home.whyus_loyalty_title);
+  setText('whyusLoyaltyDesc', home.whyus_loyalty_desc);
+
+  const loyaltyText = document.getElementById('loyalty-text');
+  if (loyaltyText && home.loyalty_text != null) {
+    loyaltyText.innerHTML = esc(home.loyalty_text).replace(/\n/g, '<br>');
+  }
+
+  const loyaltyHighlight = document.getElementById('loyalty-highlight');
+  if (loyaltyHighlight && home.loyalty_highlight != null) {
+    loyaltyHighlight.innerHTML = esc(home.loyalty_highlight).replace('GRATIS', '<span class="loyalty-free">GRATIS</span>');
+  }
+
+  setText('loyalty-sub', home.loyalty_sub);
+}
+
+function applyConfig(configData) {
+  const config = normalizeConfig(configData);
+
+  if (config.booksy_url) {
+    BOOKSY_URL = config.booksy_url;
+    document.querySelectorAll('a[href*="booksy.com/es-es/"]').forEach((a) => {
+      a.href = config.booksy_url;
     });
   }
+
+  if (config.whatsapp_href) {
+    WHATSAPP_URL = config.whatsapp_href;
+    document.querySelectorAll('[data-whatsapp-link]').forEach((a) => {
+      a.href = config.whatsapp_href;
+    });
+  }
+
+  document.querySelectorAll('a[href^="tel:"]').forEach((a) => {
+    a.href = config.phone_href;
+    if (!a.children.length && /\d/.test(a.textContent)) {
+      a.textContent = config.phone;
+    }
+  });
+
+  document.querySelectorAll('a[href^="mailto:"]').forEach((a) => {
+    a.href = `mailto:${config.email}`;
+    if (!a.children.length && a.textContent.includes('@')) {
+      a.textContent = config.email;
+    }
+  });
+
+  document.querySelectorAll('a[href*="instagram.com"]').forEach((a) => {
+    a.href = config.instagram_url;
+  });
+
+  document.querySelectorAll('a[href*="maps.google.com"]').forEach((a) => {
+    a.href = config.maps_url;
+  });
+
+  document.querySelectorAll('.footer-tagline').forEach((el) => {
+    el.textContent = config.tagline;
+  });
+
+  setText('gallery-instagram-handle', config.instagram_handle);
+  setText('heroReviewsScore', config.reviews_score);
+  setText('heroReviewsCount', `${config.reviews_count} reseñas`);
+  setAttr('heroRating', 'aria-label', `${config.reviews_score} estrellas, ${config.reviews_count} reseñas`);
+
+  const reviewCounter = document.getElementById('reviewsCounter');
+  const reviewsFeature = document.getElementById('reviewsFeatureNumber');
+  if (reviewCounter) {
+    reviewCounter.dataset.target = config.reviews_count;
+  }
+  if (reviewsFeature) {
+    reviewsFeature.setAttribute('aria-label', `${config.reviews_count} reseñas con valoración ${config.reviews_score} estrellas`);
+  }
+
+  setText('contactAddressStreet', config.address_street);
+  setText('contactAddressCity', config.address_city);
+  setAttr('contactMapsLink', 'href', config.maps_url);
+
+  setText('contactPhoneText', config.phone);
+  setAttr('contactPhoneLink', 'href', config.phone_href);
+
+  setText('contactWhatsappText', `WhatsApp: ${config.whatsapp} →`);
+  setAttr('contactWhatsappLink', 'href', config.whatsapp_href);
+
+  setText('contactEmailText', `${config.email} →`);
+  setAttr('contactEmailLink', 'href', `mailto:${config.email}`);
+
+  setText('contactHoursWeekdaysLabel', config.hours_weekdays_label);
+  setHTML('contactHoursWeekdaysTime', `<strong>${esc(config.hours_weekdays_time)}</strong>`);
+  setText('contactHoursWeekendLabel', config.hours_weekend_label);
+  setHTML('contactHoursWeekendTime', `<strong class="${config.hours_weekend_time.toLowerCase() === 'cerrado' ? 'closed' : ''}">${esc(config.hours_weekend_time)}</strong>`);
+
+  setText('productsWhatsappButton', 'Confirmar por WhatsApp');
+  setAttr('productsWhatsappButton', 'href', config.whatsapp_href);
+  setAttr('productsMapsButton', 'href', config.maps_url);
+  setText('productsAddressStreet', config.address_street);
+  setText('productsAddressCity', config.address_city);
+  setText('productsHoursWeekdays', `${config.hours_weekdays_label}: ${config.hours_weekdays_time}`);
+  setText('productsHoursWeekend', `${config.hours_weekend_label}: ${config.hours_weekend_time}`);
+
+  setText('legalContactEmail', config.email);
+  setAttr('legalContactEmail', 'href', `mailto:${config.email}`);
+
+  setupReviewCounters();
+
+  if (window.FadedAnalytics && typeof window.FadedAnalytics.applyConfig === 'function') {
+    window.FadedAnalytics.applyConfig(config);
+  }
 }
 
-/* ── SEO ── */
-function applySEO(s) {
-  if (!s) return;
-  if (s.site_title) document.title = s.site_title;
+function applySEO(seo) {
+  if (!seo) return;
+
+  if (seo.site_title) document.title = seo.site_title;
+  setMeta('description', seo.meta_description);
+  setMeta('keywords', seo.meta_keywords);
+
+  if (seo.canonical_url) {
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', seo.canonical_url);
+    setMetaProp('og:url', seo.canonical_url);
+  }
+
+  setMetaProp('og:title', seo.og_title);
+  setMetaProp('og:description', seo.og_description);
+  setMetaProp('og:image', seo.og_image);
+  setMeta('twitter:title', seo.twitter_title);
+  setMeta('twitter:description', seo.twitter_description);
+  setMeta('twitter:image', seo.og_image);
+  renderSeoSupport(seo);
+  updateFaqSchema(seo);
 }
 
-/* ── SERVICIOS ── */
+function badgeMarkup(type) {
+  if (type === 'premium') {
+    return '<span class="service-badge service-badge--premium">PREMIUM</span>';
+  }
+  if (type === 'featured') {
+    return '<span class="service-badge">POPULAR</span>';
+  }
+  return '';
+}
+
+function cardClassByType(type) {
+  if (type === 'premium') return 'service-card service-card--premium';
+  if (type === 'featured') return 'service-card service-card--featured';
+  return 'service-card';
+}
+
 function renderServices(data) {
   const container = document.getElementById('services-container');
-  if (!container || !data.categories) return;
+  if (!container || !data || !Array.isArray(data.categories)) return;
 
-  container.innerHTML = data.categories.map(cat => `
-    <div>
-      <h3>${esc(cat.title)}</h3>
-    </div>
-  `).join('');
+  container.innerHTML = data.categories.map((category, index) => {
+    const items = Array.isArray(category.items) ? category.items : [];
+    const gridClass = items.length <= 2 ? 'services-grid services-grid--2col' : 'services-grid';
+
+    const cards = items.map((item) => {
+      const priceValue = extractPriceValue(item.price);
+      const sumupBtn = item.sumup_link
+        ? `<a href="${esc(item.sumup_link)}" class="btn btn-gold btn-service--sm js-track-service" target="_blank" rel="noopener noreferrer" data-service-name="${esc(item.name)}" data-service-price="${priceValue}">Pagar ahora</a>`
+        : '';
+
+      return `
+        <article class="${cardClassByType(item.type)}">
+          ${badgeMarkup(item.type)}
+          <div class="service-info">
+            <h4 class="service-name">${esc(item.name)}</h4>
+            ${item.desc ? `<p class="service-desc-small">${esc(item.desc)}</p>` : ''}
+            <p class="service-duration">${esc(item.duration || '')}</p>
+          </div>
+          <div class="service-price-wrap">
+            <div class="service-price ${item.type === 'premium' ? 'service-price--large' : ''}">${esc(item.price || '')}</div>
+            <div class="service-btns">
+              <a href="${esc(BOOKSY_URL)}" class="btn btn-service btn-service--sm" target="_blank" rel="noopener noreferrer">Reservar</a>
+              ${sumupBtn}
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    return `
+      <section class="service-category reveal reveal-delay-${Math.min(index + 1, 3)}" id="services-${slugify(category.id || category.title, 'categoria')}">
+        <h3 class="category-title"><span>${esc(category.title || '')}</span><span class="category-line"></span></h3>
+        <div class="${gridClass}">${cards}</div>
+      </section>
+    `;
+  }).join('');
+
+  revealNow(container.querySelectorAll('.reveal'));
 }
 
-/* ── TEAM ── */
 function renderTeam(data) {
   const container = document.getElementById('team-container');
-  if (!container || !data.members) return;
+  if (!container || !data || !Array.isArray(data.members)) return;
 
-  container.innerHTML = data.members.map(m => `
-    <div>
-      <h3>${esc(m.name)}</h3>
-      <p>${esc(m.role)}</p>
-    </div>
+  const visible = data.members.filter((m) => m.active !== false);
+  container.innerHTML = visible.map((member, idx) => `
+    <article class="team-card reveal reveal-delay-${Math.min(idx + 1, 3)}">
+      <div class="team-photo-wrap">
+        <img src="${esc(member.photo || '/assets/images/logo.png')}" alt="${esc(member.name || 'Barbero de Faded Barbershop')}" loading="lazy">
+        <div class="team-photo-overlay" aria-hidden="true"></div>
+      </div>
+      <div class="team-info">
+        <h3 class="team-name">${esc(member.name || '')}</h3>
+        <p class="team-role">${esc(member.role || '')}</p>
+        <p class="team-desc">${esc(member.desc || '')}</p>
+        <p class="team-rating"><span class="stars" aria-hidden="true">★★★★★</span><span>5.0 valoración clientes</span></p>
+      </div>
+    </article>
   `).join('');
+
+  revealNow(container.querySelectorAll('.reveal'));
 }
 
-/* ── GALERÍA ── */
 function renderGallery(data) {
   const container = document.getElementById('gallery-container');
-  if (!container || !data.images) return;
+  if (!container || !data || !Array.isArray(data.images)) return;
 
-  container.innerHTML = data.images.map(img => `
-    <img src="${esc(img.src)}" alt="${esc(img.alt)}">
+  galleryLightboxItems = data.images;
+
+  container.innerHTML = data.images.map((img, index) => `
+    <article class="gallery-item reveal reveal-delay-${(index % 3) + 1}" role="listitem">
+      <button class="gallery-btn" type="button" data-gallery-open="${index}" aria-label="Abrir imagen ${index + 1}">
+        <img src="${esc(img.src)}" alt="${esc(img.alt || 'Trabajo de Faded Barbershop')}" loading="lazy">
+        <span class="gallery-overlay" aria-hidden="true">Ver</span>
+      </button>
+    </article>
   `).join('');
+
+  revealNow(container.querySelectorAll('.reveal'));
 }
 
-/* ── INIT ── */
-document.addEventListener('DOMContentLoaded', loadContent);
+function productCardMarkup(item, delay, includeFichaButton) {
+  const details = Array.isArray(item.details)
+    ? item.details.map((d) => `<li>${esc(typeof d === 'string' ? d : d && d.detail ? d.detail : '')}</li>`).join('')
+    : '';
+
+  const hasDetails = details.trim().length > 0;
+  const productUrl = item.product_url || '';
+  const priceValue = extractPriceValue(item.price);
+
+  const fichaBtn = includeFichaButton && productUrl
+    ? `<a href="${esc(productUrl)}" class="btn btn-outline" aria-label="Ver ficha de ${esc(item.name)}">Ver ficha</a>`
+    : '';
+
+  const sumupBtn = item.sumup_link
+    ? `<a href="${esc(item.sumup_link)}" class="btn btn-gold js-track-product" target="_blank" rel="noopener noreferrer" data-product-name="${esc(item.name)}" data-product-price="${priceValue}">Comprar online</a>`
+    : `<a href="${esc(WHATSAPP_URL)}" class="btn btn-gold" target="_blank" rel="noopener noreferrer">Consultar</a>`;
+
+  return `
+    <article class="product-card reveal reveal-delay-${delay}">
+      <span class="product-tag">${esc(item.category || 'Producto')}</span>
+      ${item.image ? `<div class="product-media"><img class="product-image" src="${esc(item.image)}" alt="${esc(item.image_alt || item.name || 'Producto de Faded')}" loading="lazy"></div>` : ''}
+      <h3 class="product-title">${esc(item.name || '')}</h3>
+      <p class="product-copy">${esc(item.description || '')}</p>
+      ${hasDetails ? `<ul class="product-details" role="list">${details}</ul>` : ''}
+      <div class="product-card-footer">
+        <div class="product-price">${esc(item.price || '')}</div>
+        <div class="product-card-btns">
+          ${fichaBtn}
+          ${sumupBtn}
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderProductsHome(products) {
+  const eyebrow = document.getElementById('products-home-eyebrow');
+  const title = document.getElementById('products-home-title');
+  const desc = document.getElementById('products-home-desc');
+  const container = document.getElementById('products-home-container');
+
+  if (eyebrow && products.home_eyebrow) eyebrow.textContent = products.home_eyebrow;
+  if (title && products.home_title) title.textContent = products.home_title;
+  if (desc && products.home_desc) desc.textContent = products.home_desc;
+
+  if (!container) return;
+
+  const items = (products.items || []).filter((item) => item.active !== false && item.show_on_home !== false).slice(0, 6);
+  if (!items.length) {
+    container.innerHTML = '<article class="product-card"><span class="product-tag">Productos</span><h3 class="product-title">Pronto más productos</h3><p class="product-copy">Estamos actualizando el catálogo con nuevas referencias.</p></article>';
+    return;
+  }
+
+  container.innerHTML = items.map((item, idx) => productCardMarkup(item, Math.min((idx % 3) + 1, 3), true)).join('');
+  revealNow(container.querySelectorAll('.reveal'));
+}
+
+function renderProductsPage(products) {
+  const container = document.getElementById('products-page-container');
+  if (!container) return;
+
+  setText('products-page-title', products.page_title);
+  setText('products-page-desc', products.page_desc);
+  setText('products-page-note', products.page_note);
+
+  const items = (products.items || []).filter((item) => item.active !== false);
+  if (!items.length) {
+    container.innerHTML = '<article class="product-card"><span class="product-tag">Productos</span><h2 class="product-title">Sin productos visibles</h2><p class="product-copy">Activa productos desde /admin para mostrarlos aquí.</p></article>';
+    return;
+  }
+
+  container.innerHTML = items.map((item, idx) => productCardMarkup(item, Math.min((idx % 3) + 1, 3), false)).join('');
+  revealNow(container.querySelectorAll('.reveal'));
+}
+
+function setupTrackingDelegation() {
+  document.addEventListener('click', (event) => {
+    const serviceBtn = event.target.closest('.js-track-service');
+    if (serviceBtn && window.FadedTracking && typeof window.FadedTracking.trackServiceClick === 'function') {
+      const name = serviceBtn.dataset.serviceName || 'Servicio';
+      const price = Number.parseFloat(serviceBtn.dataset.servicePrice || '0') || 0;
+      window.FadedTracking.trackServiceClick(name, price);
+    }
+
+    const productBtn = event.target.closest('.js-track-product');
+    if (productBtn && window.FadedTracking && typeof window.FadedTracking.trackSumUpClick === 'function') {
+      const name = productBtn.dataset.productName || 'Producto';
+      const price = Number.parseFloat(productBtn.dataset.productPrice || '0') || 0;
+      window.FadedTracking.trackSumUpClick(name, price);
+    }
+  });
+}
+
+function setupHeaderState() {
+  const header = document.getElementById('header');
+  if (!header) return;
+
+  const onScroll = () => {
+    if (window.scrollY > 24) {
+      header.classList.add('scrolled');
+      header.classList.remove('transparent');
+    } else {
+      header.classList.add('transparent');
+      header.classList.remove('scrolled');
+    }
+  };
+
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+function setupHamburger() {
+  const button = document.getElementById('hamburger');
+  const nav = document.getElementById('nav-links');
+  if (!button || !nav) return;
+
+  button.addEventListener('click', () => {
+    const expanded = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!expanded));
+    nav.classList.toggle('open', !expanded);
+  });
+
+  nav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      button.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('open');
+    });
+  });
+}
+
+function setupScrollTop() {
+  const button = document.getElementById('scroll-top');
+  if (!button) return;
+
+  const onScroll = () => {
+    button.hidden = window.scrollY < 600;
+  };
+
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+function revealNow(nodes) {
+  nodes.forEach((node) => node.classList.add('revealed'));
+}
+
+function setupRevealObserver() {
+  const items = document.querySelectorAll('.reveal');
+  if (!items.length || !('IntersectionObserver' in window)) {
+    revealNow(Array.from(items));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  items.forEach((item) => observer.observe(item));
+}
+
+function setupLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+
+  const img = document.getElementById('lightbox-img');
+  const closeBtn = document.getElementById('lightbox-close');
+  const backdrop = document.getElementById('lightbox-backdrop');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+
+  function closeLightbox() {
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  function openLightbox(index) {
+    if (!galleryLightboxItems.length) return;
+    galleryLightboxIndex = Math.max(0, Math.min(index, galleryLightboxItems.length - 1));
+    const item = galleryLightboxItems[galleryLightboxIndex];
+    img.src = item.src;
+    img.alt = item.alt || 'Imagen de galeria';
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function changeImage(delta) {
+    if (!galleryLightboxItems.length) return;
+    let next = galleryLightboxIndex + delta;
+    if (next < 0) next = galleryLightboxItems.length - 1;
+    if (next >= galleryLightboxItems.length) next = 0;
+    openLightbox(next);
+  }
+
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-gallery-open]');
+    if (!trigger) return;
+    const index = Number.parseInt(trigger.getAttribute('data-gallery-open'), 10);
+    if (Number.isInteger(index)) openLightbox(index);
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+  backdrop.addEventListener('click', closeLightbox);
+  prevBtn.addEventListener('click', () => changeImage(-1));
+  nextBtn.addEventListener('click', () => changeImage(1));
+
+  document.addEventListener('keydown', (event) => {
+    if (lightbox.hidden) return;
+    if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowLeft') changeImage(-1);
+    if (event.key === 'ArrowRight') changeImage(1);
+  });
+}
+
+async function loadContent() {
+  const [home, services, team, gallery, config, seo, products, notice] = await Promise.all([
+    readJson('/_data/home.json'),
+    readJson('/_data/services.json'),
+    readJson('/_data/team.json'),
+    readJson('/_data/gallery.json'),
+    readJson('/_data/config.json'),
+    readJson('/_data/seo.json'),
+    readJson('/_data/products.json'),
+    readJson('/_data/notice.json'),
+  ]);
+
+  renderNoticeBar(notice);
+  applyHome(home);
+  applyConfig(config);
+  if (isHomePage()) {
+    applySEO(seo);
+    renderSeoInternalLinks(services, seo);
+  }
+  updateLocalBusinessSchema(normalizeConfig(config), services, seo);
+  renderServices(services);
+  renderTeam(team);
+  renderGallery(gallery);
+  if (products) {
+    renderProductsHome(products);
+    renderProductsPage(products);
+  }
+
+  setupRevealObserver();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupHeaderState();
+  setupHamburger();
+  setupScrollTop();
+  setupTrackingDelegation();
+  setupLightbox();
+  syncNoticeOffset();
+  window.addEventListener('resize', syncNoticeOffset, { passive: true });
+  loadContent();
+});

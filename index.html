@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO Principal -->
-  <title>Faded Barbershop Madrid | Barbería Premium Ciudad Lineal | Cortes Fade</title>
-  <meta name="description" content="Barbería premium en Madrid. Especialistas en fades, degradados y diseños. 5⭐ valoración (119 reseñas). Reserva online. Av. Marqués de Corbera, 37.">
-  <meta name="keywords" content="barbería madrid, fade madrid, corte degradado ciudad lineal, barbería premium, corte barba madrid, barbería ciudad lineal, faded barbershop">
+  <title>Barbería en Ciudad Lineal, Madrid | Fades, barba y cortes modernos | Faded</title>
+  <meta name="description" content="Barbería en Ciudad Lineal, Madrid. Especialistas en fades, degradados, barba y cortes modernos. Reserva por Booksy o ven sin cita si hay hueco.">
+  <meta name="keywords" content="barbería en Ciudad Lineal, barbería en Madrid, barbería en La Elipa, fades en Madrid, degradado en Madrid, corte de pelo hombre Madrid, barba Madrid, barbería cerca de Ventas">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Faded Barbershop">
   <meta name="theme-color" content="#000000">
@@ -16,8 +16,8 @@
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="business.business">
-  <meta property="og:title" content="Faded Barbershop Madrid | Barbería Premium Ciudad Lineal">
-  <meta property="og:description" content="Barbería premium en Madrid. Especialistas en fades, degradados y diseños. 5⭐ valoración (119 reseñas). Reserva online.">
+  <meta property="og:title" content="Barbería en Ciudad Lineal, Madrid | Fades, barba y cortes modernos | Faded">
+  <meta property="og:description" content="Fades limpios, barba definida y cortes modernos en Ciudad Lineal. Reserva online o ven sin cita si hay disponibilidad.">
   <meta property="og:url" content="https://www.fadedbarbershopmadrid.com/">
   <meta property="og:image" content="https://www.fadedbarbershopmadrid.com/assets/images/hero-bg.jpg">
   <meta property="og:image:width" content="1200">
@@ -32,8 +32,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Faded Barbershop Madrid | Barbería Premium">
-  <meta name="twitter:description" content="Barbería premium en Madrid. 5⭐ valoración (119 reseñas). Especialistas en fades y degradados.">
+  <meta name="twitter:title" content="Barbería en Ciudad Lineal, Madrid | Fades y barba | Faded">
+  <meta name="twitter:description" content="Especialistas en fades, degradados, barba y cortes modernos en Madrid. Reserva o ven sin cita si hay hueco.">
   <meta name="twitter:image" content="https://www.fadedbarbershopmadrid.com/assets/images/hero-bg.jpg">
 
   <!-- Favicon -->
@@ -63,7 +63,7 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 
   <!-- Schema.org JSON-LD LocalBusiness -->
-  <script type="application/ld+json">
+  <script id="local-business-schema" type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "HairSalon",
@@ -139,8 +139,9 @@
     ]
   }
   </script>
+  <script id="faq-schema" type="application/ld+json"></script>
 </head>
-<body>
+<body data-page="home">
 
   <!-- Skip Navigation para accesibilidad -->
   <a class="skip-nav" href="#contenido-principal">Saltar al contenido principal</a>
@@ -189,6 +190,7 @@
       <div class="hero-content">
         <p class="hero-eyebrow animate-hero" id="hero-eyebrow">Barbería Premium · Ciudad Lineal · Madrid</p>
         <h1 class="hero-logo-h1 animate-hero">
+          <span class="sr-only" id="seo-hidden-h1">Barbería en Madrid especializada en fades, degradados y cortes modernos en Ciudad Lineal</span>
           <img src="assets/images/logo-hero.png"
                alt="Faded Barbershop — Barbería Premium en Madrid"
                class="hero-logo-img"
@@ -196,11 +198,11 @@
                height="160"
                loading="eager">
         </h1>
-        <p class="hero-subtitle animate-hero" id="hero-subtitle">Somos especialistas en dejarte impecable</p>
-        <p class="hero-text animate-hero" id="hero-text">
-          Cortes fade, degradados y diseños de precisión.
-          <span class="hero-rating" aria-label="5 estrellas, 119 reseñas">
-            <span class="stars" aria-hidden="true">★★★★★</span> 5.0 · 119 reseñas
+        <p class="hero-subtitle animate-hero" id="hero-subtitle">Tu barbería en Madrid para salir impecable hoy</p>
+        <p class="hero-text animate-hero">
+          <span id="hero-text">Fade limpio, barba definida y cortes modernos con detalle. Reserva en un minuto o ven sin cita si hay hueco.</span>
+          <span class="hero-rating" id="heroRating" aria-label="5 estrellas, 119 reseñas">
+            <span class="stars" aria-hidden="true">★★★★★</span> <span id="heroReviewsScore">5.0</span> · <span id="heroReviewsCount">119 reseñas</span>
           </span>
         </p>
         <div class="hero-actions animate-hero">
@@ -232,8 +234,8 @@
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
               </svg>
             </div>
-            <div class="feature-number" aria-label="119 reseñas con valoración 5 estrellas">
-              <span class="counter" data-target="119">0</span><span>+</span>
+            <div class="feature-number" id="reviewsFeatureNumber" aria-label="119 reseñas con valoración 5 estrellas">
+              <span class="counter" id="reviewsCounter" data-target="119">0</span><span>+</span>
             </div>
             <h3 class="feature-title" id="whyusReviewsTitle">Reseñas 5 Estrellas</h3>
             <p class="feature-desc" id="whyusReviewsDesc">Puntuación perfecta 5.0/5.0 verificada por nuestros clientes</p>
@@ -279,7 +281,7 @@
         <header class="section-header">
           <p class="section-eyebrow reveal" id="services-eyebrow">Lo que hacemos</p>
           <h2 class="section-title reveal" id="services-title">NUESTROS SERVICIOS</h2>
-          <p class="section-desc reveal" id="services-desc">No es solo un corte, es una experiencia premium</p>
+          <p class="section-desc reveal" id="services-desc">Cortes, barba, cejas y tratamientos para que salgas bien a la primera.</p>
         </header>
 
         <!-- Servicios renderizados desde _data/services.json -->
@@ -333,7 +335,7 @@
         <header class="section-header">
           <p class="section-eyebrow reveal" id="gallery-eyebrow">Nuestro trabajo</p>
           <h2 class="section-title reveal" id="gallery-title">RESULTADOS REALES</h2>
-          <p class="section-desc reveal" id="gallery-desc">Cada corte es una obra de arte. Mira lo que hacemos.</p>
+          <p class="section-desc reveal" id="gallery-desc">Trabajos reales, degradados limpios y resultados que hablan por nosotros.</p>
         </header>
 
         <div class="gallery-grid" id="gallery-container" role="list" aria-label="Galería de cortes y estilos">
@@ -349,7 +351,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
-            Ver más en <strong>@faded_madrid</strong>
+            Ver más en <strong id="gallery-instagram-handle">@faded_madrid</strong>
           </a>
         </div>
       </div>
@@ -386,7 +388,7 @@
         <header class="section-header">
           <p class="section-eyebrow reveal" id="team-eyebrow">Las personas detrás del arte</p>
           <h2 class="section-title reveal" id="team-title">NUESTRO EQUIPO</h2>
-          <p class="section-desc reveal" id="teamDesc">Nuestros barberos Cristian y Jennson son auténticos artistas, especializados en degradados, diseños personalizados, barbas y acabados premium.</p>
+          <p class="section-desc reveal" id="teamDesc">Dos barberos con un estándar claro: escuchar lo que quieres y dejarte mejor de lo que imaginabas.</p>
         </header>
 
         <div class="team-grid" id="team-container">
@@ -410,9 +412,9 @@
           </div>
           <p class="section-eyebrow">Clientes especiales</p>
           <h2 class="loyalty-title">PROGRAMA DE FIDELIDAD</h2>
-          <p class="loyalty-text" id="loyalty-text">Te entregamos una <strong>tarjeta de descuento</strong> en tu primera visita.<br>Acumula visitas y cuando llegues al quinto corte...</p>
+          <p class="loyalty-text" id="loyalty-text">Te damos tu tarjeta en la primera visita y cada corte cuenta. Cuando llegues al quinto, el siguiente corre por nuestra cuenta.</p>
           <p class="loyalty-highlight" id="loyalty-highlight" aria-label="Cada 5 cortes, el sexto es gratis">Cada 5 cortes → El 6º <span class="loyalty-free">GRATIS</span></p>
-          <p class="loyalty-sub" id="loyalty-sub">Porque los mejores clientes merecen los mejores premios</p>
+          <p class="loyalty-sub" id="loyalty-sub">Porque quien encuentra a su barbería de confianza merece volver con ventaja.</p>
           <a href="https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid"
              class="btn btn-gold btn-large"
              target="_blank"
@@ -458,10 +460,11 @@
               <div>
                 <h3 class="info-label">Dirección</h3>
                 <address class="info-text">
-                  Avenida del Marqués de Corbera, 37<br>
-                  28017 Madrid (Ciudad Lineal)
+                  <span id="contactAddressStreet">Avenida del Marqués de Corbera, 37</span><br>
+                  <span id="contactAddressCity">28017 Madrid (Ciudad Lineal)</span>
                 </address>
                 <a href="https://maps.google.com/?q=Avenida+del+Marqués+de+Corbera+37+28017+Madrid"
+                   id="contactMapsLink"
                    class="info-link"
                    target="_blank"
                    rel="noopener noreferrer"
@@ -479,20 +482,23 @@
               </div>
               <div>
                 <h3 class="info-label">Teléfono</h3>
-                <a href="tel:+34691068660" class="info-text info-link-phone" aria-label="Llamar al teléfono de contacto">+34 691 068 660</a>
+                <a href="tel:+34691068660" id="contactPhoneLink" class="info-text info-link-phone" aria-label="Llamar al teléfono de contacto"><span id="contactPhoneText">+34 691 068 660</span></a>
                 <br>
                 <a href="https://wa.me/34603147958"
+                   id="contactWhatsappLink"
+                   data-whatsapp-link
                    class="info-link"
                    target="_blank"
                    rel="noopener noreferrer"
                    aria-label="Contactar por WhatsApp — abre WhatsApp">
-                  WhatsApp: +34 603 147 958 →
+                  <span id="contactWhatsappText">WhatsApp: +34 603 147 958 →</span>
                 </a>
                 <br>
                 <a href="mailto:administracion@cuchmequena.com"
+                   id="contactEmailLink"
                    class="info-link"
                    aria-label="Enviar email a Faded Barbershop">
-                  administracion@cuchmequena.com →
+                  <span id="contactEmailText">administracion@cuchmequena.com →</span>
                 </a>
               </div>
             </div>
@@ -508,12 +514,12 @@
                 <table class="schedule-table" aria-label="Horario de apertura">
                   <tbody>
                     <tr>
-                      <td>Lunes — Sábado</td>
-                      <td><strong>11:00 — 21:30</strong></td>
+                      <td id="contactHoursWeekdaysLabel">Lunes — Sábado</td>
+                      <td id="contactHoursWeekdaysTime"><strong>11:00 — 21:30</strong></td>
                     </tr>
                     <tr>
-                      <td>Domingo</td>
-                      <td><strong class="closed">Cerrado</strong></td>
+                      <td id="contactHoursWeekendLabel">Domingo</td>
+                      <td id="contactHoursWeekendTime"><strong class="closed">Cerrado</strong></td>
                     </tr>
                   </tbody>
                 </table>
@@ -563,6 +569,67 @@
             </div>
 
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seo-support" id="seo-support-section" aria-labelledby="seo-primary-title">
+      <div class="container">
+        <div class="seo-support-grid">
+          <article class="legal-card reveal reveal-delay-1">
+            <p class="section-eyebrow">Barbería en Madrid</p>
+            <h2 id="seo-primary-title">Faded Barbershop, barbería en La Elipa con expertos en cortes de pelo y barba</h2>
+            <div class="seo-support-copy" id="seo-support-copy">
+              <p>Faded Barbershop es una barbería en Madrid situada en Avenida del Marqués de Corbera 37, en la zona de La Elipa, Ciudad Lineal. Estamos especializados en fades, degradados, cortes modernos, barba y acabados cuidados al detalle.</p>
+              <p>Trabajamos con cita previa y también atendemos sin cita si hay hueco. Si buscas una barbería cerca de Ventas, Moratalaz o Ciudad Lineal donde te escuchen y te dejen bien a la primera, aquí la tienes.</p>
+            </div>
+          </article>
+
+          <aside class="product-side-panel reveal reveal-delay-2" aria-labelledby="seo-secondary-title">
+            <p class="section-eyebrow">Zonas cercanas</p>
+            <h3 id="seo-secondary-title">Cortes de pelo, fades, degradados y barbería urbana en Madrid para jóvenes y adultos</h3>
+            <ul class="seo-areas" id="seo-areas-list" role="list">
+              <li>Barbería en Ciudad Lineal</li>
+              <li>Barbería en La Elipa</li>
+              <li>Barbería cerca de Ventas</li>
+              <li>Barbería cerca de Moratalaz</li>
+            </ul>
+          </aside>
+        </div>
+
+        <article class="legal-card seo-faq reveal reveal-delay-3" aria-labelledby="seo-faq-title">
+          <p class="section-eyebrow">Preguntas frecuentes</p>
+          <h2 id="seo-faq-title">Lo que más nos preguntan antes de venir</h2>
+          <div class="seo-faq-list" id="seo-faq-list">
+            <details class="seo-faq-item" open>
+              <summary>¿Se puede ir sin cita a la barbería?</summary>
+              <p>Sí, puedes venir sin cita si en ese momento hay hueco. Si quieres asegurarte tu hora, lo más cómodo es reservar por Booksy.</p>
+            </details>
+            <details class="seo-faq-item">
+              <summary>¿Qué servicios ofrece Faded Barbershop?</summary>
+              <p>Realizamos cortes fade, degradados, barba, cejas, diseño, mechas, coloración y otros servicios de barbería y cuidado personal.</p>
+            </details>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="seo-links" aria-labelledby="seo-links-title">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-eyebrow reveal">Explora Faded</p>
+          <h2 class="section-title reveal" id="seo-links-title">Lo que más busca la gente antes de venir</h2>
+          <p class="section-desc reveal">Accesos rápidos a servicios, ubicación, productos y dudas frecuentes para que Google y el cliente entiendan mejor la web.</p>
+        </header>
+        <div class="seo-links-grid" id="seo-intent-links">
+          <a class="seo-link-card reveal" href="#servicios">
+            <span class="seo-link-card__title">Servicios de barbería</span>
+            <span class="seo-link-card__text">Consulta cortes, barba, cejas y tratamientos disponibles.</span>
+          </a>
+          <a class="seo-link-card reveal" href="#ubicacion">
+            <span class="seo-link-card__title">Cómo llegar</span>
+            <span class="seo-link-card__text">Dirección, horario y acceso rápido a la barbería.</span>
+          </a>
         </div>
       </div>
     </section>
@@ -619,8 +686,22 @@
     </div>
   </footer>
 
+  <!-- Botón flotante Google Reviews -->
+  <a href="https://g.page/r/CYEnyYyYdEc7EBM/review"
+     class="google-review-float"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Dejar reseña en Google Maps — abre en nueva pestaña">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2.5l2.9 5.87 6.48.95-4.69 4.57 1.11 6.46L12 17.3l-5.8 3.05 1.11-6.46-4.69-4.57 6.48-.95L12 2.5z"
+            fill="currentColor"/>
+    </svg>
+    <span class="google-review-tooltip">Déjanos tu reseña</span>
+  </a>
+
   <!-- Botón flotante WhatsApp -->
   <a href="https://wa.me/34603147958"
+     data-whatsapp-link
      class="whatsapp-float"
      target="_blank"
      rel="noopener noreferrer"

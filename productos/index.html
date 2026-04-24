@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://connect.facebook.net">
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
-<body>
+<body data-page="products">
   <a class="skip-nav" href="#contenido-principal">Saltar al contenido principal</a>
 
   <header id="header" role="banner">
@@ -69,21 +69,21 @@
           <h1 class="product-page-title" id="products-page-title">Bebidas y ceras disponibles en Faded.</h1>
           <p class="product-summary" id="products-page-desc">Consulta los productos disponibles en tienda y escríbenos para confirmar stock, imagen, formato o compatibilidad antes de venir.</p>
           <div class="product-page-actions">
-            <a href="https://wa.me/34603147958" class="btn btn-gold" target="_blank" rel="noopener noreferrer">Confirmar por WhatsApp</a>
-            <a href="https://maps.google.com/?q=Avenida+del+Marqués+de+Corbera+37+28017+Madrid" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Cómo llegar</a>
+            <a href="https://wa.me/34603147958" id="productsWhatsappButton" data-whatsapp-link class="btn btn-gold" target="_blank" rel="noopener noreferrer">Confirmar por WhatsApp</a>
+            <a href="https://maps.google.com/?q=Avenida+del+Marqués+de+Corbera+37+28017+Madrid" id="productsMapsButton" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Cómo llegar</a>
           </div>
         </div>
 
         <aside class="product-side" aria-label="Información útil">
           <div class="product-side-panel">
             <h2>Dirección</h2>
-            <p class="product-summary">Avenida del Marqués de Corbera, 37<br>28017 Madrid</p>
+            <p class="product-summary"><span id="productsAddressStreet">Avenida del Marqués de Corbera, 37</span><br><span id="productsAddressCity">28017 Madrid</span></p>
           </div>
           <div class="product-side-panel">
             <h2>Horario</h2>
             <ul class="product-list" role="list">
-              <li>Lunes a sábado: 11:00 - 21:30</li>
-              <li>Domingo: cerrado</li>
+              <li id="productsHoursWeekdays">Lunes a sábado: 11:00 - 21:30</li>
+              <li id="productsHoursWeekend">Domingo: cerrado</li>
             </ul>
           </div>
           <div class="product-side-panel">
