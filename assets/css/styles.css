@@ -1758,19 +1758,22 @@ address { font-style: normal; }
 @media (max-width: 992px) {
 
   .navbar {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     position: relative;
   }
 
   .nav-logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .hamburger {
-    position: absolute;
-    right: var(--container-pad);
+    grid-column: 3;
+    justify-self: end;
+    padding-right: var(--container-pad);
     display: flex;
   }
 
