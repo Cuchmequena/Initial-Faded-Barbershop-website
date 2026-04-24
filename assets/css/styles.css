@@ -498,6 +498,20 @@ address { font-style: normal; }
   padding: calc(var(--header-h) + var(--notice-h)) var(--container-pad) 80px;
 }
 
+.hero-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -2219,6 +2233,10 @@ address { font-style: normal; }
     align-items: center;
   }
 
+  .hero-media {
+    display: none;
+  }
+
   .notice-bar__item {
     gap: 14px;
     padding: 10px 24px;
@@ -2343,6 +2361,10 @@ address { font-style: normal; }
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .hero-media {
+    display: none;
   }
 
   .notice-bar__track {
