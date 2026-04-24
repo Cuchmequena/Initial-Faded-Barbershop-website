@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fadedbarbershop.es/sitemap.xml
+Sitemap: https://www.fadedbarbershopmadrid.com/sitemap.xml

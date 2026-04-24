@@ -16,6 +16,33 @@ function esc(str) {
     .replace(/"/g, '&quot;');
 }
 
+/* ── Formato robusto del precio para evitar problemas con el símbolo € ── */
+function formatPrice(price) {
+  const raw = String(price || '').trim();
+  if (!raw) {
+    return { html: '', aria: '' };
+  }
+
+  const compact = raw.replace(/\s+/g, '');
+  const match = compact.match(/^([\d.,]+)(?:([€Cc])|EUR)?(\+)?$/i);
+  if (!match) {
+    return { html: esc(raw), aria: raw };
+  }
+
+  const amount = match[1];
+  const hasCurrency = /([€Cc]|EUR)/i.test(compact);
+  const plus = compact.endsWith('+');
+
+  if (!hasCurrency) {
+    return { html: esc(raw), aria: raw };
+  }
+
+  return {
+    html: `<span class="price-amount">${esc(amount)}</span><span class="price-currency" aria-hidden="true">&#8364;</span>${plus ? '<span class="price-plus" aria-hidden="true">+</span>' : ''}`,
+    aria: `${amount} euros${plus ? ' o más' : ''}`,
+  };
+}
+
 /* ── 1. Carga de contenido desde _data/*.json ── */
 async function loadContent() {
   const results = await Promise.allSettled([
@@ -167,6 +194,7 @@ function renderServices(data) {
 function renderServiceCard(item) {
   const feat = item.type === 'featured';
   const prem = item.type === 'premium';
+  const price = formatPrice(item.price);
   return `
     <article class="service-card${feat ? ' service-card--featured' : ''}${prem ? ' service-card--premium' : ''} reveal">
       ${feat ? '<div class="service-badge" aria-label="Servicio popular">POPULAR</div>' : ''}
@@ -182,7 +210,7 @@ function renderServiceCard(item) {
         </p>
       </div>
       <div class="service-price-wrap">
-        <span class="service-price${prem ? ' service-price--large' : ''}" aria-label="${esc(item.price)}">${esc(item.price)}</span>
+        <span class="service-price${prem ? ' service-price--large' : ''}" aria-label="${esc(price.aria)}">${price.html}</span>
         <a href="${esc(BOOKSY_URL)}"
            class="btn ${prem ? 'btn-gold' : 'btn-service'}"
            target="_blank"
