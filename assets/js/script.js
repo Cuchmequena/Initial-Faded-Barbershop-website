@@ -88,7 +88,7 @@ async function loadContent() {
   initLightbox();
 }
 
-/* ── Render: Aviso especial (banner configurable desde /admin) ── */
+/* ── Render: Aviso especial — ticker horizontal inferior (configurable desde /admin) ── */
 function renderNotice(data) {
   if (!data || !data.active || !data.message) return;
 
@@ -96,43 +96,93 @@ function renderNotice(data) {
   if (existing) existing.remove();
 
   const typeMap = {
-    info:    { bg: '#0d3353', border: '#1a6fa8', color: '#90caf9' },
-    warning: { bg: '#1a1400', border: '#c9a84c', color: '#f0d060' },
-    alert:   { bg: '#2a0808', border: '#c0392b', color: '#f1948a' },
-    promo:   { bg: '#0a1f0a', border: '#27ae60', color: '#82e0aa' },
+    info:    { bg: '#0a1520', border: '#1a6fa8', color: '#90caf9', sep: '#1a6fa8' },
+    warning: { bg: '#0f0d00', border: '#c9a84c', color: '#c9a84c', sep: '#c9a84c' },
+    alert:   { bg: '#150404', border: '#c0392b', color: '#f1948a', sep: '#c0392b' },
+    promo:   { bg: '#010f03', border: '#27ae60', color: '#82e0aa', sep: '#27ae60' },
   };
-  const t = typeMap[data.type] || typeMap.info;
+  const t = typeMap[data.type] || typeMap.warning;
+
+  /* Construir el texto que se va a repetir en el ticker */
+  let textContent = esc(data.message);
+  if (data.link_url && data.link_text) {
+    const external = data.link_url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : '';
+    textContent += ` &nbsp;<a href="${esc(data.link_url)}" ${external} style="color:inherit;font-weight:700;text-decoration:underline;font-style:normal;">${esc(data.link_text)}</a>`;
+  }
+  /* Separador entre repeticiones */
+  const sep = `<span aria-hidden="true" style="margin:0 2.5em;opacity:.5;font-style:normal;">✦</span>`;
+  /* Repetir el mensaje para que el scroll sea continuo sin huecos */
+  const repeated = Array(6).fill(`<span>${textContent}</span>${sep}`).join('');
+
+  const TICKER_H = 44;
 
   const bar = document.createElement('div');
   bar.id = 'faded-notice-bar';
-  bar.setAttribute('role', 'status');
-  bar.setAttribute('aria-live', 'polite');
+  bar.setAttribute('role', 'marquee');
+  bar.setAttribute('aria-label', data.message);
   bar.style.cssText = [
-    'position:relative;z-index:200;width:100%;',
-    `background:${t.bg};border-bottom:1px solid ${t.border};`,
-    `color:${t.color};`,
-    'padding:.6rem 1.25rem;text-align:center;',
-    'font-size:.82rem;letter-spacing:.02em;font-family:inherit;',
-    'display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;',
+    'position:fixed;bottom:0;left:0;right:0;',
+    `z-index:850;height:${TICKER_H}px;`,
+    `background:${t.bg};border-top:1px solid ${t.border};`,
+    'overflow:hidden;display:flex;align-items:center;',
   ].join('');
 
-  let inner = `<span>${esc(data.message)}</span>`;
-  if (data.link_url && data.link_text) {
-    inner += ` <a href="${esc(data.link_url)}" style="color:inherit;font-weight:700;text-decoration:underline;" ${data.link_url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${esc(data.link_text)}</a>`;
+  /* Inject styles once */
+  if (!document.getElementById('faded-ticker-styles')) {
+    const st = document.createElement('style');
+    st.id = 'faded-ticker-styles';
+    st.textContent = [
+      `@keyframes faded-ticker-scroll{`,
+        `0%{transform:translateX(0)}`,
+        `100%{transform:translateX(-50%)}`,
+      `}`,
+      `#faded-notice-bar .ticker-track{`,
+        `display:inline-flex;align-items:center;white-space:nowrap;`,
+        `animation:faded-ticker-scroll 28s linear infinite;`,
+        `will-change:transform;`,
+      `}`,
+      `#faded-notice-bar .ticker-track:hover{animation-play-state:paused}`,
+      `#faded-notice-bar .ticker-text{`,
+        `font-family:'Bodoni Moda',Georgia,serif;`,
+        `font-size:.82rem;font-style:italic;letter-spacing:.06em;`,
+      `}`,
+      `#faded-notice-bar .ticker-close{`,
+        `position:absolute;right:12px;top:50%;transform:translateY(-50%);`,
+        `background:none;border:none;cursor:pointer;`,
+        `font-size:1rem;line-height:1;padding:6px;`,
+        `opacity:.55;transition:opacity .2s;z-index:2;`,
+      `}`,
+      `#faded-notice-bar .ticker-close:hover{opacity:1}`,
+      /* Fade edges */
+      `#faded-notice-bar::before,#faded-notice-bar::after{`,
+        `content:'';position:absolute;top:0;bottom:0;width:60px;z-index:1;pointer-events:none;`,
+      `}`,
+      `#faded-notice-bar::before{left:0;background:linear-gradient(to right,${t.bg},transparent)}`,
+      `#faded-notice-bar::after{right:36px;background:linear-gradient(to left,${t.bg},transparent)}`,
+    ].join('');
+    document.head.appendChild(st);
   }
 
-  /* Botón de cerrar */
-  inner += `<button onclick="this.closest('#faded-notice-bar').remove()" style="background:none;border:none;cursor:pointer;color:inherit;opacity:.6;font-size:1.1rem;padding:0 .25rem;line-height:1;" aria-label="Cerrar aviso">×</button>`;
+  bar.innerHTML = [
+    `<div class="ticker-track">`,
+      `<span class="ticker-text" style="color:${t.color}">${repeated}${repeated}</span>`,
+    `</div>`,
+    `<button class="ticker-close" style="color:${t.color}" `,
+      `onclick="document.getElementById('faded-notice-bar').remove();`,
+              `document.querySelectorAll('.whatsapp-float,.scroll-top').forEach(function(e){e.style.bottom=''});" `,
+      `aria-label="Cerrar aviso">✕</button>`,
+  ].join('');
 
-  bar.innerHTML = inner;
+  document.body.appendChild(bar);
 
-  /* Insertar justo después del header */
-  const header = document.getElementById('header');
-  if (header && header.nextSibling) {
-    header.parentNode.insertBefore(bar, header.nextSibling);
-  } else {
-    document.body.insertBefore(bar, document.body.firstChild);
-  }
+  /* Subir el botón de WhatsApp y scroll-top para no solaparse con el ticker */
+  const wa = document.querySelector('.whatsapp-float');
+  const scrollTopBtn = document.querySelector('.scroll-top');
+  if (wa) wa.style.bottom = (TICKER_H + 14) + 'px';
+  if (scrollTopBtn) scrollTopBtn.style.bottom = (TICKER_H + 82) + 'px';
+
+  /* Añadir padding inferior al body para que el footer no quede bajo el ticker */
+  document.body.style.paddingBottom = TICKER_H + 'px';
 }
 
 function productLink(item) {

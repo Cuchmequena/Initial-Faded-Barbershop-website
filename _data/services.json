@@ -5,7 +5,7 @@
       "title": "Cortes",
       "items": [
         {
-          "name": "Corte Degradado",
+          "name": "Corte de Caballero",
           "price": "15€",
           "duration": "40 min",
           "desc": "",
@@ -18,7 +18,7 @@
           "duration": "1 hora",
           "desc": "",
           "type": "normal",
-          "sumup_link": "https://pay.sumup.com/b2c/Q0S2626Z"
+          "sumup_link": "https://pay.sumup.com/b2c/Q7RD4V4H"
         },
         {
           "name": "Corte + Cejas",
@@ -46,7 +46,7 @@
         },
         {
           "name": "Corte 3ª Edad",
-          "price": "6€",
+          "price": "10€",
           "duration": "30 min",
           "desc": "",
           "type": "normal",
@@ -58,7 +58,7 @@
           "duration": "1h 15 min",
           "desc": "Corte + Barba + Cejas + Limpieza",
           "type": "premium",
-          "sumup_link": "https://pay.sumup.com/b2c/Q9XFQC4U"
+          "sumup_link": "https://pay.sumup.com/b2c/QSP8XKPI"
         }
       ]
     },
@@ -68,11 +68,11 @@
       "items": [
         {
           "name": "Cejas con Cuchilla",
-          "price": "3€",
+          "price": "6€",
           "duration": "5 min",
           "desc": "",
           "type": "normal",
-          "sumup_link": "https://pay.sumup.com/b2c/QI33POY6"
+          "sumup_link": "https://pay.sumup.com/b2c/QC72APTV"
         },
         {
           "name": "Afeitado y Perfilado de Barba",
@@ -80,7 +80,7 @@
           "duration": "30 min",
           "desc": "",
           "type": "normal",
-          "sumup_link": "https://pay.sumup.com/b2c/QVET8SP9"
+          "sumup_link": "https://pay.sumup.com/b2c/QR0BMWPL"
         }
       ]
     },
@@ -93,8 +93,8 @@
           "price": "49,99€",
           "duration": "+2h 50 min",
           "desc": "",
-          "type": "featured",
-          "sumup_link": "https://pay.sumup.com/b2c/QEAPNOC7"
+          "type": "normal",
+          "sumup_link": "https://pay.sumup.com/b2c/QAAK1YUZ"
         },
         {
           "name": "Coloración + Corte",
@@ -102,7 +102,7 @@
           "duration": "+3h 30 min",
           "desc": "",
           "type": "normal",
-          "sumup_link": "https://pay.sumup.com/b2c/QC6XLGFE"
+          "sumup_link": "https://pay.sumup.com/b2c/QLL3XNBR"
         },
         {
           "name": "Limpieza Facial",
@@ -110,7 +110,7 @@
           "duration": "20 min",
           "desc": "",
           "type": "normal",
-          "sumup_link": "https://pay.sumup.com/b2c/QDHSX1UF"
+          "sumup_link": "https://pay.sumup.com/b2c/QVR3MMIA"
         }
       ]
     }

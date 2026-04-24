@@ -766,14 +766,17 @@ address { font-style: normal; }
 .product-media {
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: transparent;
 }
 
 .product-card:hover {
@@ -937,16 +940,15 @@ address { font-style: normal; }
 }
 
 .product-page-img {
-  margin: 8px 0 4px;
+  margin: 8px 0 12px;
 }
 
 .product-page-img img {
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
-  border-radius: var(--radius);
-  background: #111;
-  padding: 10px;
+  background: transparent;
+  display: block;
 }
 
 .product-page-title {
