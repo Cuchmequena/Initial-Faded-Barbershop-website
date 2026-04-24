@@ -52,12 +52,20 @@ async function loadContent() {
     fetch('/_data/gallery.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/home.json').then(r => r.ok ? r.json() : null),
     fetch('/_data/config.json').then(r => r.ok ? r.json() : null),
+    fetch('/_data/notice.json').then(r => r.ok ? r.json() : null),
   ]);
 
-  const [servicesRes, productsRes, teamRes, galleryRes, homeRes, configRes] = results;
+  const [servicesRes, productsRes, teamRes, galleryRes, homeRes, configRes, noticeRes] = results;
 
   if (configRes.status === 'fulfilled' && configRes.value) {
     applyConfig(configRes.value);
+    /* Pasar IDs de analytics a analytics.js si están definidos en config.json */
+    if (window.FadedAnalytics && window.FadedAnalytics.applyConfig) {
+      window.FadedAnalytics.applyConfig(configRes.value);
+    }
+  }
+  if (noticeRes.status === 'fulfilled' && noticeRes.value) {
+    renderNotice(noticeRes.value);
   }
   if (homeRes.status === 'fulfilled' && homeRes.value) {
     applyHome(homeRes.value);
@@ -78,6 +86,53 @@ async function loadContent() {
   /* Re-inicializar animaciones y lightbox después de renderizar */
   initReveal();
   initLightbox();
+}
+
+/* ── Render: Aviso especial (banner configurable desde /admin) ── */
+function renderNotice(data) {
+  if (!data || !data.active || !data.message) return;
+
+  const existing = document.getElementById('faded-notice-bar');
+  if (existing) existing.remove();
+
+  const typeMap = {
+    info:    { bg: '#0d3353', border: '#1a6fa8', color: '#90caf9' },
+    warning: { bg: '#1a1400', border: '#c9a84c', color: '#f0d060' },
+    alert:   { bg: '#2a0808', border: '#c0392b', color: '#f1948a' },
+    promo:   { bg: '#0a1f0a', border: '#27ae60', color: '#82e0aa' },
+  };
+  const t = typeMap[data.type] || typeMap.info;
+
+  const bar = document.createElement('div');
+  bar.id = 'faded-notice-bar';
+  bar.setAttribute('role', 'status');
+  bar.setAttribute('aria-live', 'polite');
+  bar.style.cssText = [
+    'position:relative;z-index:200;width:100%;',
+    `background:${t.bg};border-bottom:1px solid ${t.border};`,
+    `color:${t.color};`,
+    'padding:.6rem 1.25rem;text-align:center;',
+    'font-size:.82rem;letter-spacing:.02em;font-family:inherit;',
+    'display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;',
+  ].join('');
+
+  let inner = `<span>${esc(data.message)}</span>`;
+  if (data.link_url && data.link_text) {
+    inner += ` <a href="${esc(data.link_url)}" style="color:inherit;font-weight:700;text-decoration:underline;" ${data.link_url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${esc(data.link_text)}</a>`;
+  }
+
+  /* Botón de cerrar */
+  inner += `<button onclick="this.closest('#faded-notice-bar').remove()" style="background:none;border:none;cursor:pointer;color:inherit;opacity:.6;font-size:1.1rem;padding:0 .25rem;line-height:1;" aria-label="Cerrar aviso">×</button>`;
+
+  bar.innerHTML = inner;
+
+  /* Insertar justo después del header */
+  const header = document.getElementById('header');
+  if (header && header.nextSibling) {
+    header.parentNode.insertBefore(bar, header.nextSibling);
+  } else {
+    document.body.insertBefore(bar, document.body.firstChild);
+  }
 }
 
 function productLink(item) {
@@ -102,6 +157,11 @@ function renderProductCard(item) {
   const link = productLink(item);
   const attrs = link.external ? 'target="_blank" rel="noopener noreferrer"' : '';
   const details = Array.isArray(item.details) ? item.details.filter(Boolean) : [];
+  const hasSumup = item.sumup_link && item.sumup_link.trim() !== '';
+  const priceNum = parseFloat(String(item.price || '').replace(',', '.')) || 0;
+  const trackCall = hasSumup
+    ? `onclick="window.FadedTracking && window.FadedTracking.trackSumUpClick('${esc(item.name)}', ${priceNum})"`
+    : '';
 
   return `
     <article class="product-card reveal">
@@ -120,7 +180,17 @@ function renderProductCard(item) {
       ` : ''}
       <div class="product-card-footer">
         <p class="product-price" aria-label="${esc(price.aria)}">${price.html}</p>
-        <a href="${esc(link.href)}" class="btn btn-service" ${attrs} aria-label="${esc(`${link.label} ${item.name}`)}">${esc(link.label)}</a>
+        <div class="product-card-btns">
+          ${hasSumup ? `
+          <a href="${esc(item.sumup_link)}"
+             class="btn btn-gold"
+             target="_blank"
+             rel="noopener noreferrer"
+             ${trackCall}
+             aria-label="Comprar ${esc(item.name)} online">Comprar</a>
+          ` : ''}
+          <a href="${esc(link.href)}" class="btn btn-service" ${attrs} aria-label="${esc(`${link.label} ${item.name}`)}">${esc(link.label)}</a>
+        </div>
       </div>
     </article>
   `;
@@ -289,6 +359,14 @@ function renderServiceCard(item) {
   const feat = item.type === 'featured';
   const prem = item.type === 'premium';
   const price = formatPrice(item.price);
+  const hasSumup = item.sumup_link && item.sumup_link.trim() !== '';
+
+  /* Extraer valor numérico del precio para el tracking */
+  const priceNum = parseFloat(String(item.price || '').replace(',', '.')) || 0;
+  const trackCall = hasSumup
+    ? `onclick="window.FadedTracking && window.FadedTracking.trackServiceClick('${esc(item.name)}', ${priceNum})"`
+    : '';
+
   return `
     <article class="service-card${feat ? ' service-card--featured' : ''}${prem ? ' service-card--premium' : ''} reveal">
       ${feat ? '<div class="service-badge" aria-label="Servicio popular">POPULAR</div>' : ''}
@@ -305,13 +383,24 @@ function renderServiceCard(item) {
       </div>
       <div class="service-price-wrap">
         <span class="service-price${prem ? ' service-price--large' : ''}" aria-label="${esc(price.aria)}">${price.html}</span>
-        <a href="${esc(BOOKSY_URL)}"
-           class="btn ${prem ? 'btn-gold' : 'btn-service'}"
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="Reservar ${esc(item.name)}">
-          Reservar
-        </a>
+        <div class="service-btns">
+          ${hasSumup ? `
+          <a href="${esc(item.sumup_link)}"
+             class="btn btn-gold"
+             target="_blank"
+             rel="noopener noreferrer"
+             ${trackCall}
+             aria-label="Pagar online ${esc(item.name)}">
+            Pagar online
+          </a>` : ''}
+          <a href="${esc(BOOKSY_URL)}"
+             class="btn ${hasSumup ? 'btn-service btn-service--sm' : (prem ? 'btn-gold' : 'btn-service')}"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Reservar ${esc(item.name)}">
+            Reservar
+          </a>
+        </div>
       </div>
     </article>
   `;

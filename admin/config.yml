@@ -142,13 +142,13 @@ collections:
   # 2. CONFIGURACIÓN del negocio
   # ──────────────────────────────────────────────────────────
   - name: "configuracion"
-    label: "⚙️ Configuración del negocio"
+    label: "⚙️ Configuración"
     files:
       - name: "datos_negocio"
-        label: "Datos de contacto y negocio"
+        label: "Negocio, contacto y horario"
         file: "_data/config.json"
         format: json
-        description: "Teléfono, WhatsApp, Instagram, horario, dirección... Todo lo que aparece en la web."
+        description: "Teléfono, WhatsApp, Instagram, horario, dirección, analytics... Todo lo que aparece en la web."
         fields:
           - label: "Nombre del negocio"
             name: "business_name"
@@ -245,8 +245,111 @@ collections:
             widget: "string"
             hint: "Ej: 5.0"
 
+          - label: "— ANALYTICS Y TRACKING —"
+            name: "analytics_label"
+            widget: "hidden"
+            default: ""
+          - label: "Google Analytics 4 — ID de medición"
+            name: "ga4_id"
+            widget: "string"
+            required: false
+            hint: "Ej: G-XXXXXXXXXX — Deja vacío para desactivar Analytics"
+          - label: "Meta Pixel — ID"
+            name: "meta_pixel_id"
+            widget: "string"
+            required: false
+            hint: "Ej: 1234567890123456 — Deja vacío para desactivar Meta Pixel"
+
+      - name: "seo"
+        label: "SEO — Meta etiquetas"
+        file: "_data/seo.json"
+        format: json
+        description: "Controla cómo aparece la web en Google y redes sociales."
+        fields:
+          - label: "Título principal (pestaña del navegador)"
+            name: "site_title"
+            widget: "string"
+            hint: "Ej: Faded Barbershop Madrid | Barbería Premium Ciudad Lineal"
+          - label: "Meta descripción"
+            name: "meta_description"
+            widget: "text"
+            hint: "Aparece bajo el título en Google. Máximo 155 caracteres."
+          - label: "Keywords"
+            name: "meta_keywords"
+            widget: "string"
+            required: false
+            hint: "Separadas por comas. Ej: barbería madrid, fade madrid, corte degradado"
+          - label: "URL canónica del sitio"
+            name: "canonical_base"
+            widget: "string"
+            hint: "Ej: https://www.fadedbarbershopmadrid.com"
+          - label: "Imagen Open Graph (para redes sociales)"
+            name: "og_image"
+            widget: "image"
+            required: false
+            hint: "Imagen que aparece al compartir en WhatsApp, Facebook, etc. 1200×630px recomendado."
+          - label: "Preguntas frecuentes (FAQ para Google)"
+            name: "faq"
+            widget: "list"
+            label_singular: "Pregunta"
+            required: false
+            summary: "{{fields.question}}"
+            fields:
+              - label: "Pregunta"
+                name: "question"
+                widget: "string"
+              - label: "Respuesta"
+                name: "answer"
+                widget: "text"
+
   # ──────────────────────────────────────────────────────────
-  # 3. SERVICIOS
+  # 3. AVISO ESPECIAL (banner de alerta en la web)
+  # ──────────────────────────────────────────────────────────
+  - name: "aviso"
+    label: "📢 Aviso especial"
+    files:
+      - name: "aviso_activo"
+        label: "Banner de aviso en la web"
+        file: "_data/notice.json"
+        format: json
+        description: "Muestra un aviso en la parte superior de la web. Ideal para cierres por vacaciones, cambios de horario, promociones puntuales..."
+        fields:
+          - label: "Activar aviso"
+            name: "active"
+            widget: "boolean"
+            default: false
+            hint: "Activa para que el aviso aparezca en la web. Desactiva cuando ya no sea necesario."
+          - label: "Tipo de aviso"
+            name: "type"
+            widget: "select"
+            options:
+              - label: "ℹ️ Información (azul)"
+                value: "info"
+              - label: "⚠️ Aviso (dorado)"
+                value: "warning"
+              - label: "❌ Cierre / Urgente (rojo)"
+                value: "alert"
+              - label: "🎉 Promoción (verde)"
+                value: "promo"
+            default: "info"
+            hint: "Elige el color según la urgencia del aviso"
+          - label: "Texto del aviso"
+            name: "message"
+            widget: "string"
+            hint: "Ej: Cerramos por vacaciones del 1 al 15 de agosto. ¡Hasta pronto!"
+          - label: "Texto del enlace (opcional)"
+            name: "link_text"
+            widget: "string"
+            required: false
+            hint: "Ej: Reservar antes → | Ver más →"
+          - label: "URL del enlace (opcional)"
+            name: "link_url"
+            widget: "string"
+            required: false
+            hint: "URL a la que lleva el enlace del aviso"
+
+  # ──────────────────────────────────────────────────────────
+  # 4. SERVICIOS
   # ──────────────────────────────────────────────────────────
   - name: "servicios"
     label: "✂️ Servicios"
@@ -255,7 +358,7 @@ collections:
         label: "Todos los servicios"
         file: "_data/services.json"
         format: json
-        description: "Añade, edita o elimina servicios. Cambia precios y duraciones fácilmente."
+        description: "Añade, edita o elimina servicios. Cambia precios, duraciones y links de pago SumUp."
         fields:
           - label: "Categorías de servicios"
             name: "categories"
@@ -274,6 +377,7 @@ collections:
                 name: "items"
                 widget: "list"
                 label_singular: "Servicio"
+                summary: "{{fields.name}} — {{fields.price}}"
                 fields:
                   - label: "Nombre del servicio"
                     name: "name"
@@ -294,7 +398,7 @@ collections:
                   - label: "Tipo de tarjeta"
                     name: "type"
                     widget: "select"
-                    hint: "Elige cómo destacar el servicio"
+                    hint: "Elige cómo destacar el servicio en la web"
                     options:
                       - label: "Normal (sin badge)"
                         value: "normal"
@@ -303,9 +407,14 @@ collections:
                       - label: "Premium — tarjeta con borde dorado"
                         value: "premium"
                     default: "normal"
+                  - label: "🔗 Link de pago SumUp"
+                    name: "sumup_link"
+                    widget: "string"
+                    required: false
+                    hint: "Pega aquí el link de pago de SumUp. Ej: https://pay.sumup.com/b2c/XXXXXXXX — Deja vacío para ocultar el botón de pago."
 
   # ──────────────────────────────────────────────────────────
-  # 4. EQUIPO
+  # 5. EQUIPO
   # ──────────────────────────────────────────────────────────
   - name: "equipo"
     label: "👥 Equipo"
@@ -334,7 +443,7 @@ collections:
               - label: "Foto"
                 name: "photo"
                 widget: "image"
-                hint: "Sube una foto del barbero o de la barbería"
+                hint: "Sube una foto del barbero. Tamaño recomendado: 400×500px"
               - label: "Visible en la web"
                 name: "active"
                 widget: "boolean"
@@ -342,7 +451,7 @@ collections:
                 hint: "Desactiva para ocultarlo sin borrarlo"
 
   # ──────────────────────────────────────────────────────────
-  # 5. GALERÍA
+  # 6. GALERÍA
   # ──────────────────────────────────────────────────────────
   - name: "galeria"
     label: "🖼️ Galería"
@@ -361,14 +470,14 @@ collections:
               - label: "Imagen"
                 name: "src"
                 widget: "image"
-                hint: "JPG o PNG. Tamaño recomendado: cuadrada, mínimo 600x600px"
+                hint: "JPG o PNG. Tamaño recomendado: cuadrada, mínimo 600×600px"
               - label: "Descripción (para SEO y accesibilidad)"
                 name: "alt"
                 widget: "string"
                 hint: "Describe la foto. Ej: Corte fade degradado en Faded Barbershop Madrid"
 
   # ──────────────────────────────────────────────────────────
-  # 6. PRODUCTOS
+  # 7. PRODUCTOS
   # ──────────────────────────────────────────────────────────
   - name: "productos"
     label: "🧴 Productos"
@@ -377,8 +486,12 @@ collections:
         label: "Catálogo de productos"
         file: "_data/products.json"
         format: json
-        description: "Añade, edita u oculta productos de barbería. Puedes subir imágenes, cambiar descripción, precio y enlace del producto."
+        description: "Añade, edita u oculta productos. Sube imágenes, cambia precios y configura los links de pago SumUp."
         fields:
+          - label: "— TEXTOS DE LA SECCIÓN —"
+            name: "products_texts_label"
+            widget: "hidden"
+            default: ""
           - label: "Texto pequeño en home"
             name: "home_eyebrow"
             widget: "string"
@@ -398,21 +511,25 @@ collections:
           - label: "Descripción de la página /productos"
             name: "page_desc"
             widget: "text"
-            default: "Consulta los productos disponibles en tienda y escríbenos para confirmar stock, imagen, formato o compatibilidad antes de venir."
+            default: "Consulta los productos disponibles en tienda."
           - label: "Nota inferior de productos"
             name: "page_note"
             widget: "text"
-            default: "Disponibilidad sujeta a stock en tienda. Si quieres confirmar antes de venir, escríbenos por WhatsApp."
+            default: "Disponibilidad sujeta a stock en tienda."
+          - label: "— PRODUCTOS —"
+            name: "products_list_label"
+            widget: "hidden"
+            default: ""
           - label: "Productos"
             name: "items"
             widget: "list"
             label_singular: "Producto"
             summary: "{{fields.name}} — {{fields.category}} — {{fields.price}}"
             fields:
-              - label: "Slug interno"
+              - label: "Slug interno (sin espacios, minúsculas)"
                 name: "slug"
                 widget: "string"
-                hint: "Ej: cera-mate-profesional"
+                hint: "Ej: cera-mate-profesional. No cambies esto si ya existe la página del producto."
               - label: "Visible en la web"
                 name: "active"
                 widget: "boolean"
@@ -424,7 +541,7 @@ collections:
               - label: "Categoría"
                 name: "category"
                 widget: "string"
-                hint: "Ej: Ceras, Bebidas, Champús"
+                hint: "Ej: Ceras, Bebidas"
               - label: "Nombre del producto"
                 name: "name"
                 widget: "string"
@@ -447,12 +564,19 @@ collections:
                 name: "image"
                 widget: "image"
                 required: false
+                hint: "Sube la foto del producto. Si subes una imagen aquí, se usará en lugar de la URL externa."
               - label: "Texto alternativo de la imagen"
                 name: "image_alt"
                 widget: "string"
                 required: false
-              - label: "URL opcional del producto"
+                hint: "Describe la imagen. Ej: Cera Red One Roja — acabado mate"
+              - label: "URL de la página del producto"
                 name: "product_url"
                 widget: "string"
                 required: false
-                hint: "Si se deja vacío, el botón irá a WhatsApp."
+                hint: "Ruta a la página individual. Ej: /productos/cera-mate-profesional.html — Vacío = botón va a WhatsApp."
+              - label: "🔗 Link de pago SumUp"
+                name: "sumup_link"
+                widget: "string"
+                required: false
+                hint: "Link de pago directo de SumUp. Ej: https://pay.sumup.com/b2c/XXXXXXXX — Deja vacío si no tiene pago online."

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>Faded Barbershop Madrid — Tienda</title>
+    <link>https://www.fadedbarbershopmadrid.com/productos/</link>
+    <description>Catálogo de productos de Faded Barbershop Madrid. Ceras profesionales Red One disponibles en tienda.</description>
+
+    <!-- ═══════════════════════════════════════════════
+         CERA RED ONE ROJA (Mate)
+    ════════════════════════════════════════════════ -->
+    <item>
+      <g:id>FBS-CERA-MATE</g:id>
+      <g:title>Cera Red One Roja — Acabado Mate | Faded Barbershop Madrid</g:title>
+      <g:description>Cera Red One Roja con acabado natural y fijación flexible para mantener el peinado controlado sin brillo excesivo. Disponible en Faded Barbershop Madrid, Av. Marqués de Corbera 37.</g:description>
+      <g:link>https://www.fadedbarbershopmadrid.com/productos/cera-mate-profesional.html</g:link>
+      <g:image_link>https://http2.mlstatic.com/D_NQ_NP_674060-MCO44032512925_112020-F.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>9.99 EUR</g:price>
+      <g:brand>Red One</g:brand>
+      <g:mpn>FBS-CERA-MATE</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:google_product_category>Health &amp; Beauty &gt; Personal Care &gt; Hair Care &gt; Hair Styling Products</g:google_product_category>
+      <g:product_type>Ceras &gt; Cera Mate</g:product_type>
+      <g:custom_label_0>cera-profesional</g:custom_label_0>
+      <g:custom_label_1>red-one</g:custom_label_1>
+      <g:shipping_weight>0.15 kg</g:shipping_weight>
+    </item>
+
+    <!-- ═══════════════════════════════════════════════
+         CERA RED ONE AZUL (Brillo)
+    ════════════════════════════════════════════════ -->
+    <item>
+      <g:id>FBS-CERA-BRILLO</g:id>
+      <g:title>Cera Red One Azul — Acabado Brillo | Faded Barbershop Madrid</g:title>
+      <g:description>Cera Red One Azul con acabado pulido y control firme para peinados definidos y estilos con presencia. Disponible en Faded Barbershop Madrid, Av. Marqués de Corbera 37.</g:description>
+      <g:link>https://www.fadedbarbershopmadrid.com/productos/cera-brillo-profesional.html</g:link>
+      <g:image_link>https://clipperyshaver.cl/wp-content/uploads/2023/11/cera-red-one-azul-tapa-abierta.webp</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>9.99 EUR</g:price>
+      <g:brand>Red One</g:brand>
+      <g:mpn>FBS-CERA-BRILLO</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:google_product_category>Health &amp; Beauty &gt; Personal Care &gt; Hair Care &gt; Hair Styling Products</g:google_product_category>
+      <g:product_type>Ceras &gt; Cera Brillo</g:product_type>
+      <g:custom_label_0>cera-profesional</g:custom_label_0>
+      <g:custom_label_1>red-one</g:custom_label_1>
+      <g:shipping_weight>0.15 kg</g:shipping_weight>
+    </item>
+
+    <!-- ═══════════════════════════════════════════════
+         CERA RED ONE NEGRA (Fijación Fuerte)
+    ════════════════════════════════════════════════ -->
+    <item>
+      <g:id>FBS-CERA-STRONG</g:id>
+      <g:title>Cera Red One Negra — Fijación Fuerte | Faded Barbershop Madrid</g:title>
+      <g:description>Cera Red One Negra con fijación fuerte y definición duradera para estilos exigentes con volumen y aguante durante todo el día. Disponible en Faded Barbershop Madrid, Av. Marqués de Corbera 37.</g:description>
+      <g:link>https://www.fadedbarbershopmadrid.com/productos/cera-fijacion-fuerte.html</g:link>
+      <g:image_link>https://http2.mlstatic.com/D_NQ_NP_921933-MCO72395136776_102023-O.webp</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>9.99 EUR</g:price>
+      <g:brand>Red One</g:brand>
+      <g:mpn>FBS-CERA-STRONG</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:google_product_category>Health &amp; Beauty &gt; Personal Care &gt; Hair Care &gt; Hair Styling Products</g:google_product_category>
+      <g:product_type>Ceras &gt; Cera Fijación Fuerte</g:product_type>
+      <g:custom_label_0>cera-profesional</g:custom_label_0>
+      <g:custom_label_1>red-one</g:custom_label_1>
+      <g:shipping_weight>0.15 kg</g:shipping_weight>
+    </item>
+
+  </channel>
+</rss>

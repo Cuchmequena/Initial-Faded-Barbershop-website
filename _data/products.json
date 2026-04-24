@@ -16,9 +16,10 @@
         "Botella individual",
         "Servida fría"
       ],
-      "image": "",
-      "image_alt": "",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fpsd-gratuitas%2Fgarrafa-de-agua-isolada-em-fundo-transparente_191095-28428.jpg&f=1&nofb=1&ipt=94915f8334f7a151b01eaa673a8911df558238506c5f189e1ffc542d28b24e69",
+      "image_alt": "Botella de agua fría 50 cl",
       "product_url": "/productos/agua-fria-50cl.html",
+      "sumup_link": "",
       "show_on_home": true,
       "active": true
     },
@@ -32,9 +33,10 @@
         "Lata individual",
         "Servida fría"
       ],
-      "image": "",
-      "image_alt": "",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcoalimentlasecuita.com%2F920-thickbox_default%2Fcoca-cola-lata-33cl.jpg&f=1&nofb=1&ipt=79906a5a88926f2a027ab564c9bd3979b6856b281c4d2ffdd848876fba16670f",
+      "image_alt": "Lata de Coca-cola 33 cl",
       "product_url": "/productos/coca-cola-33cl.html",
+      "sumup_link": "",
       "show_on_home": true,
       "active": true
     },
@@ -45,9 +47,10 @@
       "price": "1,20€",
       "description": "La Mahou de siempre, en buena compañía. Solo para mayores de 18 años.",
       "details": [],
-      "image": "",
-      "image_alt": "",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcafeyespecialidades.com%2Fwp-content%2Fuploads%2F6639ff6111ed0-1-scaled.jpg&f=1&nofb=1&ipt=0b6b7c95200e77021cd24f8c4536d61a22d32126510cd0ff1d2dbdf5bb0734fe",
+      "image_alt": "Botella de Mahou 5 Estrellas",
       "product_url": "/productos/mahou-5-estrellas.html",
+      "sumup_link": "",
       "show_on_home": true,
       "active": true
     },
@@ -61,9 +64,10 @@
         "Acabado mate",
         "Uso diario"
       ],
-      "image": "",
-      "image_alt": "",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhttp2.mlstatic.com%2FD_NQ_NP_674060-MCO44032512925_112020-F.jpg&f=1&nofb=1&ipt=ce325fb2337cf9e56d21277e7fcf85269a89ed260881e3fd01d6a79a8a2c1ce1",
+      "image_alt": "Cera Red One Roja — acabado mate",
       "product_url": "/productos/cera-mate-profesional.html",
+      "sumup_link": "https://pay.sumup.com/b2c/QEUG914A",
       "show_on_home": true,
       "active": true
     },
@@ -77,9 +81,10 @@
         "Acabado con brillo",
         "Textura cremosa"
       ],
-      "image": "",
-      "image_alt": "",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipperyshaver.cl%2Fwp-content%2Fuploads%2F2023%2F11%2Fcera-red-one-azul-tapa-abierta.webp&f=1&nofb=1&ipt=10c30c9351f621a208932dae38f564978d42dfc8edbd70ca02fb442189df788b",
+      "image_alt": "Cera Red One Azul — acabado brillo",
       "product_url": "/productos/cera-brillo-profesional.html",
+      "sumup_link": "https://pay.sumup.com/b2c/QIJRPWFT",
       "show_on_home": true,
       "active": true
     },
@@ -93,9 +98,10 @@
         "Fijación alta",
         "Definición duradera"
       ],
-      "image": "",
-      "image_alt": "",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhttp2.mlstatic.com%2FD_NQ_NP_921933-MCO72395136776_102023-O.webp&f=1&nofb=1&ipt=a4802205077be984fcd6ca3eef246776fc417229c611a8cc2cfb0b170041b00b",
+      "image_alt": "Cera Red One Negra — fijación fuerte",
       "product_url": "/productos/cera-fijacion-fuerte.html",
+      "sumup_link": "https://pay.sumup.com/b2c/QASEGM4M",
       "show_on_home": true,
       "active": true
     }

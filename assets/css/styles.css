@@ -688,6 +688,21 @@ address { font-style: normal; }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
+}
+
+.service-btns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-service--sm {
+  font-size: 11px;
+  padding: 8px 12px;
+  letter-spacing: 0.06em;
+  opacity: 0.8;
 }
 
 .service-price {
@@ -826,6 +841,14 @@ address { font-style: normal; }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap;
+}
+
+.product-card-btns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .product-price,
@@ -911,6 +934,19 @@ address { font-style: normal; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-gray-mid);
+}
+
+.product-page-img {
+  margin: 8px 0 4px;
+}
+
+.product-page-img img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: var(--radius);
+  background: #111;
+  padding: 10px;
 }
 
 .product-page-title {
