@@ -692,7 +692,7 @@ function renderServices(data) {
         <article class="${cardClassByType(item.type)}">
           ${badgeMarkup(item.type)}
           <div class="service-info">
-            <h4 class="service-name">${esc(item.name)}</h4>
+            <h4 class="service-name">${item.service_url ? `<a href="${esc(item.service_url)}" class="service-name-link">${esc(item.name)}</a>` : esc(item.name)}</h4>
             ${item.desc ? `<p class="service-desc-small">${esc(item.desc)}</p>` : ''}
             <p class="service-duration">${esc(item.duration || '')}</p>
           </div>

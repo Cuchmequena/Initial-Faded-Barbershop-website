@@ -10,6 +10,7 @@
           "duration": "40 min",
           "desc": "",
           "type": "normal",
+          "service_url": "/servicios/corte-de-caballero.html",
           "sumup_link": "https://pay.sumup.com/b2c/QB14CVFN"
         },
         {
@@ -18,6 +19,7 @@
           "duration": "1 hora",
           "desc": "",
           "type": "normal",
+          "service_url": "/servicios/corte-diseno.html",
           "sumup_link": "https://pay.sumup.com/b2c/Q0S2626Z"
         },
         {
@@ -26,6 +28,7 @@
           "duration": "45 min",
           "desc": "",
           "type": "normal",
+          "service_url": "/servicios/corte-cejas.html",
           "sumup_link": "https://pay.sumup.com/b2c/QTUFT87P"
         },
         {
@@ -34,6 +37,7 @@
           "duration": "1 hora",
           "desc": "",
           "type": "featured",
+          "service_url": "/servicios/corte-barba.html",
           "sumup_link": "https://pay.sumup.com/b2c/Q2YC0S7A"
         },
         {
@@ -42,6 +46,7 @@
           "duration": "30 min",
           "desc": "",
           "type": "normal",
+          "service_url": "/servicios/corte-nino.html",
           "sumup_link": "https://pay.sumup.com/b2c/Q8O45FNG"
         },
         {
@@ -58,6 +63,7 @@
           "duration": "1h 15 min",
           "desc": "Corte + Barba + Cejas + Limpieza",
           "type": "premium",
+          "service_url": "/servicios/pack-premium.html",
           "sumup_link": "https://pay.sumup.com/b2c/Q9XFQC4U"
         }
       ]
@@ -80,6 +86,7 @@
           "duration": "30 min",
           "desc": "",
           "type": "normal",
+          "service_url": "/servicios/arreglo-barba.html",
           "sumup_link": "https://pay.sumup.com/b2c/QVET8SP9"
         }
       ]
@@ -94,6 +101,7 @@
           "duration": "+2h 50 min",
           "desc": "",
           "type": "normal",
+          "service_url": "/servicios/mechas-coloracion-hombre.html",
           "sumup_link": "https://pay.sumup.com/b2c/QEAPNOC7"
         },
         {
@@ -102,6 +110,7 @@
           "duration": "+3h 30 min",
           "desc": "",
           "type": "normal",
+          "service_url": "/servicios/mechas-coloracion-hombre.html",
           "sumup_link": "https://pay.sumup.com/b2c/QC6XLGFE"
         },
         {
