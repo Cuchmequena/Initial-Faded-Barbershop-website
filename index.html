@@ -92,8 +92,20 @@
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
         "opens": "11:00",
+        "closes": "21:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Friday", "Saturday"],
+        "opens": "11:00",
+        "closes": "22:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Sunday",
+        "opens": "12:00",
         "closes": "21:30"
       }
     ],
@@ -529,12 +541,32 @@
                 <table class="schedule-table" aria-label="Horario de apertura">
                   <tbody>
                     <tr>
-                      <td id="contactHoursWeekdaysLabel">Lunes — Sábado</td>
-                      <td id="contactHoursWeekdaysTime"><strong>11:00 — 21:30</strong></td>
+                      <td>Lunes</td>
+                      <td id="hoursLunes"><strong>11:00 — 21:30</strong></td>
                     </tr>
                     <tr>
-                      <td id="contactHoursWeekendLabel">Domingo</td>
-                      <td id="contactHoursWeekendTime"><strong class="closed">Cerrado</strong></td>
+                      <td>Martes</td>
+                      <td id="hoursMartes"><strong>11:00 — 21:30</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Miércoles</td>
+                      <td id="hoursMiercoles"><strong>11:00 — 21:30</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Jueves</td>
+                      <td id="hoursJueves"><strong>11:00 — 21:30</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Viernes</td>
+                      <td id="hoursViernes"><strong>11:00 — 22:00</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Sábado</td>
+                      <td id="hoursSabado"><strong>11:00 — 22:00</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Domingo</td>
+                      <td id="hoursDomingo"><strong>12:00 — 21:30</strong></td>
                     </tr>
                   </tbody>
                 </table>
@@ -637,13 +669,53 @@
           <p class="section-desc reveal">Accesos rápidos a servicios, ubicación, productos y dudas frecuentes para que Google y el cliente entiendan mejor la web.</p>
         </header>
         <div class="seo-links-grid" id="seo-intent-links">
-          <a class="seo-link-card reveal" href="#servicios">
-            <span class="seo-link-card__title">Servicios de barbería</span>
-            <span class="seo-link-card__text">Consulta cortes, barba, cejas y tratamientos disponibles.</span>
+          <a class="seo-link-card reveal" href="/servicios/corte-de-caballero.html">
+            <span class="seo-link-card__title">Corte de Caballero — 15€</span>
+            <span class="seo-link-card__text">Corte profesional con degradado personalizado.</span>
           </a>
-          <a class="seo-link-card reveal" href="#ubicacion">
-            <span class="seo-link-card__title">Cómo llegar</span>
-            <span class="seo-link-card__text">Dirección, horario y acceso rápido a la barbería.</span>
+          <a class="seo-link-card reveal" href="/servicios/skin-fade.html">
+            <span class="seo-link-card__title">Skin Fade — 15€</span>
+            <span class="seo-link-card__text">Degradado a cero. Limpio y moderno.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/servicios/arreglo-barba.html">
+            <span class="seo-link-card__title">Arreglo de Barba — 10€</span>
+            <span class="seo-link-card__text">Perfilado y diseño de barba a cuchilla.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/servicios/pack-premium.html">
+            <span class="seo-link-card__title">Pack Premium — 30€</span>
+            <span class="seo-link-card__text">Corte + Barba + Cejas + Limpieza facial.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/servicios/french-crop.html">
+            <span class="seo-link-card__title">French Crop — 15€</span>
+            <span class="seo-link-card__text">Flequillo recto y fade a medida.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/servicios/corte-nino.html">
+            <span class="seo-link-card__title">Corte de Niño — 13€</span>
+            <span class="seo-link-card__text">Corte infantil en ambiente tranquilo.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/servicios/mid-fade.html">
+            <span class="seo-link-card__title">Mid Fade — 15€</span>
+            <span class="seo-link-card__text">Degradado a media altura, el más versátil.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/servicios/low-fade.html">
+            <span class="seo-link-card__title">Low Fade — 15€</span>
+            <span class="seo-link-card__text">Degradado bajo, elegante y formal.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/barrio/ciudad-lineal.html">
+            <span class="seo-link-card__title">Barbería Ciudad Lineal</span>
+            <span class="seo-link-card__text">Tu barbería de referencia en el barrio.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/barrio/ventas.html">
+            <span class="seo-link-card__title">Barbería cerca de Ventas</span>
+            <span class="seo-link-card__text">A menos de 10 minutos de Ventas.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/barrio/la-elipa.html">
+            <span class="seo-link-card__title">Barbería cerca de La Elipa</span>
+            <span class="seo-link-card__text">Referencia del barrio de La Elipa.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/servicios/mechas-coloracion-hombre.html">
+            <span class="seo-link-card__title">Mechas y Coloración</span>
+            <span class="seo-link-card__text">Mechas y tinte para hombre desde 49,99€.</span>
           </a>
         </div>
       </div>
@@ -660,15 +732,27 @@
         </a>
         <p class="footer-tagline">Barbería Premium · Ciudad Lineal · Madrid</p>
         <nav class="footer-nav" aria-label="Navegación del pie de página">
-          <a href="https://www.instagram.com/faded_madrid" target="_blank" rel="noopener noreferrer" aria-label="Instagram @faded_madrid">Instagram</a>
+          <a href="/servicios/corte-de-caballero.html">Corte Caballero</a>
           <span aria-hidden="true">·</span>
-          <a href="https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid" target="_blank" rel="noopener noreferrer" aria-label="Reservar en Booksy">Booksy</a>
+          <a href="/servicios/skin-fade.html">Skin Fade</a>
+          <span aria-hidden="true">·</span>
+          <a href="/servicios/arreglo-barba.html">Arreglo Barba</a>
+          <span aria-hidden="true">·</span>
+          <a href="/servicios/pack-premium.html">Pack Premium</a>
+          <span aria-hidden="true">·</span>
+          <a href="/servicios/french-crop.html">French Crop</a>
+          <span aria-hidden="true">·</span>
+          <a href="/servicios/corte-nino.html">Corte Niño</a>
+          <span aria-hidden="true">·</span>
+          <a href="/barrio/ciudad-lineal.html">Ciudad Lineal</a>
+          <span aria-hidden="true">·</span>
+          <a href="/barrio/ventas.html">Ventas</a>
+          <span aria-hidden="true">·</span>
+          <a href="/barrio/la-elipa.html">La Elipa</a>
           <span aria-hidden="true">·</span>
           <a href="/productos/" aria-label="Ver la sección de productos">Productos</a>
           <span aria-hidden="true">·</span>
           <a href="/politicas" aria-label="Ver políticas legales">Políticas legales</a>
-          <span aria-hidden="true">·</span>
-          <a href="https://maps.google.com/?q=Avenida+del+Marqués+de+Corbera+37+28017+Madrid" target="_blank" rel="noopener noreferrer" aria-label="Ver en Google Maps">Google Maps</a>
           <span aria-hidden="true">·</span>
           <a href="tel:+34691068660" aria-label="Llamar a Faded Barbershop">+34 691 068 660</a>
         </nav>
