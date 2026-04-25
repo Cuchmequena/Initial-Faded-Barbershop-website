@@ -25,10 +25,13 @@ const DEFAULT_CONFIG = {
   maps_url: DEFAULT_MAPS_URL,
   maps_embed_url: DEFAULT_MAPS_EMBED_URL,
   google_review_url: DEFAULT_GOOGLE_REVIEW_URL,
-  hours_weekdays_label: 'Lunes — Sábado',
-  hours_weekdays_time: '11:00 — 21:30',
-  hours_weekend_label: 'Domingo',
-  hours_weekend_time: 'Cerrado',
+  hours_lunes: '11:00 — 21:30',
+  hours_martes: '11:00 — 21:30',
+  hours_miercoles: '11:00 — 21:30',
+  hours_jueves: '11:00 — 21:30',
+  hours_viernes: '11:00 — 22:00',
+  hours_sabado: '11:00 — 22:00',
+  hours_domingo: '12:00 — 21:30',
   reviews_count: '119',
   reviews_score: '5.0',
 };
@@ -124,10 +127,13 @@ function normalizeConfig(config) {
   merged.maps_url = safeTrim(merged.maps_url, DEFAULT_CONFIG.maps_url);
   merged.maps_embed_url = safeTrim(merged.maps_embed_url, DEFAULT_CONFIG.maps_embed_url);
   merged.google_review_url = safeTrim(merged.google_review_url, DEFAULT_CONFIG.google_review_url);
-  merged.hours_weekdays_label = safeTrim(merged.hours_weekdays_label, DEFAULT_CONFIG.hours_weekdays_label);
-  merged.hours_weekdays_time = safeTrim(merged.hours_weekdays_time, DEFAULT_CONFIG.hours_weekdays_time);
-  merged.hours_weekend_label = safeTrim(merged.hours_weekend_label, DEFAULT_CONFIG.hours_weekend_label);
-  merged.hours_weekend_time = safeTrim(merged.hours_weekend_time, DEFAULT_CONFIG.hours_weekend_time);
+  merged.hours_lunes = safeTrim(merged.hours_lunes, DEFAULT_CONFIG.hours_lunes);
+  merged.hours_martes = safeTrim(merged.hours_martes, DEFAULT_CONFIG.hours_martes);
+  merged.hours_miercoles = safeTrim(merged.hours_miercoles, DEFAULT_CONFIG.hours_miercoles);
+  merged.hours_jueves = safeTrim(merged.hours_jueves, DEFAULT_CONFIG.hours_jueves);
+  merged.hours_viernes = safeTrim(merged.hours_viernes, DEFAULT_CONFIG.hours_viernes);
+  merged.hours_sabado = safeTrim(merged.hours_sabado, DEFAULT_CONFIG.hours_sabado);
+  merged.hours_domingo = safeTrim(merged.hours_domingo, DEFAULT_CONFIG.hours_domingo);
   merged.reviews_count = normalizeDigits(merged.reviews_count, DEFAULT_CONFIG.reviews_count);
   merged.reviews_score = safeTrim(merged.reviews_score, DEFAULT_CONFIG.reviews_score);
   return merged;
@@ -603,18 +609,21 @@ function applyConfig(configData) {
   setText('contactEmailText', `${config.email} →`);
   setAttr('contactEmailLink', 'href', `mailto:${config.email}`);
 
-  setText('contactHoursWeekdaysLabel', config.hours_weekdays_label);
-  setHTML('contactHoursWeekdaysTime', `<strong>${esc(config.hours_weekdays_time)}</strong>`);
-  setText('contactHoursWeekendLabel', config.hours_weekend_label);
-  setHTML('contactHoursWeekendTime', `<strong class="${config.hours_weekend_time.toLowerCase() === 'cerrado' ? 'closed' : ''}">${esc(config.hours_weekend_time)}</strong>`);
+  setHTML('hoursLunes', `<strong>${esc(config.hours_lunes)}</strong>`);
+  setHTML('hoursMartes', `<strong>${esc(config.hours_martes)}</strong>`);
+  setHTML('hoursMiercoles', `<strong>${esc(config.hours_miercoles)}</strong>`);
+  setHTML('hoursJueves', `<strong>${esc(config.hours_jueves)}</strong>`);
+  setHTML('hoursViernes', `<strong>${esc(config.hours_viernes)}</strong>`);
+  setHTML('hoursSabado', `<strong>${esc(config.hours_sabado)}</strong>`);
+  setHTML('hoursDomingo', `<strong>${esc(config.hours_domingo)}</strong>`);
 
   setText('productsWhatsappButton', 'Confirmar por WhatsApp');
   setAttr('productsWhatsappButton', 'href', config.whatsapp_href);
   setAttr('productsMapsButton', 'href', config.maps_url);
   setText('productsAddressStreet', config.address_street);
   setText('productsAddressCity', config.address_city);
-  setText('productsHoursWeekdays', `${config.hours_weekdays_label}: ${config.hours_weekdays_time}`);
-  setText('productsHoursWeekend', `${config.hours_weekend_label}: ${config.hours_weekend_time}`);
+  setText('productsHoursWeekdays', `Lun–Jue: ${config.hours_lunes} · Vie–Sáb: ${config.hours_viernes}`);
+  setText('productsHoursWeekend', `Dom: ${config.hours_domingo}`);
 
   setText('legalContactEmail', config.email);
   setAttr('legalContactEmail', 'href', `mailto:${config.email}`);
