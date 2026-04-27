@@ -7,7 +7,7 @@
   <!-- ═══ HOME ═══ -->
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,73 +15,73 @@
   <!-- ═══ SERVICIOS ═══ -->
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/corte-de-caballero.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/skin-fade.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/mid-fade.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/low-fade.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/french-crop.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/corte-diseno.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/corte-barba.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/corte-cejas.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/arreglo-barba.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/pack-premium.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/corte-nino.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/servicios/mechas-coloracion-hombre.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -89,69 +89,125 @@
   <!-- ═══ BARRIOS ═══ -->
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/barrio/ciudad-lineal.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/barrio/ventas.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/barrio/la-elipa.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/barrio/san-blas.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <!-- ═══ NUEVAS PÁGINAS SEO ═══ -->
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/servicios/fade-madrid.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/servicios/degradado-madrid.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/servicios/corte-hombre-madrid.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/servicios/disenos-pelo-madrid.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/servicios/barba-madrid.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/barrio/moratalaz.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/barrio/quintana.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/barrio/pueblo-nuevo.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fadedbarbershopmadrid.com/barrio/madrid-este.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
 
   <!-- ═══ PRODUCTOS ═══ -->
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/productos/</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/productos/agua-fria-50cl.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/productos/coca-cola-33cl.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/productos/mahou-5-estrellas.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/productos/cera-mate-profesional.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/productos/cera-brillo-profesional.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/productos/cera-fijacion-fuerte.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -159,7 +215,7 @@
   <!-- ═══ OTRAS ═══ -->
   <url>
     <loc>https://www.fadedbarbershopmadrid.com/politicas</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>

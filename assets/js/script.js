@@ -32,7 +32,7 @@ const DEFAULT_CONFIG = {
   hours_viernes: '11:00 — 22:00',
   hours_sabado: '11:00 — 22:00',
   hours_domingo: '12:00 — 21:30',
-  reviews_count: '119',
+  reviews_count: '179+',
   reviews_score: '5.0',
 };
 const DEFAULT_NOTICE = {
@@ -249,7 +249,7 @@ function updateLocalBusinessSchema(config, services, seo) {
     data.name = config.business_name;
     data.url = 'https://www.fadedbarbershopmadrid.com';
     data.telephone = config.phone_href.replace(/^tel:/, '');
-    data.description = safeTrim(seo && seo.meta_description, `Barbería premium en Madrid. ${config.reviews_score} estrellas con ${config.reviews_count} reseñas.`);
+    data.description = safeTrim(seo && seo.meta_description, `Barbería premium en Madrid. ${config.reviews_score} estrellas en Booksy con ${config.reviews_count} reseñas.`);
     if (data.address) {
       data.address.streetAddress = config.address_street;
       data.address.addressLocality = config.address_city.replace(/^(\d{5}\s*)?/, '').replace(/\s*\(.+\)$/, '').trim() || 'Madrid';
@@ -582,8 +582,8 @@ function applyConfig(configData) {
 
   setText('gallery-instagram-handle', config.instagram_handle);
   setText('heroReviewsScore', config.reviews_score);
-  setText('heroReviewsCount', `${config.reviews_count} reseñas`);
-  setAttr('heroRating', 'aria-label', `${config.reviews_score} estrellas, ${config.reviews_count} reseñas`);
+  setText('heroReviewsCount', `${config.reviews_count} reseñas en Booksy`);
+  setAttr('heroRating', 'aria-label', `${config.reviews_score} estrellas en Booksy, ${config.reviews_count} reseñas`);
 
   const reviewCounter = document.getElementById('reviewsCounter');
   const reviewsFeature = document.getElementById('reviewsFeatureNumber');
@@ -591,7 +591,7 @@ function applyConfig(configData) {
     reviewCounter.dataset.target = config.reviews_count;
   }
   if (reviewsFeature) {
-    reviewsFeature.setAttribute('aria-label', `${config.reviews_count} reseñas con valoración ${config.reviews_score} estrellas`);
+    reviewsFeature.setAttribute('aria-label', `${config.reviews_count} reseñas con valoración ${config.reviews_score} estrellas en Booksy`);
   }
 
   setText('contactAddressStreet', config.address_street);
@@ -733,7 +733,7 @@ function renderTeam(data) {
         <h3 class="team-name">${esc(member.name || '')}</h3>
         <p class="team-role">${esc(member.role || '')}</p>
         <p class="team-desc">${esc(member.desc || '')}</p>
-        <p class="team-rating"><span class="stars" aria-hidden="true">★★★★★</span><span>5.0 valoración clientes</span></p>
+        <p class="team-rating"><span class="stars" aria-hidden="true">★★★★★</span><span>5.0 en Booksy</span></p>
       </div>
     </article>
   `).join('');
