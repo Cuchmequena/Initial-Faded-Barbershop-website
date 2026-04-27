@@ -21,9 +21,10 @@
   "hours_viernes": "11:00 — 22:00",
   "hours_sabado": "11:00 — 22:00",
   "hours_domingo": "12:00 — 21:30",
-  "reviews_count": "179+",
+  "reviews_count": "179",
   "reviews_score": "5.0",
   "ga4_id": "G-J77W6XTWVN",
   "meta_pixel_id": "954925092429846",
-  "reviews_source": "Booksy"
+  "reviews_source": "Booksy",
+  "reviews_count_label": "179+"
 }

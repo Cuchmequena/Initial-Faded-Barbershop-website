@@ -1255,3 +1255,50 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', syncNoticeOffset, { passive: true });
   loadContent();
 });
+
+
+/* ── Animación de contadores ── */
+function initCounters() {
+  const counters = document.querySelectorAll('.counter');
+  if (!counters.length) return;
+
+  const animateCounter = (counter) => {
+    if (counter.dataset.counted === 'true') return;
+    counter.dataset.counted = 'true';
+
+    const target = parseInt(counter.dataset.target || '0', 10);
+    const duration = 1400;
+    const startTime = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      counter.textContent = current.toString();
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        counter.textContent = target.toString();
+      }
+    }
+
+    requestAnimationFrame(tick);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.35 });
+
+    counters.forEach(counter => observer.observe(counter));
+  } else {
+    counters.forEach(animateCounter);
+  }
+}
+
