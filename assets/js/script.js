@@ -1,6 +1,6 @@
 'use strict';
 
-let BOOKSY_URL = 'https://booksy.com/es-es/72058_faded-barbershop_barberia_53009_madrid';
+let BOOKSY_URL = 'https://booksy.com/es-es/instant-experiences/widget/72058';
 const DEFAULT_WHATSAPP_URL = 'https://wa.me/34603147958';
 let WHATSAPP_URL = DEFAULT_WHATSAPP_URL;
 const DEFAULT_INSTAGRAM_URL = 'https://www.instagram.com/faded_madrid';
