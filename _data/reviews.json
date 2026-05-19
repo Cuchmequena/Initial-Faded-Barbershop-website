@@ -1,0 +1,27 @@
+{
+  "title": "Clientes que vuelven",
+  "eyebrow": "Reseñas reales en Booksy",
+  "description": "179+ reseñas de 5 estrellas respaldan la experiencia FADED: cortes limpios, trato directo y resultados que se notan al salir.",
+  "items": [
+    {
+      "name": "Cliente Booksy",
+      "text": "Muy buen trato, corte perfecto y degradado muy limpio. Se nota que cuidan el detalle.",
+      "source": "Booksy"
+    },
+    {
+      "name": "Cliente Booksy",
+      "text": "Reservé por primera vez y salí encantado. Me asesoraron y clavaron el estilo que quería.",
+      "source": "Booksy"
+    },
+    {
+      "name": "Cliente Booksy",
+      "text": "Barbería recomendada en Ciudad Lineal. Buen ambiente, puntualidad y acabado profesional.",
+      "source": "Booksy"
+    },
+    {
+      "name": "Cliente Booksy",
+      "text": "El fade quedó impecable. Volveré seguro para el próximo corte.",
+      "source": "Booksy"
+    }
+  ]
+}

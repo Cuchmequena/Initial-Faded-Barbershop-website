@@ -678,3 +678,93 @@ collections:
                 widget: "string"
                 required: false
                 hint: "Link de pago directo de SumUp. Ej: https://pay.sumup.com/b2c/XXXXXXXX — Deja vacío si no tiene pago online."
+
+  # ──────────────────────────────────────────────────────────
+  # 8. BLOG
+  # ──────────────────────────────────────────────────────────
+  - name: "blog"
+    label: "📝 Blog"
+    files:
+      - name: "contenido_blog"
+        label: "Índice y artículos del blog"
+        file: "_data/blog.json"
+        format: json
+        description: "Edita los textos, metadatos SEO, cuerpos y enlaces de los artículos del blog. Las rutas/slug deben mantenerse estables si ya están publicadas."
+        fields:
+          - label: "Página índice del blog"
+            name: "index"
+            widget: "object"
+            fields:
+              - { label: "Título", name: "title", widget: "string" }
+              - { label: "Descripción", name: "description", widget: "text" }
+              - { label: "Etiqueta superior", name: "eyebrow", widget: "string" }
+              - { label: "Título lateral", name: "side_title", widget: "string" }
+              - { label: "Texto lateral", name: "side_text", widget: "text" }
+          - label: "Artículos"
+            name: "posts"
+            widget: "list"
+            label_singular: "Artículo"
+            summary: "{{fields.card_title}}"
+            fields:
+              - { label: "Slug", name: "slug", widget: "string", hint: "Debe coincidir con el data-blog-slug de su HTML. No cambiar si ya está publicado." }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "Título tarjeta", name: "card_title", widget: "string" }
+              - { label: "Texto tarjeta", name: "card_text", widget: "string" }
+              - { label: "Meta title", name: "meta_title", widget: "string" }
+              - { label: "Meta description", name: "meta_description", widget: "text" }
+              - { label: "Open Graph title", name: "og_title", widget: "string" }
+              - { label: "Open Graph description", name: "og_description", widget: "text" }
+              - { label: "Open Graph image", name: "og_image", widget: "string" }
+              - { label: "Etiqueta", name: "pill", widget: "string" }
+              - { label: "Título H1", name: "title", widget: "string" }
+              - { label: "Resumen", name: "summary", widget: "text" }
+              - { label: "Título lateral", name: "side_title", widget: "string" }
+              - label: "Lista lateral"
+                name: "side_items"
+                widget: "list"
+                required: false
+                field: { label: "Elemento", name: "item", widget: "string" }
+              - label: "Enlaces laterales"
+                name: "side_links"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Texto", name: "label", widget: "string" }
+                  - { label: "URL", name: "url", widget: "string" }
+              - { label: "Texto CTA principal", name: "primary_cta_label", widget: "string" }
+              - { label: "URL CTA principal", name: "primary_cta_url", widget: "string" }
+              - label: "Secciones del artículo"
+                name: "sections"
+                widget: "list"
+                label_singular: "Sección"
+                fields:
+                  - { label: "Encabezado", name: "heading", widget: "string" }
+                  - label: "Párrafos"
+                    name: "paragraphs"
+                    widget: "list"
+                    field: { label: "Párrafo", name: "paragraph", widget: "text", hint: "Permite HTML básico para enlaces internos." }
+
+  # ──────────────────────────────────────────────────────────
+  # 9. RESEÑAS
+  # ──────────────────────────────────────────────────────────
+  - name: "resenas"
+    label: "⭐ Reseñas"
+    files:
+      - name: "resenas_home"
+        label: "Carrusel de reseñas"
+        file: "_data/reviews.json"
+        format: json
+        description: "Edita el bloque de reseñas de la home y los testimonios del carrusel."
+        fields:
+          - { label: "Título", name: "title", widget: "string" }
+          - { label: "Etiqueta superior", name: "eyebrow", widget: "string" }
+          - { label: "Descripción", name: "description", widget: "text" }
+          - label: "Reseñas"
+            name: "items"
+            widget: "list"
+            label_singular: "Reseña"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Nombre", name: "name", widget: "string" }
+              - { label: "Texto", name: "text", widget: "text" }
+              - { label: "Fuente", name: "source", widget: "string", default: "Booksy" }

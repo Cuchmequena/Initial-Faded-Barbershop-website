@@ -2472,6 +2472,101 @@ address { font-style: normal; }
 .skeleton-card:nth-child(2) { animation-delay: 0.15s; }
 .skeleton-card:nth-child(3) { animation-delay: 0.3s; }
 
+/* 22b. Reviews carousel
+   ============================================================ */
+.reviews-carousel-section {
+  padding: clamp(56px, 9vw, 96px) 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.08), transparent 36%),
+    var(--color-black);
+}
+
+.reviews-carousel-header {
+  margin-bottom: clamp(28px, 5vw, 48px);
+}
+
+.reviews-carousel {
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.reviews-carousel__track {
+  position: relative;
+  min-height: 260px;
+}
+
+.reviews-carousel__card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  gap: 16px;
+  padding: clamp(28px, 6vw, 44px);
+  border: 1px solid rgba(255, 215, 0, 0.22);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(26, 26, 26, 0.92), rgba(7, 7, 7, 0.96));
+  box-shadow: var(--shadow-card), var(--shadow-gold);
+  opacity: 0;
+  transform: translateY(14px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.reviews-carousel__card.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.reviews-carousel__stars {
+  color: var(--color-gold);
+  font-size: 18px;
+  letter-spacing: 0.14em;
+}
+
+.reviews-carousel__card blockquote {
+  max-width: 620px;
+  margin: 0 auto;
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: clamp(22px, 4vw, 34px);
+  line-height: 1.18;
+}
+
+.reviews-carousel__author {
+  color: var(--color-gray-mid);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reviews-carousel__author span {
+  color: var(--color-gold);
+}
+
+.reviews-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.reviews-carousel__dot {
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  border-radius: 999px;
+  background: transparent;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.reviews-carousel__dot.is-active,
+.reviews-carousel__dot:hover {
+  background: var(--color-gold);
+  transform: scale(1.2);
+}
+
 /* 22c. First cut discount popup
    ============================================================ */
 .first-cut-popup {
@@ -2628,6 +2723,29 @@ body.has-first-cut-popup {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.first-cut-popup__timer {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: -8px auto 22px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 215, 0, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 215, 0, 0.07);
+  color: var(--color-gray);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.first-cut-popup__timer strong {
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
 }
 
 .first-cut-popup__cta-wrap {

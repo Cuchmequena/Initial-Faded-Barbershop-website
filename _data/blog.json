@@ -1,0 +1,83 @@
+{
+  "index": {
+    "title": "Blog de cortes, fades y barbería en Madrid",
+    "description": "Consejos directos para elegir corte, entender los degradados y llegar a la barbería con una idea clara.",
+    "eyebrow": "Guías FADED",
+    "side_title": "Reserva fácil",
+    "side_text": "Si ya sabes qué quieres, reserva por Booksy o escríbenos por WhatsApp."
+  },
+  "posts": [
+    {
+      "slug": "como-elegir-tu-fade-perfecto",
+      "url": "/blog/como-elegir-tu-fade-perfecto.html",
+      "card_title": "Cómo elegir tu fade perfecto",
+      "card_text": "Skin, mid, low o taper según tu pelo y estilo.",
+      "meta_title": "Cómo elegir tu fade perfecto en Madrid | FADED Barbershop",
+      "meta_description": "Guía para elegir entre skin fade, mid fade, low fade o taper según tu pelo, estilo y forma de cara. FADED Barbershop Madrid.",
+      "og_title": "Cómo elegir tu fade perfecto en Madrid",
+      "og_description": "Skin fade, mid fade, low fade o taper: aprende cuál encaja mejor contigo antes de reservar.",
+      "og_image": "https://www.fadedbarbershopmadrid.com/assets/images/skin-fade.webp",
+      "pill": "Guía de corte",
+      "title": "Cómo elegir tu fade perfecto antes de venir a la barbería",
+      "summary": "El fade correcto depende de tu pelo, tu rutina y el estilo que quieres proyectar. Esta guía te ayuda a llegar con una idea clara.",
+      "side_title": "Resumen rápido",
+      "side_items": ["Skin fade: acabado más limpio y marcado", "Mid fade: equilibrio y versatilidad", "Low fade: discreto y elegante", "Taper: natural y fácil de mantener"],
+      "primary_cta_label": "Ver Skin Fade",
+      "primary_cta_url": "/servicios/skin-fade.html",
+      "sections": [
+        {"heading": "Skin fade, mid fade o low fade: qué cambia realmente", "paragraphs": ["El <a href=\"/servicios/skin-fade.html\" style=\"color:var(--color-gold)\">skin fade</a> baja hasta la piel y crea un contraste fuerte. Es ideal si quieres un acabado moderno, limpio y muy definido.", "El <a href=\"/servicios/mid-fade.html\" style=\"color:var(--color-gold)\">mid fade</a> empieza a media altura y funciona bien con casi cualquier estilo: crop, textura, raya o corte clásico.", "El <a href=\"/servicios/low-fade.html\" style=\"color:var(--color-gold)\">low fade</a> es más bajo y discreto. Queda bien si trabajas en un entorno más formal o quieres que el corte crezca de forma suave."]},
+        {"heading": "Qué pedir si no lo tienes claro", "paragraphs": ["Si vienes a FADED en Ciudad Lineal, no necesitas traer una explicación técnica perfecta. Puedes enseñar una foto, contar qué no te gusta de tu corte actual y dejar que el barbero adapte el degradado a tu cabeza, nacimiento del pelo y estilo diario.", "La clave está en combinar altura del fade, textura superior y perfilado. Un buen fade no es solo pasar máquina: debe conectar bien con la parte superior y mantener proporción con tu cara."]},
+        {"heading": "Cuándo reservar", "paragraphs": ["Si quieres llegar seguro a tu hora, reserva en Booksy. También puedes venir sin cita si hay hueco, pero para viernes, sábado o cambios grandes recomendamos reservar."]}
+      ]
+    },
+    {
+      "slug": "guia-degradados-madrid",
+      "url": "/blog/guia-degradados-madrid.html",
+      "card_title": "Guía de degradados en Madrid",
+      "card_text": "Diferencias claras entre los fades más pedidos.",
+      "meta_title": "Guía de Degradados en Madrid | Skin, Mid y Low Fade | FADED",
+      "meta_description": "Guía clara de degradados para hombre en Madrid: diferencias entre skin fade, mid fade, low fade y diseños. FADED Barbershop Ciudad Lineal.",
+      "og_title": "Guía de degradados en Madrid",
+      "og_description": "Aprende las diferencias entre skin fade, mid fade y low fade antes de reservar tu corte.",
+      "og_image": "https://www.fadedbarbershopmadrid.com/assets/images/mid-fade.webp",
+      "pill": "Degradados",
+      "title": "Guía de degradados en Madrid: skin, mid y low fade",
+      "summary": "Un degradado bien hecho cambia por completo el corte. La diferencia está en la altura, la transición y cómo se conecta con la parte superior.",
+      "side_title": "Servicios relacionados",
+      "side_links": [{"label": "Degradado Madrid", "url": "/servicios/degradado-madrid.html"}, {"label": "Fade Madrid", "url": "/servicios/fade-madrid.html"}, {"label": "Corte hombre Madrid", "url": "/servicios/corte-hombre-madrid.html"}],
+      "primary_cta_label": "Reservar degradado",
+      "primary_cta_url": "https://booksy.com/es-es/instant-experiences/widget/72058",
+      "sections": [
+        {"heading": "Qué hace que un degradado se vea limpio", "paragraphs": ["Un buen degradado no deja líneas duras. La transición tiene que subir de forma progresiva, respetando el crecimiento del pelo y la forma de la cabeza.", "En FADED trabajamos el degradado según el resultado que quieres: más agresivo, más natural o más elegante. Por eso no todos los fades se cortan igual."]},
+        {"heading": "Skin fade", "paragraphs": ["El skin fade es el más marcado. Baja hasta cero o piel y deja un contraste fuerte. Es ideal para estilos urbanos y cortes con mucha definición."]},
+        {"heading": "Mid fade", "paragraphs": ["El mid fade es el más versátil. Funciona con pelo corto, textura superior, crop o raya. Si dudas, suele ser la opción más segura."]},
+        {"heading": "Low fade", "paragraphs": ["El low fade mantiene un acabado más sobrio. Es perfecto si quieres degradado pero sin que el contraste sea tan protagonista.", "Si estás cerca de Ciudad Lineal, La Elipa, Ventas o Moratalaz, puedes reservar tu degradado en FADED por Booksy o escribirnos por WhatsApp."]}
+      ]
+    },
+    {
+      "slug": "corte-segun-tipo-de-pelo",
+      "url": "/blog/corte-segun-tipo-de-pelo.html",
+      "card_title": "Corte según tu tipo de pelo",
+      "card_text": "Qué pedir si tienes pelo liso, rizado, fino o denso.",
+      "meta_title": "Corte de Hombre Según Tu Tipo de Pelo | FADED Madrid",
+      "meta_description": "Qué corte de hombre pedir según tu tipo de pelo: liso, rizado, fino, denso o con entradas. Consejos de FADED Barbershop Madrid.",
+      "og_title": "Corte de hombre según tu tipo de pelo",
+      "og_description": "Consejos para elegir corte si tienes pelo liso, rizado, fino, denso o con entradas.",
+      "og_image": "https://www.fadedbarbershopmadrid.com/assets/images/corte-de-caballero.webp",
+      "pill": "Asesoramiento",
+      "title": "Qué corte pedir según tu tipo de pelo",
+      "summary": "No todos los cortes funcionan igual en pelo liso, rizado, fino o denso. Elegir bien evita pelearte con el peinado cada mañana.",
+      "side_title": "Recomendado",
+      "side_links": [{"label": "Corte de caballero", "url": "/servicios/corte-de-caballero.html"}, {"label": "French Crop", "url": "/servicios/french-crop.html"}, {"label": "Corte + diseño", "url": "/servicios/corte-diseno.html"}],
+      "primary_cta_label": "Ver corte de caballero",
+      "primary_cta_url": "/servicios/corte-de-caballero.html",
+      "sections": [
+        {"heading": "Pelo liso", "paragraphs": ["El pelo liso marca mucho las líneas, así que conviene trabajar transiciones limpias y textura superior para que no quede plano. Un mid fade o french crop suele funcionar muy bien."]},
+        {"heading": "Pelo rizado", "paragraphs": ["El pelo rizado necesita forma y control de volumen. Un low fade o taper puede mantener textura arriba sin crear demasiado contraste."]},
+        {"heading": "Pelo fino", "paragraphs": ["En pelo fino buscamos cortes que den sensación de densidad. Evitamos descargar demasiado arriba y trabajamos acabados naturales."]},
+        {"heading": "Pelo denso", "paragraphs": ["El pelo denso permite fades marcados y diseños, pero requiere descargar volumen para que el corte aguante más días."]},
+        {"heading": "Si tienes entradas", "paragraphs": ["Lo importante es no intentar tapar a la fuerza. Un corte más texturizado o un crop controlado puede equilibrar mejor la línea frontal.", "En FADED te asesoramos antes de cortar para adaptar el servicio a tu pelo real, no solo a una foto de referencia."]}
+      ]
+    }
+  ]
+}

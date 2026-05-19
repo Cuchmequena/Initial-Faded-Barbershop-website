@@ -92,6 +92,107 @@ function setMetaProp(property, content) {
   if (el) el.setAttribute('content', content);
 }
 
+function setMetaBySelector(selector, content) {
+  if (content == null) return;
+  const el = document.querySelector(selector);
+  if (el) el.setAttribute('content', String(content));
+}
+
+function getBlogPosts(blog) {
+  return Array.isArray(blog && blog.posts) ? blog.posts.filter((post) => post && post.slug && post.url) : [];
+}
+
+function renderBlogCard(post) {
+  return `<a class="seo-link-card reveal" href="${esc(post.url)}"><span class="seo-link-card__title">${esc(post.card_title || post.title)}</span><span class="seo-link-card__text">${esc(post.card_text || post.summary)}</span></a>`;
+}
+
+function applyBlogMeta(post) {
+  if (!post) return;
+  if (post.meta_title) document.title = post.meta_title;
+  setMeta('description', post.meta_description);
+  setMetaProp('og:title', post.og_title || post.meta_title || post.title);
+  setMetaProp('og:description', post.og_description || post.meta_description || post.summary);
+  setMetaProp('og:image', post.og_image);
+  setMetaBySelector('meta[name="twitter:image"]', post.og_image);
+
+  const jsonLd = document.querySelector('[data-blog-jsonld]');
+  if (jsonLd) {
+    jsonLd.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.og_title || post.title,
+      description: post.meta_description || post.summary,
+      image: post.og_image,
+      author: { '@type': 'Organization', name: 'Faded Barbershop' },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Faded Barbershop',
+        logo: { '@type': 'ImageObject', url: 'https://www.fadedbarbershopmadrid.com/assets/images/logo.png' },
+      },
+      datePublished: '2026-05-19',
+      dateModified: '2026-05-19',
+      mainEntityOfPage: `https://www.fadedbarbershopmadrid.com${post.url}`,
+    });
+  }
+}
+
+function renderBlogSide(post) {
+  const side = document.querySelector('[data-blog-side]');
+  if (!side || !post) return;
+  let content = `<h2>${esc(post.side_title || 'Relacionado')}</h2>`;
+  if (Array.isArray(post.side_links) && post.side_links.length) {
+    content += `<p class="product-summary">${post.side_links.map((link) => `<a href="${esc(link.url)}" style="color:var(--color-gold)">${esc(link.label)}</a>`).join('<br>')}</p>`;
+  } else if (Array.isArray(post.side_items) && post.side_items.length) {
+    content += `<ul class="product-list">${post.side_items.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>`;
+  }
+  side.innerHTML = content;
+}
+
+function renderBlogBody(post) {
+  const body = document.querySelector('[data-blog-body]');
+  if (!body || !Array.isArray(post && post.sections)) return;
+  body.innerHTML = post.sections.map((section) => {
+    const paragraphs = Array.isArray(section.paragraphs) ? section.paragraphs : [];
+    return `<h2>${esc(section.heading)}</h2>${paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('')}`;
+  }).join('');
+}
+
+function applyBlog(blog) {
+  const posts = getBlogPosts(blog);
+  if (!posts.length) return;
+
+  if (document.body.dataset.page === 'blog') {
+    const index = blog.index || {};
+    document.querySelectorAll('[data-blog-index-field]').forEach((el) => {
+      const key = el.getAttribute('data-blog-index-field');
+      if (index[key] != null) el.textContent = index[key];
+    });
+    const grid = document.querySelector('[data-blog-posts]');
+    if (grid) grid.innerHTML = posts.map(renderBlogCard).join('');
+    return;
+  }
+
+  const slug = document.body.dataset.blogSlug;
+  if (!slug) return;
+  const post = posts.find((item) => item.slug === slug);
+  if (!post) return;
+
+  document.querySelectorAll('[data-blog-field]').forEach((el) => {
+    const key = el.getAttribute('data-blog-field');
+    if (post[key] != null) el.textContent = post[key];
+  });
+  const primaryCta = document.querySelector('[data-blog-primary-cta]');
+  if (primaryCta) {
+    primaryCta.textContent = post.primary_cta_label || primaryCta.textContent;
+    if (post.primary_cta_url) primaryCta.setAttribute('href', post.primary_cta_url);
+  }
+  renderBlogSide(post);
+  renderBlogBody(post);
+  const related = document.querySelector('[data-blog-related]');
+  if (related) related.innerHTML = posts.filter((item) => item.slug !== slug).map(renderBlogCard).join('');
+  applyBlogMeta(post);
+}
+
 async function readJson(url) {
   const res = await fetch(url);
   if (!res.ok) return null;
@@ -326,6 +427,145 @@ function updateFaqSchema(seo) {
   }, null, 2);
 }
 
+function upsertJsonLd(id, data) {
+  if (!data) return;
+  let schema = document.getElementById(id);
+  if (!schema) {
+    schema = document.createElement('script');
+    schema.id = id;
+    schema.type = 'application/ld+json';
+    document.head.appendChild(schema);
+  }
+  schema.textContent = JSON.stringify(data, null, 2);
+}
+
+function absoluteUrl(url) {
+  try {
+    return new URL(url || window.location.pathname, window.location.origin).href;
+  } catch (error) {
+    return window.location.href;
+  }
+}
+
+function setupBreadcrumbSchema() {
+  const breadcrumb = document.querySelector('.product-breadcrumb');
+  if (!breadcrumb) return;
+
+  const items = [];
+  breadcrumb.querySelectorAll('a, span:not([aria-hidden="true"])').forEach((node) => {
+    const name = safeTrim(node.textContent);
+    if (!name || name === '/') return;
+    items.push({
+      '@type': 'ListItem',
+      position: items.length + 1,
+      name,
+      item: node.tagName.toLowerCase() === 'a' ? absoluteUrl(node.getAttribute('href')) : window.location.href,
+    });
+  });
+
+  if (items.length < 2) return;
+  upsertJsonLd('breadcrumb-schema', {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items,
+  });
+}
+
+function setupVisibleFaqSchema() {
+  if (document.getElementById('faq-schema') && safeTrim(document.getElementById('faq-schema').textContent)) return;
+  const faqs = Array.from(document.querySelectorAll('.seo-faq-item')).map((item) => {
+    const question = safeTrim(item.querySelector('summary') && item.querySelector('summary').textContent);
+    const answer = safeTrim(item.querySelector('p') && item.querySelector('p').textContent);
+    return question && answer ? { question, answer } : null;
+  }).filter(Boolean);
+
+  if (!faqs.length) return;
+  upsertJsonLd('visible-faq-schema', {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  });
+}
+
+function setupProductSchema() {
+  if (!window.location.pathname.startsWith('/productos/') || window.location.pathname === '/productos/') return;
+  const hasProductSchema = Array.from(document.querySelectorAll('script[type="application/ld+json"]')).some((schema) => {
+    try {
+      const data = JSON.parse(schema.textContent);
+      return data && data['@type'] === 'Product';
+    } catch (error) {
+      return false;
+    }
+  });
+  if (hasProductSchema) return;
+  const title = safeTrim(document.querySelector('.product-page-title') && document.querySelector('.product-page-title').textContent);
+  if (!title) return;
+
+  const summary = safeTrim(document.querySelector('.product-summary') && document.querySelector('.product-summary').textContent);
+  const priceText = safeTrim(document.querySelector('.product-page-price') && document.querySelector('.product-page-price').textContent);
+  const image = document.querySelector('.product-page-img img');
+  const price = extractPriceValue(priceText);
+
+  upsertJsonLd('product-schema', {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: title,
+    description: summary || `${title} disponible en Faded Barbershop Madrid.`,
+    image: image ? absoluteUrl(image.getAttribute('src')) : 'https://www.fadedbarbershopmadrid.com/assets/images/hero-bg.jpg',
+    brand: {
+      '@type': 'Brand',
+      name: 'Faded Barbershop',
+    },
+    sku: slugify(title),
+    offers: {
+      '@type': 'Offer',
+      url: window.location.href,
+      priceCurrency: 'EUR',
+      price: price ? String(price) : '0',
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/NewCondition',
+      seller: {
+        '@type': 'HairSalon',
+        name: 'Faded Barbershop',
+        url: 'https://www.fadedbarbershopmadrid.com/',
+      },
+    },
+  });
+}
+
+function normalizePageLocalBusinessSchema() {
+  if (!window.location.pathname.startsWith('/barrio/')) return;
+  document.querySelectorAll('script[type="application/ld+json"]').forEach((schema) => {
+    try {
+      const data = JSON.parse(schema.textContent);
+      if (data && data['@type'] === 'HairSalon') {
+        data.url = window.location.href;
+        data.areaServed = {
+          '@type': 'Place',
+          name: safeTrim(document.querySelector('h1') && document.querySelector('h1').textContent, 'Madrid'),
+        };
+        schema.textContent = JSON.stringify(data, null, 2);
+      }
+    } catch (error) {
+      // Ignora schemas no parseables de terceros.
+    }
+  });
+}
+
+function setupStructuredDataEnhancements() {
+  setupBreadcrumbSchema();
+  setupVisibleFaqSchema();
+  setupProductSchema();
+  normalizePageLocalBusinessSchema();
+}
+
 function renderSeoSupport(seo) {
   const section = document.getElementById('seo-support-section');
   if (!section || !seo) return;
@@ -431,6 +671,73 @@ function renderSeoInternalLinks(services, seo) {
   `).join('');
 
   revealNow(container.querySelectorAll('.reveal'));
+}
+
+function renderReviewsCarousel(reviewsData) {
+  if (!isHomePage() || !reviewsData || !Array.isArray(reviewsData.items) || !reviewsData.items.length) return;
+  if (document.getElementById('reviews-carousel-section')) return;
+
+  const anchor = document.getElementById('servicios');
+  const section = document.createElement('section');
+  section.id = 'reviews-carousel-section';
+  section.className = 'reviews-carousel-section';
+  section.setAttribute('aria-label', 'Reseñas de clientes en Booksy');
+  section.innerHTML = `
+    <div class="container">
+      <header class="section-header reviews-carousel-header">
+        <p class="section-eyebrow reveal">${esc(reviewsData.eyebrow || 'Reseñas reales')}</p>
+        <h2 class="section-title reveal">${esc(reviewsData.title || 'Clientes que vuelven')}</h2>
+        <p class="section-desc reveal">${esc(reviewsData.description || '179+ reseñas de 5 estrellas en Booksy.')}</p>
+      </header>
+      <div class="reviews-carousel reveal" data-reviews-carousel>
+        <div class="reviews-carousel__track">
+          ${reviewsData.items.map((item, index) => `
+            <article class="reviews-carousel__card${index === 0 ? ' is-active' : ''}" aria-hidden="${index === 0 ? 'false' : 'true'}">
+              <p class="reviews-carousel__stars" aria-label="5 estrellas">★★★★★</p>
+              <blockquote>“${esc(item.text)}”</blockquote>
+              <p class="reviews-carousel__author">${esc(item.name || 'Cliente FADED')} · <span>${esc(item.source || 'Booksy')}</span></p>
+            </article>
+          `).join('')}
+        </div>
+        <div class="reviews-carousel__dots" aria-label="Cambiar reseña">
+          ${reviewsData.items.map((_, index) => `<button type="button" class="reviews-carousel__dot${index === 0 ? ' is-active' : ''}" data-review-index="${index}" aria-label="Ver reseña ${index + 1}"></button>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (anchor && anchor.parentNode) {
+    anchor.parentNode.insertBefore(section, anchor);
+  } else {
+    document.querySelector('main').appendChild(section);
+  }
+
+  setupReviewsCarousel(section);
+}
+
+function setupReviewsCarousel(root) {
+  const carousel = root.querySelector('[data-reviews-carousel]');
+  if (!carousel) return;
+  const cards = Array.from(carousel.querySelectorAll('.reviews-carousel__card'));
+  const dots = Array.from(carousel.querySelectorAll('.reviews-carousel__dot'));
+  if (cards.length <= 1) return;
+  let activeIndex = 0;
+
+  const setActive = (nextIndex) => {
+    activeIndex = (nextIndex + cards.length) % cards.length;
+    cards.forEach((card, index) => {
+      const active = index === activeIndex;
+      card.classList.toggle('is-active', active);
+      card.setAttribute('aria-hidden', String(!active));
+    });
+    dots.forEach((dot, index) => dot.classList.toggle('is-active', index === activeIndex));
+  };
+
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => setActive(Number.parseInt(dot.dataset.reviewIndex || '0', 10)));
+  });
+
+  window.setInterval(() => setActive(activeIndex + 1), 5200);
 }
 
 function animateCounter(counter) {
@@ -1019,6 +1326,14 @@ function setupFirstCutDiscountPopup() {
     }
   }
 
+  function formatCountdown(ms) {
+    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+    const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+    const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   function closePopup(reason) {
     const popup = document.getElementById('first-cut-popup');
     if (!popup) return;
@@ -1033,6 +1348,7 @@ function setupFirstCutDiscountPopup() {
     if (document.getElementById('first-cut-popup')) return;
     if (Date.now() - getLastSeenAt() < DAY_MS) return;
 
+    const expiresAt = Date.now() + DAY_MS;
     markSeen();
 
     const popup = document.createElement('div');
@@ -1054,6 +1370,9 @@ function setupFirstCutDiscountPopup() {
           <span>Reserva prioritaria</span>
           <span>Experiencia FADED</span>
         </div>
+        <div class="first-cut-popup__timer" aria-live="polite">
+          Oferta activa durante <strong data-popup-countdown>24:00:00</strong>
+        </div>
         <div class="first-cut-popup__cta-wrap">
           <span class="first-cut-popup__hint" aria-hidden="true">¡Click aquí!</span>
           <a class="btn btn-gold first-cut-popup__cta"
@@ -1074,10 +1393,24 @@ function setupFirstCutDiscountPopup() {
 
     const closeButton = popup.querySelector('.first-cut-popup__close');
     const cta = popup.querySelector('.first-cut-popup__cta');
+    const countdown = popup.querySelector('[data-popup-countdown]');
+
+    const countdownTimer = window.setInterval(() => {
+      const remaining = expiresAt - Date.now();
+      if (countdown) countdown.textContent = formatCountdown(remaining);
+      if (remaining <= 0) {
+        window.clearInterval(countdownTimer);
+        trackPopup('popup_timer_expired', { context: 'popup_first_cut_discount' });
+        closePopup('timer_expired');
+      }
+    }, 1000);
 
     popup.addEventListener('click', (event) => {
       const closeTarget = event.target.closest('[data-popup-close]');
-      if (closeTarget) closePopup(closeTarget.getAttribute('data-popup-close'));
+      if (closeTarget) {
+        window.clearInterval(countdownTimer);
+        closePopup(closeTarget.getAttribute('data-popup-close'));
+      }
     });
 
     if (cta) {
@@ -1087,6 +1420,7 @@ function setupFirstCutDiscountPopup() {
           link_url: cta.href,
           link_text: safeTrim(cta.textContent),
         });
+        window.clearInterval(countdownTimer);
         closePopup('whatsapp_click');
       });
     }
@@ -1094,6 +1428,7 @@ function setupFirstCutDiscountPopup() {
     const onKeyDown = (event) => {
       if (event.key === 'Escape' && document.getElementById('first-cut-popup')) {
         closePopup('escape');
+        window.clearInterval(countdownTimer);
         document.removeEventListener('keydown', onKeyDown);
       }
     };
@@ -1335,7 +1670,7 @@ function setupLightbox() {
 }
 
 async function loadContent() {
-  const [home, services, team, gallery, config, seo, products, notice] = await Promise.all([
+  const [home, services, team, gallery, config, seo, products, notice, reviews, blog] = await Promise.all([
     readJson('/_data/home.json'),
     readJson('/_data/services.json'),
     readJson('/_data/team.json'),
@@ -1344,6 +1679,8 @@ async function loadContent() {
     readJson('/_data/seo.json'),
     readJson('/_data/products.json'),
     readJson('/_data/notice.json'),
+    readJson('/_data/reviews.json'),
+    readJson('/_data/blog.json'),
   ]);
 
   renderNoticeBar(notice);
@@ -1355,6 +1692,8 @@ async function loadContent() {
   }
   updateLocalBusinessSchema(normalizeConfig(config), services, seo);
   renderServices(services);
+  renderReviewsCarousel(reviews);
+  applyBlog(blog);
   renderTeam(team);
   renderGallery(gallery);
   if (products) {
@@ -1372,6 +1711,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHeroMedia();
   setupTrackingDelegation();
   setupMapInteractionTracking();
+  setupStructuredDataEnhancements();
   setupFirstCutDiscountPopup();
   setupLightbox();
   syncNoticeOffset();
