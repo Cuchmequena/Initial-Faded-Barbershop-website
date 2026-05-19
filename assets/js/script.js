@@ -1298,25 +1298,24 @@ function setupMapInteractionTracking() {
 }
 
 function setupFirstCutDiscountPopup() {
-  const STORAGE_KEY = 'faded_first_cut_discount_popup_seen_at';
-  const DAY_MS = 24 * 60 * 60 * 1000;
+  const STORAGE_KEY = 'faded_first_cut_discount_popup_seen_this_session';
   const SHOW_DELAY_MS = 7000;
   const whatsappMessage = 'He visto vuestra web y quiero probar mi primer corte con 20% de descuento!';
   const whatsappHref = `https://wa.me/34603147958?text=${encodeURIComponent(whatsappMessage)}`;
 
-  function getLastSeenAt() {
+  function hasSeenThisSession() {
     try {
-      return Number.parseInt(window.localStorage.getItem(STORAGE_KEY) || '0', 10) || 0;
+      return window.sessionStorage.getItem(STORAGE_KEY) === '1';
     } catch (error) {
-      return 0;
+      return false;
     }
   }
 
   function markSeen() {
     try {
-      window.localStorage.setItem(STORAGE_KEY, String(Date.now()));
+      window.sessionStorage.setItem(STORAGE_KEY, '1');
     } catch (error) {
-      // Si localStorage falla, el popup sigue funcionando sin persistencia.
+      // Si sessionStorage falla, el popup sigue funcionando sin persistencia.
     }
   }
 
@@ -1324,14 +1323,6 @@ function setupFirstCutDiscountPopup() {
     if (window.FadedTracking && typeof window.FadedTracking.trackPopupEvent === 'function') {
       window.FadedTracking.trackPopupEvent(eventName, details || {});
     }
-  }
-
-  function formatCountdown(ms) {
-    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-    const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-    const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-    const seconds = String(totalSeconds % 60).padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
   }
 
   function closePopup(reason) {
@@ -1346,9 +1337,7 @@ function setupFirstCutDiscountPopup() {
 
   function showPopup() {
     if (document.getElementById('first-cut-popup')) return;
-    if (Date.now() - getLastSeenAt() < DAY_MS) return;
-
-    const expiresAt = Date.now() + DAY_MS;
+    if (hasSeenThisSession()) return;
     markSeen();
 
     const popup = document.createElement('div');
@@ -1362,16 +1351,13 @@ function setupFirstCutDiscountPopup() {
       <div class="first-cut-popup__backdrop" data-popup-close="backdrop"></div>
       <div class="first-cut-popup__panel" role="document">
         <button class="first-cut-popup__close" type="button" data-popup-close="button" aria-label="Cerrar promoción">×</button>
-        <p class="first-cut-popup__eyebrow">Solo nuevos clientes</p>
-        <h2 class="first-cut-popup__title" id="first-cut-popup-title">Tu primer corte en FADED con <span>20% dto.</span></h2>
-        <p class="first-cut-popup__copy">Reserva prioridad por WhatsApp y prueba nuestro acabado premium con una plaza limitada de bienvenida.</p>
+        <p class="first-cut-popup__eyebrow">Oferta para nuevos clientes</p>
+        <h2 class="first-cut-popup__title" id="first-cut-popup-title">Primer corte en FADED — <span>20% de descuento</span></h2>
+        <p class="first-cut-popup__copy">Más de 179 clientes nos puntúan con 5 estrellas. Ahora puedes probar la mejor barbería de Ciudad Lineal con un 20% de descuento en tu primer fade. Sin ataduras.</p>
         <div class="first-cut-popup__benefits" aria-label="Ventajas de la promoción">
-          <span>Plazas limitadas</span>
-          <span>Reserva prioritaria</span>
-          <span>Experiencia FADED</span>
-        </div>
-        <div class="first-cut-popup__timer" aria-live="polite">
-          Oferta activa durante <strong data-popup-countdown>24:00:00</strong>
+          <span>179+ reseñas 5★</span>
+          <span>Corte premium</span>
+          <span>Sin compromiso</span>
         </div>
         <div class="first-cut-popup__cta-wrap">
           <span class="first-cut-popup__hint" aria-hidden="true">¡Click aquí!</span>
@@ -1379,12 +1365,12 @@ function setupFirstCutDiscountPopup() {
              href="${esc(whatsappHref)}"
              target="_blank"
              rel="noopener noreferrer"
-             data-track-context="popup_first_cut_discount"
-             aria-label="Pedir primer corte con 20% de descuento por WhatsApp">
-            Quiero mi 20%
+              data-track-context="popup_first_cut_discount"
+              aria-label="Pedir primer corte con 20% de descuento por WhatsApp">
+            Sí, quiero mi 20%
           </a>
         </div>
-        <p class="first-cut-popup__fineprint">Oferta para primera visita. Escríbenos y te confirmamos disponibilidad.</p>
+        <p class="first-cut-popup__fineprint">Oferta válida para primera visita. Plazas limitadas — responde por WhatsApp y te confirmamos.</p>
       </div>
     `;
 
@@ -1393,22 +1379,10 @@ function setupFirstCutDiscountPopup() {
 
     const closeButton = popup.querySelector('.first-cut-popup__close');
     const cta = popup.querySelector('.first-cut-popup__cta');
-    const countdown = popup.querySelector('[data-popup-countdown]');
-
-    const countdownTimer = window.setInterval(() => {
-      const remaining = expiresAt - Date.now();
-      if (countdown) countdown.textContent = formatCountdown(remaining);
-      if (remaining <= 0) {
-        window.clearInterval(countdownTimer);
-        trackPopup('popup_timer_expired', { context: 'popup_first_cut_discount' });
-        closePopup('timer_expired');
-      }
-    }, 1000);
 
     popup.addEventListener('click', (event) => {
       const closeTarget = event.target.closest('[data-popup-close]');
       if (closeTarget) {
-        window.clearInterval(countdownTimer);
         closePopup(closeTarget.getAttribute('data-popup-close'));
       }
     });
@@ -1420,7 +1394,6 @@ function setupFirstCutDiscountPopup() {
           link_url: cta.href,
           link_text: safeTrim(cta.textContent),
         });
-        window.clearInterval(countdownTimer);
         closePopup('whatsapp_click');
       });
     }
@@ -1428,7 +1401,6 @@ function setupFirstCutDiscountPopup() {
     const onKeyDown = (event) => {
       if (event.key === 'Escape' && document.getElementById('first-cut-popup')) {
         closePopup('escape');
-        window.clearInterval(countdownTimer);
         document.removeEventListener('keydown', onKeyDown);
       }
     };
