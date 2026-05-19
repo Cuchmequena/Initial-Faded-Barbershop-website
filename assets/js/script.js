@@ -34,6 +34,7 @@ const DEFAULT_CONFIG = {
   hours_domingo: '12:00 — 21:30',
   reviews_count: '179+',
   reviews_score: '5.0',
+  reviews_count_label: '179+',
 };
 const DEFAULT_NOTICE = {
   active: false,
@@ -136,6 +137,7 @@ function normalizeConfig(config) {
   merged.hours_domingo = safeTrim(merged.hours_domingo, DEFAULT_CONFIG.hours_domingo);
   merged.reviews_count = normalizeDigits(merged.reviews_count, DEFAULT_CONFIG.reviews_count);
   merged.reviews_score = safeTrim(merged.reviews_score, DEFAULT_CONFIG.reviews_score);
+  merged.reviews_count_label = safeTrim(merged.reviews_count_label, `${merged.reviews_count}+`);
   return merged;
 }
 
@@ -582,8 +584,8 @@ function applyConfig(configData) {
 
   setText('gallery-instagram-handle', config.instagram_handle);
   setText('heroReviewsScore', config.reviews_score);
-  setText('heroReviewsCount', `${config.reviews_count} reseñas en Booksy`);
-  setAttr('heroRating', 'aria-label', `${config.reviews_score} estrellas en Booksy, ${config.reviews_count} reseñas`);
+  setText('heroReviewsCount', `${config.reviews_count_label} reseñas en Booksy`);
+  setAttr('heroRating', 'aria-label', `${config.reviews_score} estrellas en Booksy, ${config.reviews_count_label} reseñas`);
 
   const reviewCounter = document.getElementById('reviewsCounter');
   const reviewsFeature = document.getElementById('reviewsFeatureNumber');
@@ -591,7 +593,7 @@ function applyConfig(configData) {
     reviewCounter.dataset.target = config.reviews_count;
   }
   if (reviewsFeature) {
-    reviewsFeature.setAttribute('aria-label', `${config.reviews_count} reseñas con valoración ${config.reviews_score} estrellas en Booksy`);
+    reviewsFeature.setAttribute('aria-label', `${config.reviews_count_label} reseñas con valoración ${config.reviews_score} estrellas en Booksy`);
   }
 
   setText('contactAddressStreet', config.address_street);
@@ -988,6 +990,126 @@ function setupMapInteractionTracking() {
   mapBlock.addEventListener('focusin', markInteraction);
 }
 
+function setupFirstCutDiscountPopup() {
+  const STORAGE_KEY = 'faded_first_cut_discount_popup_seen_at';
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  const SHOW_DELAY_MS = 7000;
+  const whatsappMessage = 'He visto vuestra web y quiero probar mi primer corte con 20% de descuento!';
+  const whatsappHref = `https://wa.me/34603147958?text=${encodeURIComponent(whatsappMessage)}`;
+
+  function getLastSeenAt() {
+    try {
+      return Number.parseInt(window.localStorage.getItem(STORAGE_KEY) || '0', 10) || 0;
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  function markSeen() {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, String(Date.now()));
+    } catch (error) {
+      // Si localStorage falla, el popup sigue funcionando sin persistencia.
+    }
+  }
+
+  function trackPopup(eventName, details) {
+    if (window.FadedTracking && typeof window.FadedTracking.trackPopupEvent === 'function') {
+      window.FadedTracking.trackPopupEvent(eventName, details || {});
+    }
+  }
+
+  function closePopup(reason) {
+    const popup = document.getElementById('first-cut-popup');
+    if (!popup) return;
+    popup.classList.remove('is-visible');
+    popup.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('has-first-cut-popup');
+    window.setTimeout(() => popup.remove(), 260);
+    trackPopup('popup_close', { close_reason: reason || 'manual' });
+  }
+
+  function showPopup() {
+    if (document.getElementById('first-cut-popup')) return;
+    if (Date.now() - getLastSeenAt() < DAY_MS) return;
+
+    markSeen();
+
+    const popup = document.createElement('div');
+    popup.id = 'first-cut-popup';
+    popup.className = 'first-cut-popup';
+    popup.setAttribute('role', 'dialog');
+    popup.setAttribute('aria-modal', 'true');
+    popup.setAttribute('aria-hidden', 'true');
+    popup.setAttribute('aria-labelledby', 'first-cut-popup-title');
+    popup.innerHTML = `
+      <div class="first-cut-popup__backdrop" data-popup-close="backdrop"></div>
+      <div class="first-cut-popup__panel" role="document">
+        <button class="first-cut-popup__close" type="button" data-popup-close="button" aria-label="Cerrar promoción">×</button>
+        <p class="first-cut-popup__eyebrow">Solo nuevos clientes</p>
+        <h2 class="first-cut-popup__title" id="first-cut-popup-title">Tu primer corte en FADED con <span>20% dto.</span></h2>
+        <p class="first-cut-popup__copy">Reserva prioridad por WhatsApp y prueba nuestro acabado premium con una plaza limitada de bienvenida.</p>
+        <div class="first-cut-popup__benefits" aria-label="Ventajas de la promoción">
+          <span>Plazas limitadas</span>
+          <span>Reserva prioritaria</span>
+          <span>Experiencia FADED</span>
+        </div>
+        <div class="first-cut-popup__cta-wrap">
+          <span class="first-cut-popup__hint" aria-hidden="true">¡Click aquí!</span>
+          <a class="btn btn-gold first-cut-popup__cta"
+             href="${esc(whatsappHref)}"
+             target="_blank"
+             rel="noopener noreferrer"
+             data-track-context="popup_first_cut_discount"
+             aria-label="Pedir primer corte con 20% de descuento por WhatsApp">
+            Quiero mi 20%
+          </a>
+        </div>
+        <p class="first-cut-popup__fineprint">Oferta para primera visita. Escríbenos y te confirmamos disponibilidad.</p>
+      </div>
+    `;
+
+    document.body.appendChild(popup);
+    document.body.classList.add('has-first-cut-popup');
+
+    const closeButton = popup.querySelector('.first-cut-popup__close');
+    const cta = popup.querySelector('.first-cut-popup__cta');
+
+    popup.addEventListener('click', (event) => {
+      const closeTarget = event.target.closest('[data-popup-close]');
+      if (closeTarget) closePopup(closeTarget.getAttribute('data-popup-close'));
+    });
+
+    if (cta) {
+      cta.addEventListener('click', () => {
+        trackPopup('popup_whatsapp_click', {
+          context: 'popup_first_cut_discount',
+          link_url: cta.href,
+          link_text: safeTrim(cta.textContent),
+        });
+        closePopup('whatsapp_click');
+      });
+    }
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape' && document.getElementById('first-cut-popup')) {
+        closePopup('escape');
+        document.removeEventListener('keydown', onKeyDown);
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+
+    window.requestAnimationFrame(() => {
+      popup.setAttribute('aria-hidden', 'false');
+      popup.classList.add('is-visible');
+      if (closeButton) closeButton.focus({ preventScroll: true });
+      trackPopup('popup_view', { context: 'popup_first_cut_discount' });
+    });
+  }
+
+  window.setTimeout(showPopup, SHOW_DELAY_MS);
+}
+
 function setupHeroMedia() {
   const hero = document.querySelector('.hero');
   const video = document.getElementById('heroVideo');
@@ -1250,6 +1372,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHeroMedia();
   setupTrackingDelegation();
   setupMapInteractionTracking();
+  setupFirstCutDiscountPopup();
   setupLightbox();
   syncNoticeOffset();
   window.addEventListener('resize', syncNoticeOffset, { passive: true });
@@ -1301,4 +1424,3 @@ function initCounters() {
     counters.forEach(animateCounter);
   }
 }
-

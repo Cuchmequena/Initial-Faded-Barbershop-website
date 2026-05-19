@@ -306,6 +306,20 @@
     trackMetaCustom('MapClick', params);
   }
 
+  function trackPopupEvent(eventName, details) {
+    if (!eventName) return;
+
+    var params = withCommonParams(Object.assign({
+      promotion_name: 'first_cut_20_discount',
+      popup_name: 'first_cut_discount',
+    }, details || {}));
+
+    trackGA(eventName, params);
+    trackMetaCustom(eventName.replace(/(^|_)(\w)/g, function (_, separator, letter) {
+      return letter.toUpperCase();
+    }), params);
+  }
+
   function trackMapInteraction(details) {
     var params = withCommonParams(Object.assign({
       interaction_type: 'embedded_map',
@@ -337,6 +351,7 @@
     trackEmailClick: trackEmailClick,
     trackReviewClick: trackReviewClick,
     trackMapsClick: trackMapsClick,
+    trackPopupEvent: trackPopupEvent,
     trackMapInteraction: trackMapInteraction,
     getDebugInfo: getDebugInfo,
   };
