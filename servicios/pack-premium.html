@@ -37,16 +37,142 @@
         "streetAddress": "Avenida del Marqués de Corbera, 37",
         "addressLocality": "Madrid",
         "postalCode": "28017",
-        "addressCountry": "ES"
+        "addressCountry": "ES",
+        "addressRegion": "Comunidad de Madrid"
       },
-      "telephone": "+34691068660"
+      "telephone": "+34691068660",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.42515,
+        "longitude": -3.65565
+      },
+      "hasMap": "https://maps.google.com/?q=Avenida+del+Marqu%C3%A9s+de+Corbera+37+28017+Madrid",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+          ],
+          "opens": "11:00",
+          "closes": "21:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "11:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:30"
+        }
+      ],
+      "priceRange": "€",
+      "sameAs": [
+        "https://www.instagram.com/faded_madrid",
+        "https://booksy.com/es-es/instant-experiences/widget/72058"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "179",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
     },
     "offers": {
       "@type": "Offer",
       "price": "30",
-      "priceCurrency": "EUR"
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://booksy.com/es-es/instant-experiences/widget/72058"
     },
-    "areaServed": {"@type": "City", "name": "Madrid"}
+    "areaServed": {
+      "@type": "City",
+      "name": "Madrid"
+    },
+    "url": "https://www.fadedbarbershopmadrid.com/servicios/pack-premium.html",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "179",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://www.fadedbarbershopmadrid.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Servicios",
+        "item": "https://www.fadedbarbershopmadrid.com/#servicios"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Pack Premium en Madrid",
+        "item": "https://www.fadedbarbershopmadrid.com/servicios/pack-premium.html"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Qué incluye exactamente el Pack Premium?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El Pack Premium (30€, 1h 15 min) incluye: corte de caballero con degradado, arreglo y perfilado de barba, cejas con cuchilla y limpieza facial básica. Todo en una sola sesión."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto se ahorra respecto a los servicios por separado?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Los servicios por separado sumarían: corte (15€) + barba (10€) + cejas (6€) + limpieza (13€) = 44€. El Pack Premium cuesta 30€, un ahorro de 14€."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Necesito reservar con antelación?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, te recomendamos reservar el Pack Premium con al menos 24 horas de antelación en Booksy, ya que al ocupar más tiempo es el servicio con mayor demanda."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿La limpieza facial es suave para pieles sensibles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. La limpieza facial básica que incluimos es suave y adecuada para cualquier tipo de piel. Si tienes alguna condición específica, coméntanoslo al reservar."
+        }
+      }
+    ]
   }
   </script>
 </head>
@@ -163,7 +289,8 @@
         <a href="/#inicio" class="footer-logo" aria-label="Faded Barbershop — subir al inicio">
           <img src="/assets/images/logo.png" alt="Faded Barbershop Logo" width="120" height="40" loading="lazy">
         </a>
-        <p class="footer-tagline">Barbería Premium · Ciudad Lineal · Madrid</p>
+        <p class="footer-tagline">FADED Barbershop · Avenida del Marqués de Corbera 37, 28017 Madrid · +34 691 068 660 · WhatsApp: +34 603 147 958</p>
+        <p class="footer-tagline">Horario: Lun–Jue 11:00–21:30 · Vie–Sáb 11:00–22:00 · Dom 12:00–21:30</p>
         <nav class="footer-nav" aria-label="Navegación del pie de página">
           <a href="/servicios/corte-de-caballero.html">Corte Caballero</a>
           <span aria-hidden="true">·</span>
@@ -173,7 +300,8 @@
           <span aria-hidden="true">·</span>
           <a href="/productos/">Productos</a>
           <span aria-hidden="true">·</span>
-          <a href="/politicas">Políticas legales</a>
+          <a href="/politicas/">Políticas legales</a><span aria-hidden="true">·</span>
+          <a href="/barberia-ciudad-lineal.html">Barbería Ciudad Lineal</a>
         </nav>
       </div>
       <div class="footer-bottom">

@@ -22,39 +22,165 @@
   <link rel="stylesheet" href="/assets/css/styles.css">
   <script type="application/ld+json">
   {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Fade en Madrid",
-  "description": "Fade en Madrid en FADED Barbershop. Skin fade, mid fade y low fade en Ciudad Lineal y La Elipa, con diseño personalizado y reserva online.",
-  "url": "https://www.fadedbarbershopmadrid.com/servicios/fade-madrid.html",
-  "provider": {
-    "@type": "HairSalon",
-    "name": "Faded Barbershop",
-    "url": "https://www.fadedbarbershopmadrid.com",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Avenida del Marqués de Corbera, 37",
-      "addressLocality": "Madrid",
-      "postalCode": "28017",
-      "addressCountry": "ES"
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Fade en Madrid",
+    "description": "Fade en Madrid en FADED Barbershop. Skin fade, mid fade y low fade en Ciudad Lineal y La Elipa, con diseño personalizado y reserva online.",
+    "url": "https://www.fadedbarbershopmadrid.com/servicios/fade-madrid.html",
+    "provider": {
+      "@type": "HairSalon",
+      "name": "Faded Barbershop",
+      "url": "https://www.fadedbarbershopmadrid.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Avenida del Marqués de Corbera, 37",
+        "addressLocality": "Madrid",
+        "postalCode": "28017",
+        "addressCountry": "ES",
+        "addressRegion": "Comunidad de Madrid"
+      },
+      "telephone": "+34691068660",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.42515,
+        "longitude": -3.65565
+      },
+      "hasMap": "https://maps.google.com/?q=Avenida+del+Marqu%C3%A9s+de+Corbera+37+28017+Madrid",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+          ],
+          "opens": "11:00",
+          "closes": "21:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "11:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:30"
+        }
+      ],
+      "priceRange": "€",
+      "sameAs": [
+        "https://www.instagram.com/faded_madrid",
+        "https://booksy.com/es-es/instant-experiences/widget/72058"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "179",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
     },
-    "telephone": "+34691068660"
-  },
-  "areaServed": [
-    {
-      "@type": "City",
-      "name": "Madrid"
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Madrid"
+      },
+      {
+        "@type": "Place",
+        "name": "Ciudad Lineal"
+      },
+      {
+        "@type": "Place",
+        "name": "La Elipa"
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "179",
+      "bestRating": "5",
+      "worstRating": "1"
     },
-    {
-      "@type": "Place",
-      "name": "Ciudad Lineal"
-    },
-    {
-      "@type": "Place",
-      "name": "La Elipa"
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://booksy.com/es-es/instant-experiences/widget/72058"
     }
-  ]
-}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://www.fadedbarbershopmadrid.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Servicios",
+        "item": "https://www.fadedbarbershopmadrid.com/#servicios"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Fade en Madrid",
+        "item": "https://www.fadedbarbershopmadrid.com/servicios/fade-madrid.html"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuánto dura un fade?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Normalmente entre 35 y 50 minutos, según el estilo y el acabado."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Puedo enseñar una foto?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, es lo ideal. La usamos como referencia y la adaptamos a tu pelo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Hace falta cita?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Puedes reservar por Booksy o venir sin cita si hay hueco."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿También hacéis diseño?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, hacemos diseños personalizados en los laterales."
+        }
+      }
+    ]
+  }
   </script>
 </head>
 <body data-page="product-detail">
@@ -94,6 +220,14 @@
           <div class="product-side-panel">
             <h2>FADED Barbershop</h2>
             <p class="product-summary">Avenida del Marqués de Corbera 37, Local 2, 28017 Madrid<br>Ciudad Lineal · La Elipa · Madrid</p>
+          </div>
+          <div class="product-side-panel">
+            <h2>Horario</h2>
+            <ul class="product-list" role="list">
+              <li>Lun–Jue: 11:00–21:30</li>
+              <li>Vie–Sáb: 11:00–22:00</li>
+              <li>Dom: 12:00–21:30</li>
+            </ul>
           </div>
           <div class="product-side-panel">
             <h2>Servicios relacionados</h2>
@@ -142,11 +276,13 @@
     <div class="container">
       <div class="footer-top">
         <a href="/#inicio" class="footer-logo"><img src="/assets/images/logo.png" alt="Faded Barbershop Logo" width="120" height="40" loading="lazy"></a>
-        <p class="footer-tagline">Barbería en Madrid · Ciudad Lineal · La Elipa</p>
+        <p class="footer-tagline">FADED Barbershop · Avenida del Marqués de Corbera 37, 28017 Madrid · +34 691 068 660 · WhatsApp: +34 603 147 958</p>
+        <p class="footer-tagline">Horario: Lun–Jue 11:00–21:30 · Vie–Sáb 11:00–22:00 · Dom 12:00–21:30</p>
         <nav class="footer-nav" aria-label="Navegación del pie de página">
           <a href="/#servicios">Servicios</a><span aria-hidden="true">·</span>
           <a href="/productos/">Productos</a><span aria-hidden="true">·</span>
-          <a href="/politicas">Políticas legales</a><span aria-hidden="true">·</span>
+          <a href="/politicas/">Políticas legales</a><span aria-hidden="true">·</span>
+          <a href="/barberia-ciudad-lineal.html">Barbería Ciudad Lineal</a><span aria-hidden="true">·</span>
           <a href="https://www.instagram.com/faded_madrid" target="_blank" rel="noopener noreferrer">Instagram</a><span aria-hidden="true">·</span>
           <a href="https://booksy.com/es-es/instant-experiences/widget/72058" target="_blank" rel="noopener noreferrer">Booksy</a>
         </nav>

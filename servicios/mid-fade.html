@@ -37,16 +37,142 @@
         "streetAddress": "Avenida del Marqués de Corbera, 37",
         "addressLocality": "Madrid",
         "postalCode": "28017",
-        "addressCountry": "ES"
+        "addressCountry": "ES",
+        "addressRegion": "Comunidad de Madrid"
       },
-      "telephone": "+34691068660"
+      "telephone": "+34691068660",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.42515,
+        "longitude": -3.65565
+      },
+      "hasMap": "https://maps.google.com/?q=Avenida+del+Marqu%C3%A9s+de+Corbera+37+28017+Madrid",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+          ],
+          "opens": "11:00",
+          "closes": "21:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "11:00",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "21:30"
+        }
+      ],
+      "priceRange": "€",
+      "sameAs": [
+        "https://www.instagram.com/faded_madrid",
+        "https://booksy.com/es-es/instant-experiences/widget/72058"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "179",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
     },
     "offers": {
       "@type": "Offer",
       "price": "15",
-      "priceCurrency": "EUR"
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://booksy.com/es-es/instant-experiences/widget/72058"
     },
-    "areaServed": {"@type": "City", "name": "Madrid"}
+    "areaServed": {
+      "@type": "City",
+      "name": "Madrid"
+    },
+    "url": "https://www.fadedbarbershopmadrid.com/servicios/mid-fade.html",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "179",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://www.fadedbarbershopmadrid.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Servicios",
+        "item": "https://www.fadedbarbershopmadrid.com/#servicios"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Mid Fade Madrid",
+        "item": "https://www.fadedbarbershopmadrid.com/servicios/mid-fade.html"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Qué es exactamente el mid fade?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El mid fade es un tipo de degradado que comienza aproximadamente a media altura de los lados de la cabeza, justo por encima de la oreja, creando una transición suave entre el pelo largo de arriba y los lados cortos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto cuesta un mid fade en Faded Barbershop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El corte con mid fade cuesta 15€ e incluye consulta, corte completo y acabado profesional. Dura aproximadamente 40 minutos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Se puede hacer mid fade con french crop o pompadour?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. El mid fade combina perfectamente con french crop, pompadour, textura o cualquier otro estilo en la parte superior."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Puedo venir sin cita?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Puedes venir sin cita si hay disponibilidad, pero recomendamos reservar por Booksy para asegurar tu hora, especialmente en fin de semana."
+        }
+      }
+    ]
   }
   </script>
 </head>
@@ -162,7 +288,8 @@
         <a href="/#inicio" class="footer-logo" aria-label="Faded Barbershop — subir al inicio">
           <img src="/assets/images/logo.png" alt="Faded Barbershop Logo" width="120" height="40" loading="lazy">
         </a>
-        <p class="footer-tagline">Barbería Premium · Ciudad Lineal · Madrid</p>
+        <p class="footer-tagline">FADED Barbershop · Avenida del Marqués de Corbera 37, 28017 Madrid · +34 691 068 660 · WhatsApp: +34 603 147 958</p>
+        <p class="footer-tagline">Horario: Lun–Jue 11:00–21:30 · Vie–Sáb 11:00–22:00 · Dom 12:00–21:30</p>
         <nav class="footer-nav" aria-label="Navegación del pie de página">
           <a href="/servicios/corte-de-caballero.html">Corte Caballero</a>
           <span aria-hidden="true">·</span>
@@ -172,7 +299,8 @@
           <span aria-hidden="true">·</span>
           <a href="/productos/">Productos</a>
           <span aria-hidden="true">·</span>
-          <a href="/politicas">Políticas legales</a>
+          <a href="/politicas/">Políticas legales</a><span aria-hidden="true">·</span>
+          <a href="/barberia-ciudad-lineal.html">Barbería Ciudad Lineal</a>
         </nav>
       </div>
       <div class="footer-bottom">

@@ -353,6 +353,33 @@ function updateLocalBusinessSchema(config, services, seo) {
     data.url = 'https://www.fadedbarbershopmadrid.com';
     data.telephone = config.phone_href.replace(/^tel:/, '');
     data.description = safeTrim(seo && seo.meta_description, `Barbería premium en Madrid. ${config.reviews_score} estrellas en Booksy con ${config.reviews_count} reseñas.`);
+    data.geo = {
+      '@type': 'GeoCoordinates',
+      latitude: 40.42515,
+      longitude: -3.65565,
+    };
+    data.hasMap = config.maps_url || 'https://maps.google.com/?q=Avenida+del+Marqu%C3%A9s+de+Corbera+37+28017+Madrid';
+    data.openingHoursSpecification = [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+        opens: '11:00',
+        closes: '21:30',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'Sunday',
+        opens: '12:00',
+        closes: '21:30',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Friday', 'Saturday'],
+        opens: '11:00',
+        closes: '22:00',
+      },
+    ];
+    data.priceRange = '€';
     if (data.address) {
       data.address.streetAddress = config.address_street;
       data.address.addressLocality = config.address_city.replace(/^(\d{5}\s*)?/, '').replace(/\s*\(.+\)$/, '').trim() || 'Madrid';
@@ -369,6 +396,8 @@ function updateLocalBusinessSchema(config, services, seo) {
       data.aggregateRating.reviewCount = config.reviews_count;
     }
     if (Array.isArray(data.sameAs)) {
+      data.sameAs = [config.instagram_url, config.booksy_url];
+    } else {
       data.sameAs = [config.instagram_url, config.booksy_url];
     }
     if (services && Array.isArray(services.categories)) {
