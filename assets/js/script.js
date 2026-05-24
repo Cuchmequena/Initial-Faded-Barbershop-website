@@ -1544,6 +1544,31 @@ function setupHeroMedia() {
   }
 }
 
+function setupLazyMapEmbeds() {
+  const maps = document.querySelectorAll('iframe[data-src*="google.com/maps/embed"]');
+  if (!maps.length) return;
+
+  const loadMap = (iframe) => {
+    const src = safeTrim(iframe.dataset.src);
+    if (src && !iframe.getAttribute('src')) iframe.setAttribute('src', src);
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    maps.forEach(loadMap);
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      loadMap(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: '350px 0px' });
+
+  maps.forEach((iframe) => observer.observe(iframe));
+}
+
 function setupHeaderState() {
   const header = document.getElementById('header');
   if (!header) return;
@@ -1710,6 +1735,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHamburger();
   setupScrollTop();
   setupHeroMedia();
+  setupLazyMapEmbeds();
   setupTrackingDelegation();
   setupMapInteractionTracking();
   setupStructuredDataEnhancements();

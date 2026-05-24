@@ -491,11 +491,23 @@ address { font-style: normal; }
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-image: url('../images/hero-bg.jpg');
+  background-image: image-set(
+    url('../images/hero-bg.webp') type('image/webp'),
+    url('../images/hero-bg.jpg') type('image/jpeg')
+  );
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
   padding: calc(var(--header-h) + var(--notice-h)) var(--container-pad) 80px;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    background-image: image-set(
+      url('../images/hero-bg-mobile.webp') type('image/webp'),
+      url('../images/hero-bg.jpg') type('image/jpeg')
+    );
+  }
 }
 
 .hero-media {

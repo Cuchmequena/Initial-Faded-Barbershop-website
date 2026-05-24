@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO Principal -->
-  <title>Barbería en Madrid Ciudad Lineal | Fade, Degradados, Barba y Diseños | FADED Barbershop</title>
+  <title>Barbería en Madrid Ciudad Lineal | FADED Barbershop</title>
   <meta name="description" content="Barbería en Madrid, Ciudad Lineal y La Elipa. Especialistas en fade, degradados, barba, diseños y cortes modernos. Reserva en Booksy o ven sin cita si hay hueco.">
   <meta name="keywords" content="barbería Madrid, barbería Ciudad Lineal, barbería La Elipa, barbería cerca de Ventas, barbería cerca de Moratalaz, fade Madrid, degradado Madrid, corte hombre Madrid, diseño pelo Madrid, arreglo barba Madrid, barbero Madrid">
   <meta name="robots" content="index, follow">
@@ -48,13 +48,10 @@
   <link rel="preconnect" href="https://connect.facebook.net">
 
   <!-- Google Fonts: Source Serif 4 + Bodoni Moda -->
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;800&family=Source+Serif+4:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Preload imagen hero -->
-  <link rel="preload" as="image" href="assets/images/hero-bg.jpg">
-
-  <!-- Netlify Identity widget -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
+  <link rel="preload" as="image" href="assets/images/hero-bg-mobile.webp" type="image/webp" media="(max-width: 640px)">
 
   <!-- Feed Google Merchant Center -->
   <link rel="alternate" type="application/rss+xml" title="Faded Barbershop — Catálogo de productos" href="/feed.xml">
@@ -100,13 +97,13 @@
       {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Friday", "Saturday"],
-        "opens": "12:00",
+        "opens": "11:00",
         "closes": "22:00"
       },
       {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": "Sunday",
-        "opens": "11:00",
+        "opens": "12:00",
         "closes": "21:30"
       }
     ],
@@ -407,11 +404,11 @@
                muted
                loop
                playsinline
-               preload="metadata"
-               poster="assets/images/hero-bg.jpg"
+               preload="none"
+               poster="assets/images/hero-bg-mobile.webp"
                data-desktop-src="assets/images/hero-desktop.mp4"
                data-mobile-src="assets/images/hero-mobile.mp4">
-          <source src="assets/images/hero-desktop.mp4" type="video/mp4">
+           <source type="video/mp4">
         </video>
       </div>
       <div class="hero-overlay" aria-hidden="true"></div>
@@ -670,7 +667,7 @@
           <div class="location-map reveal" aria-label="Mapa de ubicación de Faded Barbershop">
             <iframe
               id="contactMapEmbed"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.2639827962234!2d-3.655646222679194!3d40.425153155124505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422f5782226aa5%3A0x3b4774988cc92781!2sFADED%20Barbershop!5e0!3m2!1ses!2ses!4v1776785159189!5m2!1ses!2ses"
+              data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.2639827962234!2d-3.655646222679194!3d40.425153155124505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422f5782226aa5%3A0x3b4774988cc92781!2sFADED%20Barbershop!5e0!3m2!1ses!2ses!4v1776785159189!5m2!1ses!2ses"
               width="100%"
               height="100%"
               style="border:0;"
@@ -937,6 +934,14 @@
             <span class="seo-link-card__title">Barbería Ciudad Lineal</span>
             <span class="seo-link-card__text">Tu barbería de referencia en Ciudad Lineal para fades, degradados y cortes de hombre.</span>
           </a>
+          <a class="seo-link-card reveal" href="/peluqueria/">
+            <span class="seo-link-card__title">Peluquería en Ciudad Lineal</span>
+            <span class="seo-link-card__text">Corte masculino, degradado, asesoramiento y acabado profesional en Madrid.</span>
+          </a>
+          <a class="seo-link-card reveal" href="/estilista/">
+            <span class="seo-link-card__title">Estilista masculino</span>
+            <span class="seo-link-card__text">Asesoramiento para elegir corte, fade, barba y estilo según tu pelo y rostro.</span>
+          </a>
           <a class="seo-link-card reveal" href="/barrio/ventas.html">
             <span class="seo-link-card__title">Barbería cerca de Ventas</span>
             <span class="seo-link-card__text">A menos de 10 minutos de Ventas.</span>
@@ -1005,6 +1010,10 @@
           <a href="/barrio/ciudad-lineal.html">Ciudad Lineal</a>
           <span aria-hidden="true">·</span>
           <a href="/barberia-ciudad-lineal.html">Barbería Ciudad Lineal</a>
+          <span aria-hidden="true">·</span>
+          <a href="/peluqueria/">Peluquería</a>
+          <span aria-hidden="true">·</span>
+          <a href="/estilista/">Estilista</a>
           <span aria-hidden="true">·</span>
           <a href="/barrio/ventas.html">Ventas</a>
           <span aria-hidden="true">·</span>
@@ -1087,6 +1096,6 @@
 
   <script src="assets/js/consent.js"></script>
   <script src="assets/js/analytics.js"></script>
-  <script src="assets/js/script.js"></script>
+  <script src="assets/js/script.min.js"></script>
 </body>
 </html>
