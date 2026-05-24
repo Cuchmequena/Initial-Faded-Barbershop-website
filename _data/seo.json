@@ -14,23 +14,31 @@
   "faqs": [
     {
       "question": "¿Dónde está FADED Barbershop?",
-      "answer": "Estamos en Avenida del Marqués de Corbera 37, Local 2, 28017 Madrid, en la zona de La Elipa, Ciudad Lineal."
+      "answer": "FADED Barbershop está en Avenida del Marqués de Corbera 37, 28017 Madrid, en el barrio de La Elipa, dentro del distrito de Ciudad Lineal. Accesible en metro (Línea 2, parada La Elipa) y en bus (líneas 28, 15, 210, 71 y 113)."
     },
     {
-      "question": "¿Puedo reservar online?",
-      "answer": "Sí. Puedes reservar online en Booksy. También puedes venir sin cita si hay hueco disponible."
+      "question": "¿Qué servicios ofrece FADED Barbershop?",
+      "answer": "Ofrecemos corte de caballero, skin fade, mid fade, low fade, french crop, corte con diseño, arreglo de barba, corte con cejas, pack premium (corte + barba + cejas + limpieza facial), corte de niño, mechas y coloración para hombre."
     },
     {
-      "question": "¿Qué servicios ofrece la barbería?",
-      "answer": "Cortes de hombre, fades, degradados, diseño de pelo, arreglo de barba, corte con cejas, mechas, coloración y packs premium."
+      "question": "¿Hacéis skin fade?",
+      "answer": "Sí. El skin fade es uno de nuestros servicios principales. Consiste en llevar el degradado hasta la piel (a cero) en la parte baja y lateral. Lo realizamos desde 15€. Puedes reservar en Booksy o venir sin cita si hay hueco."
     },
     {
-      "question": "¿Trabajáis skin fade, low fade y mid fade?",
-      "answer": "Sí. Trabajamos skin fade, low fade, mid fade y degradados personalizados según tu pelo, estilo y forma de la cabeza."
+      "question": "¿Hacéis arreglo de barba?",
+      "answer": "Sí. El arreglo de barba incluye perfilado, diseño y acabado con cuchilla desde 10€. También puedes elegir el Pack Premium (30€) que combina corte + barba + cejas + limpieza facial."
     },
     {
-      "question": "¿Qué zonas de Madrid cubre FADED?",
-      "answer": "Principalmente Ciudad Lineal, La Elipa, Ventas, Moratalaz, Quintana, Pueblo Nuevo y Madrid este."
+      "question": "¿Se puede reservar online?",
+      "answer": "Sí. Puedes reservar tu cita en Booksy en menos de un minuto. También aceptamos clientes sin cita si en ese momento hay disponibilidad."
+    },
+    {
+      "question": "¿Cuál es la barbería más cercana a La Elipa?",
+      "answer": "FADED Barbershop está situada en la propia zona de La Elipa, en Avenida del Marqués de Corbera 37. Es la barbería de referencia del barrio, a pie de metro (Línea 2, parada La Elipa)."
+    },
+    {
+      "question": "¿Qué diferencia hay entre low fade, mid fade y skin fade?",
+      "answer": "El low fade empieza justo por encima de la oreja, dando un acabado elegante y formal. El mid fade empieza a media altura de la cabeza y es el más versátil. El skin fade lleva el degradado hasta la piel (a cero) y ofrece el contraste más marcado. En FADED te asesoramos según tu estilo y tipo de pelo."
     }
   ],
   "hidden_h1": "Barbería en Madrid Ciudad Lineal especializada en fades, degradados, barba y cortes modernos"
