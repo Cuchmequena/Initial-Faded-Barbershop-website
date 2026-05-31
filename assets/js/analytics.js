@@ -109,7 +109,7 @@
     if (b) {
       b.style.transition = 'opacity .3s, transform .3s';
       b.style.opacity    = '0';
-      b.style.transform  = 'translateY(100%)';
+      b.style.transform  = 'translateY(-100%)';
       setTimeout(function () { if (b.parentNode) b.parentNode.removeChild(b); }, 350);
     }
   }
@@ -126,12 +126,12 @@
     style.id     = 'faded-cookie-banner-styles';
     style.textContent = [
       '#faded-cookie-banner{',
-        'position:fixed;left:0;right:0;z-index:9999;',
-        'background:#0a0a0a;border-top:1px solid #c9a84c;',
+        'position:fixed;top:0;left:0;right:0;z-index:9999;',
+        'background:#0a0a0a;border-bottom:1px solid #c9a84c;',
         'padding:1rem 1.5rem;',
         'animation:fcb-up .35s ease;',
       '}',
-      '@keyframes fcb-up{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}',
+      '@keyframes fcb-up{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}',
       '.fcb-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}',
       '.fcb-text{color:#bbb;font-size:.83rem;line-height:1.55;margin:0;flex:1;min-width:220px;font-family:inherit;}',
       '.fcb-link{color:#c9a84c;text-decoration:none;}',
@@ -162,7 +162,7 @@
     banner.id  = 'faded-cookie-banner';
     banner.setAttribute('role',       'dialog');
     banner.setAttribute('aria-label', 'Gestión de cookies');
-    banner.style.bottom = offset + 'px';
+    banner.style.top = '0px';
     banner.innerHTML =
       '<div class="fcb-inner">' +
         '<p class="fcb-text">' +
@@ -329,6 +329,18 @@
     trackMetaCustom('MapInteraction', params);
   }
 
+
+  function trackSocialClick(platform, details) {
+    var params = withCommonParams(Object.assign({
+      platform: platform,
+      outbound: true,
+      method: 'social',
+    }, details || {}));
+    trackGA('social_click', params);
+    trackGA('outbound_link', params);
+    trackMetaCustom('SocialClick', params);
+  }
+
   function getDebugInfo() {
     return {
       gaId: GA_ID || '',
@@ -353,6 +365,7 @@
     trackMapsClick: trackMapsClick,
     trackPopupEvent: trackPopupEvent,
     trackMapInteraction: trackMapInteraction,
+    trackSocialClick: trackSocialClick,
     getDebugInfo: getDebugInfo,
   };
   window.FadedAnalytics = { applyConfig };

@@ -32,9 +32,9 @@ const DEFAULT_CONFIG = {
   hours_viernes: '11:00 — 22:00',
   hours_sabado: '11:00 — 22:00',
   hours_domingo: '12:00 — 21:30',
-  reviews_count: '179+',
+  reviews_count: '181+',
   reviews_score: '5.0',
-  reviews_count_label: '179+',
+  reviews_count_label: '181+',
 };
 const DEFAULT_NOTICE = {
   active: false,
@@ -48,6 +48,149 @@ const NOTICE_TYPES = new Set(['info', 'warning', 'alert', 'promo']);
 let galleryLightboxItems = [];
 let galleryLightboxIndex = 0;
 let reviewCounterObserver;
+
+// ─── Slideshow utilities ──────────────────────────────────────────────
+function getFadedRootPhotos() {
+  return Array.isArray(window.FADED_ROOT_PHOTOS)
+    ? window.FADED_ROOT_PHOTOS.filter(s => typeof s === 'string' && s.trim())
+    : [];
+}
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function setupCrossfadeSlideshow(root, images, opts) {
+  if (!root || root.dataset.slideshowReady === 'true') return;
+  if (!Array.isArray(images) || !images.length) return;
+
+  const interval  = (opts && opts.interval)   || 2500;
+  const cls       = (opts && opts.imageClass) || 'slideshow-image';
+  const eager     = !!(opts && opts.eagerFirst);
+  const maxImages = (opts && opts.maxImages)  || images.length;
+  const reduced   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  root.dataset.slideshowReady = 'true';
+  root.innerHTML = images.slice(0, maxImages).map((src, i) =>
+    `<img class="${cls}${i === 0 ? ' is-active' : ''}" src="${src.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" alt="" loading="${eager && i === 0 ? 'eager' : 'lazy'}" aria-hidden="true">`
+  ).join('');
+
+  if (reduced || images.length <= 1) return;
+
+  const slides = Array.from(root.querySelectorAll('img'));
+  let idx = 0;
+  let timer = null;
+
+  const tick  = () => { slides[idx].classList.remove('is-active'); idx = (idx + 1) % slides.length; slides[idx].classList.add('is-active'); };
+  const stop  = () => { clearInterval(timer); timer = null; };
+  const start = () => { if (!timer && !document.hidden) timer = setInterval(tick, interval); };
+
+  root.addEventListener('pointerenter', stop);
+  root.addEventListener('pointerleave', start);
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  start();
+}
+
+function setupHeroFallbackSlideshow() {
+  const root   = document.getElementById('heroFallbackSlideshow');
+  const photos = getFadedRootPhotos();
+  if (!root || !photos.length) return;
+  setupCrossfadeSlideshow(root, shuffleArray(photos).slice(0, 40), {
+    interval: 600, imageClass: 'hero-fallback__img', eagerFirst: true, maxImages: 40,
+  });
+}
+
+function setupFeatureCardSlideshows() {
+  const cards = Array.from(document.querySelectorAll('.feature-card'));
+  if (!cards.length) return;
+  const all = shuffleArray(getFadedRootPhotos());
+  if (!all.length) return;
+  cards.forEach((card, i) => {
+    if (card.querySelector('.fc-slideshow')) return;
+    const photos = all.slice(i * 10, i * 10 + 10);
+    if (!photos.length) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'fc-slideshow';
+    wrap.setAttribute('aria-hidden', 'true');
+    card.prepend(wrap);
+    setupCrossfadeSlideshow(wrap, photos, { interval: 2000 + i * 400, imageClass: 'fc-slideshow__img' });
+  });
+}
+
+function servicePhotoMarkup(seed) {
+  const all = getFadedRootPhotos();
+  if (!all.length) return '';
+  const step = 13, photos = [], used = new Set();
+  let idx = Math.abs(seed * 17) % all.length;
+  while (photos.length < 6 && photos.length < all.length) {
+    const src = all[idx % all.length];
+    if (!used.has(src)) { used.add(src); photos.push(src); }
+    idx += step;
+  }
+  if (!photos.length) return '';
+  return `<div class="svc-photo-slider" data-svc-slider>` +
+    photos.map((src, i) => `<img class="svc-photo${i === 0 ? ' is-active' : ''}" src="${src.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" alt="" loading="lazy" aria-hidden="true">`).join('') +
+    `</div>`;
+}
+
+function setupServicePhotoSlideshows(root) {
+  root.querySelectorAll('[data-svc-slider]').forEach((slider, i) => {
+    const imgs = Array.from(slider.querySelectorAll('img')).map(img => img.getAttribute('src')).filter(Boolean);
+    setupCrossfadeSlideshow(slider, imgs, { interval: 2600 + (i % 5) * 320, imageClass: 'svc-photo' });
+  });
+}
+
+function setupAutoHScroll(el, intervalMs) {
+  if (!el || el.dataset.autoScroll === '1') return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  el.dataset.autoScroll = '1';
+
+  let timer = null;
+  let isDragging = false;
+  let startX = 0;
+  let startScroll = 0;
+
+  // drag-to-scroll
+  el.addEventListener('pointerdown', e => {
+    isDragging = true;
+    startX = e.clientX;
+    startScroll = el.scrollLeft;
+    el.setPointerCapture(e.pointerId);
+    clearInterval(timer); timer = null;
+  });
+  el.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    el.scrollLeft = startScroll - (e.clientX - startX);
+  });
+  el.addEventListener('pointerup', () => { isDragging = false; start(); });
+  el.addEventListener('pointercancel', () => { isDragging = false; start(); });
+
+  const cardW = () => {
+    const first = el.querySelector('.product-card, .gallery-item');
+    return first ? first.getBoundingClientRect().width + 18 : 260;
+  };
+
+  const advance = () => {
+    if (isDragging || document.hidden || el.matches(':hover')) return;
+    const nearEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 30;
+    el.scrollTo({ left: nearEnd ? 0 : el.scrollLeft + cardW(), behavior: 'smooth' });
+  };
+
+  const stop  = () => { clearInterval(timer); timer = null; };
+  const start = () => { if (!timer) timer = setInterval(advance, intervalMs || 3800); };
+
+  el.addEventListener('pointerenter', stop);
+  el.addEventListener('pointerleave', start);
+  el.addEventListener('focusin', stop);
+  el.addEventListener('focusout', start);
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  start();
+}
 
 function esc(str) {
   if (str == null) return '';
@@ -997,18 +1140,16 @@ function applySEO(seo) {
 }
 
 function badgeMarkup(type) {
-  if (type === 'premium') {
-    return '<span class="service-badge service-badge--premium">PREMIUM</span>';
-  }
-  if (type === 'featured') {
-    return '<span class="service-badge">POPULAR</span>';
-  }
+  if (type === 'premium') return '<span class="service-badge service-badge--premium">PREMIUM</span>';
+  if (type === 'featured') return '<span class="service-badge">POPULAR</span>';
+  if (type === 'popular')  return '<span class="service-badge service-badge--popular">MÁS POPULAR</span>';
   return '';
 }
 
 function cardClassByType(type) {
-  if (type === 'premium') return 'service-card service-card--premium';
+  if (type === 'premium')  return 'service-card service-card--premium';
   if (type === 'featured') return 'service-card service-card--featured';
+  if (type === 'popular')  return 'service-card service-card--popular';
   return 'service-card';
 }
 
@@ -1016,11 +1157,13 @@ function renderServices(data) {
   const container = document.getElementById('services-container');
   if (!container || !data || !Array.isArray(data.categories)) return;
 
+  let globalIdx = 0;
   container.innerHTML = data.categories.map((category, index) => {
     const items = Array.isArray(category.items) ? category.items : [];
     const gridClass = items.length <= 2 ? 'services-grid services-grid--2col' : 'services-grid';
 
     const cards = items.map((item) => {
+      const seed = (index + 1) * 100 + (globalIdx++);
       const priceValue = extractPriceValue(item.price);
       const sumupBtn = item.sumup_link
         ? `<a href="${esc(item.sumup_link)}" class="btn btn-gold btn-service--sm js-track-service" target="_blank" rel="noopener noreferrer" data-service-name="${esc(item.name)}" data-service-price="${priceValue}">Pagar ahora</a>`
@@ -1029,6 +1172,7 @@ function renderServices(data) {
       return `
         <article class="${cardClassByType(item.type)}">
           ${badgeMarkup(item.type)}
+          ${servicePhotoMarkup(seed)}
           <div class="service-info">
             <h4 class="service-name">${item.service_url ? `<a href="${esc(item.service_url)}" class="service-name-link">${esc(item.name)}</a>` : esc(item.name)}</h4>
             ${item.desc ? `<p class="service-desc-small">${esc(item.desc)}</p>` : ''}
@@ -1053,6 +1197,7 @@ function renderServices(data) {
     `;
   }).join('');
 
+  setupServicePhotoSlideshows(container);
   revealNow(container.querySelectorAll('.reveal'));
 }
 
@@ -1086,7 +1231,7 @@ function renderGallery(data) {
   galleryLightboxItems = data.images;
 
   container.innerHTML = data.images.map((img, index) => `
-    <article class="gallery-item reveal reveal-delay-${(index % 3) + 1}" role="listitem">
+    <article class="gallery-item" role="listitem">
       <button class="gallery-btn" type="button" data-gallery-open="${index}" aria-label="Abrir imagen ${index + 1}">
         <img src="${esc(img.src)}" alt="${esc(img.alt || 'Trabajo de Faded Barbershop')}" loading="lazy">
         <span class="gallery-overlay" aria-hidden="true">Ver</span>
@@ -1094,7 +1239,8 @@ function renderGallery(data) {
     </article>
   `).join('');
 
-  revealNow(container.querySelectorAll('.reveal'));
+  setupAutoHScroll(container, 3200);
+  setupSliderArrows(container);
 }
 
 function productCardMarkup(item, delay, includeFichaButton) {
@@ -1117,7 +1263,7 @@ function productCardMarkup(item, delay, includeFichaButton) {
   return `
     <article class="product-card reveal reveal-delay-${delay}">
       <span class="product-tag">${esc(item.category || 'Producto')}</span>
-      ${item.image ? `<div class="product-media"><img class="product-image" src="${esc(item.image)}" alt="${esc(item.image_alt || item.name || 'Producto de Faded')}" loading="lazy"></div>` : ''}
+      ${item.image ? `<div class="product-media${item.dark_bg ? ' product-media--dark' : ''}"><img class="product-image${item.dark_bg ? ' product-image--dark' : ''}" src="${esc(item.image)}" alt="${esc(item.image_alt || item.name || 'Producto de Faded')}" loading="lazy"></div>` : ''}
       <h3 class="product-title">${esc(item.name || '')}</h3>
       <p class="product-copy">${esc(item.description || '')}</p>
       ${hasDetails ? `<ul class="product-details" role="list">${details}</ul>` : ''}
@@ -1150,8 +1296,10 @@ function renderProductsHome(products) {
     return;
   }
 
+  container.setAttribute('aria-label', 'Slider de productos disponibles en barbería');
   container.innerHTML = items.map((item, idx) => productCardMarkup(item, Math.min((idx % 3) + 1, 3), true)).join('');
-  revealNow(container.querySelectorAll('.reveal'));
+  setupAutoHScroll(container, 3800);
+  setupSliderArrows(container);
 }
 
 function renderProductsPage(products) {
@@ -1294,6 +1442,34 @@ function setupTrackingDelegation() {
       });
     }
 
+
+    const tiktokLink = event.target.closest('a[href*="tiktok.com"]');
+    if (tiktokLink && window.FadedTracking && typeof window.FadedTracking.trackSocialClick === 'function') {
+      window.FadedTracking.trackSocialClick('tiktok', {
+        context: deriveClickContext(tiktokLink),
+        link_url: tiktokLink.href,
+        link_text: safeTrim(tiktokLink.textContent),
+      });
+    }
+
+    const instagramLink = event.target.closest('a[href*="instagram.com"]');
+    if (instagramLink && window.FadedTracking && typeof window.FadedTracking.trackSocialClick === 'function') {
+      window.FadedTracking.trackSocialClick('instagram', {
+        context: deriveClickContext(instagramLink),
+        link_url: instagramLink.href,
+        link_text: safeTrim(instagramLink.textContent),
+      });
+    }
+
+
+    const serviceNameLink = event.target.closest('a.service-name-link');
+    if (serviceNameLink && window.gtag) {
+      window.gtag('event', 'service_view', {
+        item_name: serviceNameLink.textContent.trim(),
+        link_url: serviceNameLink.href,
+      });
+    }
+
     const emailLink = event.target.closest('a[href^="mailto:"]');
     if (emailLink && window.FadedTracking && typeof window.FadedTracking.trackEmailClick === 'function') {
       window.FadedTracking.trackEmailClick({
@@ -1332,20 +1508,14 @@ function setupFirstCutDiscountPopup() {
   const whatsappMessage = 'He visto vuestra web y quiero probar mi primer corte con 20% de descuento!';
   const whatsappHref = `https://wa.me/34603147958?text=${encodeURIComponent(whatsappMessage)}`;
 
+  let _popupShownThisLoad = false;
+
   function hasSeenThisSession() {
-    try {
-      return window.sessionStorage.getItem(STORAGE_KEY) === '1';
-    } catch (error) {
-      return false;
-    }
+    return _popupShownThisLoad;
   }
 
   function markSeen() {
-    try {
-      window.sessionStorage.setItem(STORAGE_KEY, '1');
-    } catch (error) {
-      // Si sessionStorage falla, el popup sigue funcionando sin persistencia.
-    }
+    _popupShownThisLoad = true;
   }
 
   function trackPopup(eventName, details) {
@@ -1382,9 +1552,9 @@ function setupFirstCutDiscountPopup() {
         <button class="first-cut-popup__close" type="button" data-popup-close="button" aria-label="Cerrar promoción">×</button>
         <p class="first-cut-popup__eyebrow">Oferta para nuevos clientes</p>
         <h2 class="first-cut-popup__title" id="first-cut-popup-title">Primer corte en FADED — <span>20% de descuento</span></h2>
-        <p class="first-cut-popup__copy">Más de 179 clientes nos puntúan con 5 estrellas. Ahora puedes probar la mejor barbería de Ciudad Lineal con un 20% de descuento en tu primer fade. Sin ataduras.</p>
+        <p class="first-cut-popup__copy">Más de 181 clientes nos puntúan con 5 estrellas. Ahora puedes probar la mejor barbería de Ciudad Lineal con un 20% de descuento en tu primer fade. Sin ataduras.</p>
         <div class="first-cut-popup__benefits" aria-label="Ventajas de la promoción">
-          <span>179+ reseñas 5★</span>
+          <span>181+ reseñas 5★</span>
           <span>Corte premium</span>
           <span>Sin compromiso</span>
         </div>
@@ -1450,6 +1620,9 @@ function setupHeroMedia() {
   const hero = document.querySelector('.hero');
   const video = document.getElementById('heroVideo');
   if (!hero || !video) return;
+
+  setupHeroFallbackSlideshow();
+  setupFeatureCardSlideshows();
 
   const desktopSrc = safeTrim(video.dataset.desktopSrc);
   const mobileSrc = safeTrim(video.dataset.mobileSrc, desktopSrc);
@@ -1585,6 +1758,101 @@ function setupHeaderState() {
 
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+
+function setupVIPBanner() {
+  if (!isHomePage()) return;
+  const BKEY = 'faded_vip_banner_dismissed';
+  if (window.sessionStorage.getItem(BKEY)) return;
+
+  let scrollCount = 0;
+  let triggered = false;
+
+  function showBanner() {
+    if (triggered) return;
+    triggered = true;
+    window.removeEventListener('scroll', onScroll);
+
+    const banner = document.createElement('div');
+    banner.id = 'vip-promo-banner';
+    banner.className = 'vip-promo-banner';
+    banner.setAttribute('role', 'complementary');
+    banner.setAttribute('aria-label', 'Membresia VIP FADED');
+    banner.innerHTML = [
+      '<button class="vip-promo-banner__close" aria-label="Cerrar" id="vipBannerClose">',
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">',
+      '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>',
+      '<p class="vip-promo-banner__eyebrow">✦ Para clientes FADED</p>',
+      '<p class="vip-promo-banner__title">¿Te gustaría cortarte<br>cada semana?</p>',
+      '<p class="vip-promo-banner__copy">Ahorra con tu <strong>Membresía VIP</strong> —<br>más cortes, menos gasto.</p>',
+      '<a href="#membresias" class="vip-promo-banner__cta" id="vipBannerCta">',
+      'Ver planes VIP ›</a>',
+    ].join('');
+
+    document.body.appendChild(banner);
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { banner.classList.add('is-visible'); });
+    });
+
+    var closeFn = function() {
+      banner.classList.remove('is-visible');
+      try { window.sessionStorage.setItem(BKEY, '1'); } catch(_) {}
+      setTimeout(function() { if (banner.parentNode) banner.parentNode.removeChild(banner); }, 420);
+    };
+    document.getElementById('vipBannerClose').addEventListener('click', closeFn);
+    document.getElementById('vipBannerCta').addEventListener('click', closeFn);
+    if (window.gtag) window.gtag('event', 'vip_banner_view', { page_path: window.location.pathname });
+  }
+
+  function onScroll() {
+    scrollCount++;
+    if (scrollCount >= 3) showBanner();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  setTimeout(showBanner, 3000);
+}
+
+
+function setupSliderArrows(scrollEl) {
+  if (!scrollEl || scrollEl.dataset.arrowsReady) return;
+  scrollEl.dataset.arrowsReady = '1';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'slider-arrows-wrap';
+  scrollEl.parentNode.insertBefore(wrap, scrollEl);
+  wrap.appendChild(scrollEl);
+
+  var ARROW_SVG_L = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
+  var ARROW_SVG_R = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
+
+  var prev = document.createElement('button');
+  prev.className = 'slider-arrow slider-arrow--prev';
+  prev.setAttribute('aria-label', 'Anterior');
+  prev.innerHTML = ARROW_SVG_L;
+
+  var next = document.createElement('button');
+  next.className = 'slider-arrow slider-arrow--next';
+  next.setAttribute('aria-label', 'Siguiente');
+  next.innerHTML = ARROW_SVG_R;
+
+  wrap.appendChild(prev);
+  wrap.appendChild(next);
+
+  function getStep() {
+    var first = scrollEl.children[0];
+    return first ? first.getBoundingClientRect().width + 16 : 280;
+  }
+  prev.addEventListener('click', function() { scrollEl.scrollBy({ left: -getStep(), behavior: 'smooth' }); });
+  next.addEventListener('click', function() { scrollEl.scrollBy({ left:  getStep(), behavior: 'smooth' }); });
+
+  function updateArrows() {
+    prev.style.opacity = scrollEl.scrollLeft < 8 ? '0.35' : '1';
+    next.style.opacity = (scrollEl.scrollLeft + scrollEl.clientWidth >= scrollEl.scrollWidth - 8) ? '0.35' : '1';
+  }
+  scrollEl.addEventListener('scroll', updateArrows, { passive: true });
+  updateArrows();
 }
 
 function setupHamburger() {
@@ -1740,6 +2008,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupMapInteractionTracking();
   setupStructuredDataEnhancements();
   setupFirstCutDiscountPopup();
+  setupVIPBanner();
   setupLightbox();
   syncNoticeOffset();
   window.addEventListener('resize', syncNoticeOffset, { passive: true });

@@ -4,14 +4,14 @@
       "name": "Cristian Viedma",
       "role": "Barbero Especialista",
       "desc": "Especialista en cortes de precisión y diseños a medida. Valorado 5 estrellas por su atención al detalle y su capacidad para transformar cada corte en algo único.",
-      "photo": "/assets/images/galeria/g3.jpg",
+      "photo": "assets/images/fotos-web/Cristian_Viedma_01.jpg",
       "active": true
     },
     {
       "name": "Jennson Barber",
       "role": "Barbero Senior",
       "desc": "Experto en cortes modernos y fades con técnica impecable. Reconocido por dominar los degradados más difíciles y dejar a cada cliente exactamente como quiere verse.",
-      "photo": "/assets/images/galeria/g4.jpg",
+      "photo": "assets/images/equipo/christian.jpg",
       "active": true
     }
   ]
