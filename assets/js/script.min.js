@@ -1504,7 +1504,7 @@ function setupMapInteractionTracking() {
 
 function setupFirstCutDiscountPopup() {
   const STORAGE_KEY = 'faded_first_cut_discount_popup_seen_this_session';
-  const SHOW_DELAY_MS = 7000;
+  const SHOW_DELAY_MS = 10000;
   const whatsappMessage = 'He visto vuestra web y quiero probar mi primer corte con 20% de descuento!';
   const whatsappHref = `https://wa.me/34603147958?text=${encodeURIComponent(whatsappMessage)}`;
 
